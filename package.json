@@ -1,7 +1,7 @@
 {
   "name": "Voico",
   "version": "0.0.1",
-  "description": "A Chrome extension that allows you to use your voice to type on any input in any website",
+  "description": "A Chrome extension that allows you to use your voice to type on any input in any website: A speech-to-text extension.",
   "main": "index.js",
   "author": "Kirera Wainaina <richardwainainak@gmail.com>",
   "license": "MIT"
