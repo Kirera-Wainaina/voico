@@ -44,3 +44,57 @@ p {
   grid-column: 1 / 6;
   text-align: center;
 }
+
+#recording-animation {
+  grid-column: 1 / 6;
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+}
+
+.recording-bar:nth-child(1),
+.recording-bar:nth-child(3) {
+  height: 10px;
+  animation-name: stretch1;
+}
+
+.recording-bar:nth-child(2),
+.recording-bar:nth-child(4) {
+  height: 8px;
+  animation-name: stretch2;
+}
+
+.recording-bar {
+  border: 3px solid var(--active-color);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: 1s;
+}
+
+@keyframes stretch1 {
+  0% {
+    transform: scaleY(.5);
+  }
+
+  50% {
+    transform: scaleY(1.5);
+  }
+
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes stretch2 {
+  0% {
+    transform: scaleY(1);
+  }
+
+  50% {
+    transform: scaleY(1.5);
+  }
+
+  100% {
+    transform: scaleY(.5);
+  }
+}
