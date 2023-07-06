@@ -50,6 +50,7 @@ p {
   display: flex;
   justify-content: center;
   gap: 3px;
+  margin-top: 2em;
 }
 
 .recording-bar:nth-child(1),
