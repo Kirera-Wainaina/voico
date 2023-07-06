@@ -7,6 +7,10 @@
   --active-color: #6b55c3;
 }
 
+.hide {
+  display: none !important;
+}
+
 body {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
