@@ -12,5 +12,9 @@
   "author": {
     "email": "richardwainainak@gmail.com"
   },
-  "permissions": ["activeTab"]
+  "permissions": ["activeTab"],
+  "action": {
+    "default_title": "Start writing using your voice",
+    "default_popup": "popup.html"
+  }
 }
