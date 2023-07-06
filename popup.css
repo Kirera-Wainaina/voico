@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Caprasimo&display=swap');
+
+:root {
+  --primary-color: #5841b9;
+  --shadow: 3px 3px 2px lightgrey;
+}
+
+body {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  width: 300px;
+}
+
+h1 {
+  font-family: 'Caprasimo', cursive;
+  grid-column: 1 / 6;
+  font-size: 2.2em;
+  color: var(--primary-color);
+  text-align: center;
+}
+
+input {
+  grid-column: 3 / 4;
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+}
