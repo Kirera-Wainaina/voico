@@ -72,6 +72,10 @@ p {
   animation-duration: 1s;
 }
 
+audio {
+  grid-column: 1 / 6;
+}
+
 @keyframes stretch1 {
   0% {
     transform: scaleY(.5);
