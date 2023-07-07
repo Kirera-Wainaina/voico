@@ -99,11 +99,14 @@ async function startRecording() {
 }
 
 async function triggerRecordingThroughOffscreenDocument() {
+  // getUserMedia needs to work through the offscreen html file
+  // create offscreen document to get permission to operate the api
   await chrome.offscreen.createDocument({
     url: "offscreen-recording.html",
     reasons: [chrome.offscreen.Reason.USER_MEDIA],
     justification: "Record audio for transcription"
   });
 
+  // send message to offscreen to start recording
   await chrome.runtime.sendMessage("start-recording");
 }

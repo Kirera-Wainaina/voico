@@ -96,11 +96,14 @@ function startRecording() {
 }
 function triggerRecordingThroughOffscreenDocument() {
     return __awaiter(this, void 0, void 0, function* () {
+        // getUserMedia needs to work through the offscreen html file
+        // create offscreen document to get permission to operate the api
         yield chrome.offscreen.createDocument({
             url: "offscreen-recording.html",
             reasons: [chrome.offscreen.Reason.USER_MEDIA],
             justification: "Record audio for transcription"
         });
+        // send message to offscreen to start recording
         yield chrome.runtime.sendMessage("start-recording");
     });
 }
