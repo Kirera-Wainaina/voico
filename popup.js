@@ -24,7 +24,8 @@ function handleRecording(element, existingMediaRecorder) {
         if (!existingMediaRecorder) {
             // start recording
             removeAudioElement();
-            yield startRecording();
+            triggerRecordingThroughOffscreenDocument();
+            // await startRecording()  
         }
         else {
             if (existingMediaRecorder.state == "inactive") {
@@ -91,5 +92,15 @@ function startRecording() {
         input === null || input === void 0 ? void 0 : input.addEventListener("click", () => handleRecording(input, mediaRecorder));
         mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
         mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
+    });
+}
+function triggerRecordingThroughOffscreenDocument() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield chrome.offscreen.createDocument({
+            url: "offscreen-recording.html",
+            reasons: [chrome.offscreen.Reason.USER_MEDIA],
+            justification: "Record audio for transcription"
+        });
+        yield chrome.runtime.sendMessage("start-recording");
     });
 }

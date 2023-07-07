@@ -19,8 +19,9 @@ async function handleRecording(element:HTMLInputElement, existingMediaRecorder?:
 
   if (!existingMediaRecorder) {
     // start recording
-    removeAudioElement()
-    await startRecording()  
+    removeAudioElement();
+    triggerRecordingThroughOffscreenDocument();
+    // await startRecording()  
   } else {
     if (existingMediaRecorder.state == "inactive") {
       // restart recording
@@ -95,4 +96,14 @@ async function startRecording() {
 
   mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
   mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
+}
+
+async function triggerRecordingThroughOffscreenDocument() {
+  await chrome.offscreen.createDocument({
+    url: "offscreen-recording.html",
+    reasons: [chrome.offscreen.Reason.USER_MEDIA],
+    justification: "Record audio for transcription"
+  });
+
+  await chrome.runtime.sendMessage("start-recording");
 }
