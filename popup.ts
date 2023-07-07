@@ -1,9 +1,5 @@
 const input = document.querySelector("input");
-// input?.addEventListener("click", () => handleRecording(input));
-input?.addEventListener("click", () => {
-  handleRecording(input)
-  console.log('recording...')
-});
+input?.addEventListener("click", () => handleRecording(input));
 
 const audioContext = new AudioContext();
 
@@ -40,9 +36,9 @@ function handleRecording(element:HTMLInputElement, existingMediaRecorder?: Media
 }
 
 function saveRecordedMedia(audioData: Array<Blob>) {
-  console.log(audioData)
-  const blob = new Blob(audioData, { type: "audio/webm;codecs=opus"});
-  const audioUrl = URL.createObjectURL(blob);
+  const blob = new Blob(audioData, { type: "audio/ogg; codecs=opus"});
+  audioData = [];
+  const audioUrl = window.URL.createObjectURL(blob);
   const audioElement = createAudioElement(audioUrl);
   const script = document.querySelector("script");
   script?.insertAdjacentElement("beforebegin", audioElement);
@@ -53,7 +49,7 @@ function combineAudioData(event:BlobEvent, audioDataArray:Array<Blob>) {
 }
 
 function createAudioElement(src: string) {
-  const audioElement = document.createElement("audio");
+  const audioElement = new Audio("src");
   audioElement.setAttribute("controls", "");
   audioElement.setAttribute("src", src);
   return audioElement
@@ -69,12 +65,16 @@ function removeAudioElement() : void {
 function startRecording() {
   chrome.tabCapture.capture({ audio: true }, (stream) => {
     if (stream) {
+      // Continue to play the captured audio to the user.
+      const output = new AudioContext();
+      const source = output.createMediaStreamSource(stream);
+      source.connect(output.destination);
+      
       const audioData: Array<Blob> = [];
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorder.start();
 
       const input = document.querySelector("input");
-      console.log(input)
       input?.addEventListener("click", () => handleRecording(input, mediaRecorder));
 
       mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
