@@ -1,5 +1,5 @@
 const input = document.querySelector("input");
-input?.addEventListener("click", startRecording)
+input?.addEventListener("click", () => handleRecording())
 
 function toggleHintAndAnimation() : void {
   const hint = document.querySelector("p");
@@ -9,23 +9,28 @@ function toggleHintAndAnimation() : void {
   recordingAnimation?.classList.toggle("hide");
 }
 
-function startRecording() : void {
-  toggleHintAndAnimation()
-  if (!input?.classList.contains("recording")) {
+function handleRecording(existingMediaRecorder?: MediaRecorder) : void {
+  toggleHintAndAnimation();
+
+  input?.replaceWith(input.cloneNode());
+
+  if (!existingMediaRecorder) {
+    // start recording
     chrome.tabCapture.capture({ audio: true }, (stream) => {
       if (stream) {
         const mediaRecorder = new MediaRecorder(stream);
         mediaRecorder.start();
-        input?.removeEventListener("click", startRecording);
-        input?.addEventListener("click", () => stopRecording(mediaRecorder));    
+
+        const input = document.querySelector("input");
+        input?.addEventListener("click", () => handleRecording(mediaRecorder));
+
       }
-    })
+    })  
+  } else {
+    // stop recording
+    existingMediaRecorder.stop();
+    console.log(existingMediaRecorder.state)
+    const input = document.querySelector("input");
+    input?.addEventListener("click", () => handleRecording())
   }
-}
-
-function stopRecording(mediaRecorder: MediaRecorder) : void {
-  mediaRecorder.stop();
-  // input?.removeEventListener("click", stopRecording);
-  input?.addEventListener("click", startRecording);    
-
 }
