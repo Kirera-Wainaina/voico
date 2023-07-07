@@ -3,6 +3,7 @@
   "compilerOptions": {
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "types": ["chrome"]
+    "types": ["chrome"],
+    "lib": ["ES2015", "DOM"]
   },
 }
