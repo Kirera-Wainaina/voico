@@ -11,7 +11,7 @@ function toggleHintAndAnimation() : void {
   recordingAnimation?.classList.toggle("hide");
 }
 
-function handleRecording(element:HTMLInputElement, existingMediaRecorder?: MediaRecorder) : void {
+async function handleRecording(element:HTMLInputElement, existingMediaRecorder?: MediaRecorder) {
   toggleHintAndAnimation();
 
   // remove prior event listeners
@@ -20,7 +20,7 @@ function handleRecording(element:HTMLInputElement, existingMediaRecorder?: Media
   if (!existingMediaRecorder) {
     // start recording
     removeAudioElement()
-    startRecording()  
+    await startRecording()  
   } else {
     if (existingMediaRecorder.state == "inactive") {
       // restart recording
@@ -36,7 +36,8 @@ function handleRecording(element:HTMLInputElement, existingMediaRecorder?: Media
 }
 
 function saveRecordedMedia(audioData: Array<Blob>) {
-  const blob = new Blob(audioData, { type: "audio/ogg; codecs=opus"});
+  const blob = new Blob(audioData, { type: "audio/mp3; codecs=opus"});
+
   audioData = [];
   const audioUrl = window.URL.createObjectURL(blob);
   const audioElement = createAudioElement(audioUrl);
@@ -62,7 +63,7 @@ function removeAudioElement() : void {
   }
 }
 
-function startRecording() {
+function startRecording_() {
   chrome.tabCapture.capture({ audio: true }, (stream) => {
     if (stream) {
       // Continue to play the captured audio to the user.
@@ -81,4 +82,17 @@ function startRecording() {
       mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
     }
   })
+}
+
+async function startRecording() {
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true})
+  const audioData: Array<Blob> = [];
+  const mediaRecorder = new MediaRecorder(stream);
+  mediaRecorder.start();
+
+  const input = document.querySelector("input");
+  input?.addEventListener("click", () => handleRecording(input, mediaRecorder));
+
+  mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
+  mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
 }
