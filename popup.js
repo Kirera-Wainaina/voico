@@ -26,26 +26,6 @@ function toggleHintAndAnimation() {
     const recordingAnimation = document.getElementById("recording-animation");
     recordingAnimation === null || recordingAnimation === void 0 ? void 0 : recordingAnimation.classList.toggle("hide");
 }
-// async function handleRecording(element:HTMLInputElement, existingMediaRecorder?: MediaRecorder) {
-//   // remove prior event listeners
-//   element?.replaceWith(element.cloneNode());
-//   if (!existingMediaRecorder) {
-//     // start recording
-//     removeAudioElement()
-//     await startRecording()  
-//   } else {
-//     if (existingMediaRecorder.state == "inactive") {
-//       // restart recording
-//       existingMediaRecorder.start();
-//       removeAudioElement();
-//     } else {
-//       // stop recording
-//       existingMediaRecorder.stop();
-//     }
-//     const input = document.querySelector("input");
-//     input?.addEventListener("click", () => handleRecording(input, existingMediaRecorder))  
-//   }
-// }
 function handleRecording(existingMediaRecorder) {
     return __awaiter(this, void 0, void 0, function* () {
         // get the current recording state

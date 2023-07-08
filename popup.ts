@@ -20,29 +20,6 @@ function toggleHintAndAnimation() : void {
   recordingAnimation?.classList.toggle("hide");
 }
 
-// async function handleRecording(element:HTMLInputElement, existingMediaRecorder?: MediaRecorder) {
-
-//   // remove prior event listeners
-//   element?.replaceWith(element.cloneNode());
-
-//   if (!existingMediaRecorder) {
-//     // start recording
-//     removeAudioElement()
-//     await startRecording()  
-//   } else {
-//     if (existingMediaRecorder.state == "inactive") {
-//       // restart recording
-//       existingMediaRecorder.start();
-//       removeAudioElement();
-//     } else {
-//       // stop recording
-//       existingMediaRecorder.stop();
-//     }
-//     const input = document.querySelector("input");
-//     input?.addEventListener("click", () => handleRecording(input, existingMediaRecorder))  
-//   }
-// }
-
 async function handleRecording(existingMediaRecorder?: MediaRecorder) {
   // get the current recording state
   const { recording } = await chrome.storage.session.get("recording");
