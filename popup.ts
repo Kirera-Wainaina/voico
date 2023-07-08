@@ -44,8 +44,29 @@ async function handleRecording(existingMediaRecorder?: MediaRecorder) {
   }
 }
 
+function startRecording() {
+  chrome.tabCapture.capture({ audio: true }, (stream) => {
+    if (stream) {
+      // Continue to play the captured audio to the user.
+      const output = new AudioContext();
+      const source = output.createMediaStreamSource(stream);
+      source.connect(output.destination);
+      
+      const audioData: Array<Blob> = [];
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.start();
+
+      const input = document.querySelector("input");
+      input?.addEventListener("click", () => handleRecording(mediaRecorder));
+
+      mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
+      mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
+    }
+  })
+}
+
 function saveRecordedMedia(audioData: Array<Blob>) {
-  const blob = new Blob(audioData, { type: "audio/mp3; codecs=opus"});
+  const blob = new Blob(audioData, { type: "audio/ogg; codecs=opus"});
 
   audioData = [];
   const audioUrl = window.URL.createObjectURL(blob);
@@ -70,27 +91,6 @@ function removeAudioElement() : void {
   if (audioElement) {
     audioElement.remove();
   }
-}
-
-function startRecording() {
-  chrome.tabCapture.capture({ audio: true }, (stream) => {
-    if (stream) {
-      // Continue to play the captured audio to the user.
-      const output = new AudioContext();
-      const source = output.createMediaStreamSource(stream);
-      source.connect(output.destination);
-      
-      const audioData: Array<Blob> = [];
-      const mediaRecorder = new MediaRecorder(stream);
-      mediaRecorder.start();
-
-      const input = document.querySelector("input");
-      input?.addEventListener("click", () => handleRecording(mediaRecorder));
-
-      mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
-      mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
-    }
-  })
 }
 
 async function toggleRecordingState() {

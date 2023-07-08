@@ -51,8 +51,25 @@ function handleRecording(existingMediaRecorder) {
         }
     });
 }
+function startRecording() {
+    chrome.tabCapture.capture({ audio: true }, (stream) => {
+        if (stream) {
+            // Continue to play the captured audio to the user.
+            const output = new AudioContext();
+            const source = output.createMediaStreamSource(stream);
+            source.connect(output.destination);
+            const audioData = [];
+            const mediaRecorder = new MediaRecorder(stream);
+            mediaRecorder.start();
+            const input = document.querySelector("input");
+            input === null || input === void 0 ? void 0 : input.addEventListener("click", () => handleRecording(mediaRecorder));
+            mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
+            mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
+        }
+    });
+}
 function saveRecordedMedia(audioData) {
-    const blob = new Blob(audioData, { type: "audio/mp3; codecs=opus" });
+    const blob = new Blob(audioData, { type: "audio/ogg; codecs=opus" });
     audioData = [];
     const audioUrl = window.URL.createObjectURL(blob);
     const audioElement = createAudioElement(audioUrl);
@@ -73,23 +90,6 @@ function removeAudioElement() {
     if (audioElement) {
         audioElement.remove();
     }
-}
-function startRecording() {
-    chrome.tabCapture.capture({ audio: true }, (stream) => {
-        if (stream) {
-            // Continue to play the captured audio to the user.
-            const output = new AudioContext();
-            const source = output.createMediaStreamSource(stream);
-            source.connect(output.destination);
-            const audioData = [];
-            const mediaRecorder = new MediaRecorder(stream);
-            mediaRecorder.start();
-            const input = document.querySelector("input");
-            input === null || input === void 0 ? void 0 : input.addEventListener("click", () => handleRecording(mediaRecorder));
-            mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
-            mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
-        }
-    });
 }
 function toggleRecordingState() {
     return __awaiter(this, void 0, void 0, function* () {
