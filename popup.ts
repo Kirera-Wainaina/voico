@@ -7,7 +7,9 @@ enum Recording {
 const input = document.querySelector("input");
 input?.addEventListener("click", () => {
   toggleHintAndAnimation();
-  handleRecording(input)
+  // handleRecording(input)
+  handleRecording();
+  changeRecordingState()
 });
 
 function toggleHintAndAnimation() : void {
@@ -18,26 +20,36 @@ function toggleHintAndAnimation() : void {
   recordingAnimation?.classList.toggle("hide");
 }
 
-async function handleRecording(element:HTMLInputElement, existingMediaRecorder?: MediaRecorder) {
+// async function handleRecording(element:HTMLInputElement, existingMediaRecorder?: MediaRecorder) {
 
-  // remove prior event listeners
-  element?.replaceWith(element.cloneNode());
+//   // remove prior event listeners
+//   element?.replaceWith(element.cloneNode());
 
-  if (!existingMediaRecorder) {
+//   if (!existingMediaRecorder) {
+//     // start recording
+//     removeAudioElement()
+//     await startRecording()  
+//   } else {
+//     if (existingMediaRecorder.state == "inactive") {
+//       // restart recording
+//       existingMediaRecorder.start();
+//       removeAudioElement();
+//     } else {
+//       // stop recording
+//       existingMediaRecorder.stop();
+//     }
+//     const input = document.querySelector("input");
+//     input?.addEventListener("click", () => handleRecording(input, existingMediaRecorder))  
+//   }
+// }
+
+async function handleRecording() {
+  // get the current recording state
+  const { recording } = await chrome.storage.session.get("recording");
+
+  if (recording == Recording.NO || !recording) {
     // start recording
-    removeAudioElement()
-    await startRecording()  
-  } else {
-    if (existingMediaRecorder.state == "inactive") {
-      // restart recording
-      existingMediaRecorder.start();
-      removeAudioElement();
-    } else {
-      // stop recording
-      existingMediaRecorder.stop();
-    }
-    const input = document.querySelector("input");
-    input?.addEventListener("click", () => handleRecording(input, existingMediaRecorder))  
+
   }
 }
 
@@ -88,4 +100,14 @@ function startRecording() {
       mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
     }
   })
+}
+
+async function changeRecordingState() {
+  const { recording } = await chrome.storage.session.get("recording");
+
+  if (recording == Recording.YES) {
+    await chrome.storage.session.set({ "recording": Recording.NO })
+  } else {
+    await chrome.storage.session.set({ "recording": Recording.YES })
+  }
 }

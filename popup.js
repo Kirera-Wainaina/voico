@@ -16,7 +16,9 @@ var Recording;
 const input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", () => {
     toggleHintAndAnimation();
-    handleRecording(input);
+    // handleRecording(input)
+    handleRecording();
+    changeRecordingState();
 });
 function toggleHintAndAnimation() {
     const hint = document.querySelector("p");
@@ -24,27 +26,32 @@ function toggleHintAndAnimation() {
     const recordingAnimation = document.getElementById("recording-animation");
     recordingAnimation === null || recordingAnimation === void 0 ? void 0 : recordingAnimation.classList.toggle("hide");
 }
-function handleRecording(element, existingMediaRecorder) {
+// async function handleRecording(element:HTMLInputElement, existingMediaRecorder?: MediaRecorder) {
+//   // remove prior event listeners
+//   element?.replaceWith(element.cloneNode());
+//   if (!existingMediaRecorder) {
+//     // start recording
+//     removeAudioElement()
+//     await startRecording()  
+//   } else {
+//     if (existingMediaRecorder.state == "inactive") {
+//       // restart recording
+//       existingMediaRecorder.start();
+//       removeAudioElement();
+//     } else {
+//       // stop recording
+//       existingMediaRecorder.stop();
+//     }
+//     const input = document.querySelector("input");
+//     input?.addEventListener("click", () => handleRecording(input, existingMediaRecorder))  
+//   }
+// }
+function handleRecording() {
     return __awaiter(this, void 0, void 0, function* () {
-        // remove prior event listeners
-        element === null || element === void 0 ? void 0 : element.replaceWith(element.cloneNode());
-        if (!existingMediaRecorder) {
+        // get the current recording state
+        const { recording } = yield chrome.storage.session.get("recording");
+        if (recording == Recording.NO || !recording) {
             // start recording
-            removeAudioElement();
-            yield startRecording();
-        }
-        else {
-            if (existingMediaRecorder.state == "inactive") {
-                // restart recording
-                existingMediaRecorder.start();
-                removeAudioElement();
-            }
-            else {
-                // stop recording
-                existingMediaRecorder.stop();
-            }
-            const input = document.querySelector("input");
-            input === null || input === void 0 ? void 0 : input.addEventListener("click", () => handleRecording(input, existingMediaRecorder));
         }
     });
 }
@@ -85,6 +92,17 @@ function startRecording() {
             input === null || input === void 0 ? void 0 : input.addEventListener("click", () => handleRecording(input, mediaRecorder));
             mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
             mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
+        }
+    });
+}
+function changeRecordingState() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { recording } = yield chrome.storage.session.get("recording");
+        if (recording == Recording.YES) {
+            yield chrome.storage.session.set({ "recording": Recording.NO });
+        }
+        else {
+            yield chrome.storage.session.set({ "recording": Recording.YES });
         }
     });
 }
