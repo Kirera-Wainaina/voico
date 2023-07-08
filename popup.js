@@ -80,9 +80,8 @@ function combineAudioData(event, audioDataArray) {
     audioDataArray.push(event === null || event === void 0 ? void 0 : event.data);
 }
 function createAudioElement(src) {
-    const audioElement = new Audio("src");
+    const audioElement = new Audio(src);
     audioElement.setAttribute("controls", "");
-    audioElement.setAttribute("src", src);
     return audioElement;
 }
 function removeAudioElement() {

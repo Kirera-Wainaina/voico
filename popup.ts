@@ -80,9 +80,8 @@ function combineAudioData(event:BlobEvent, audioDataArray:Array<Blob>) {
 }
 
 function createAudioElement(src: string) {
-  const audioElement = new Audio("src");
+  const audioElement = new Audio(src);
   audioElement.setAttribute("controls", "");
-  audioElement.setAttribute("src", src);
   return audioElement
 }
 
