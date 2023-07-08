@@ -1,8 +1,6 @@
 const input = document.querySelector("input");
 input?.addEventListener("click", () => handleRecording(input));
 
-const audioContext = new AudioContext();
-
 function toggleHintAndAnimation() : void {
   const hint = document.querySelector("p");
   hint?.classList.toggle("hide");
@@ -63,7 +61,7 @@ function removeAudioElement() : void {
   }
 }
 
-function startRecording_() {
+function startRecording() {
   chrome.tabCapture.capture({ audio: true }, (stream) => {
     if (stream) {
       // Continue to play the captured audio to the user.
@@ -82,17 +80,4 @@ function startRecording_() {
       mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
     }
   })
-}
-
-async function startRecording() {
-  const stream = await navigator.mediaDevices.getUserMedia({ audio: true})
-  const audioData: Array<Blob> = [];
-  const mediaRecorder = new MediaRecorder(stream);
-  mediaRecorder.start();
-
-  const input = document.querySelector("input");
-  input?.addEventListener("click", () => handleRecording(input, mediaRecorder));
-
-  mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
-  mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
 }
