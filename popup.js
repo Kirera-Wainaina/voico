@@ -7,8 +7,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const input = document.querySelector("input");
-input === null || input === void 0 ? void 0 : input.addEventListener("click", triggerRecordingThroughOffscreenDocument);
+// save recording state to know if click should start/stop recording
+var Recording;
+(function (Recording) {
+    Recording["ON"] = "on";
+    Recording["OFF"] = "off";
+})(Recording || (Recording = {}));
 // getUserMedia needs to work through the offscreen html file
 // create offscreen document to get permission to operate the api
 chrome.offscreen.createDocument({
@@ -16,6 +20,8 @@ chrome.offscreen.createDocument({
     reasons: [chrome.offscreen.Reason.USER_MEDIA],
     justification: "Record audio for transcription"
 });
+const input = document.querySelector("input");
+input === null || input === void 0 ? void 0 : input.addEventListener("click", triggerRecordingThroughOffscreenDocument);
 function triggerRecordingThroughOffscreenDocument() {
     return __awaiter(this, void 0, void 0, function* () {
         // send message to offscreen to start recording
