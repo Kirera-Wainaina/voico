@@ -47,10 +47,10 @@ async function handleRecording(existingMediaRecorder?: MediaRecorder) {
 function startRecording() {
   chrome.tabCapture.capture({ audio: true }, (stream) => {
     if (stream) {
-      // Continue to play the captured audio to the user.
-      const output = new AudioContext();
-      const source = output.createMediaStreamSource(stream);
-      source.connect(output.destination);
+      // // Continue to play the captured audio to the user.
+      // const output = new AudioContext();
+      // const source = output.createMediaStreamSource(stream);
+      // source.connect(output.destination);
       
       const audioData: Array<Blob> = [];
       const mediaRecorder = new MediaRecorder(stream);
@@ -66,7 +66,7 @@ function startRecording() {
 }
 
 function saveRecordedMedia(audioData: Array<Blob>) {
-  const blob = new Blob(audioData, { type: "audio/ogg; codecs=opus"});
+  const blob = new Blob(audioData, { type: "audio/webm;codecs=opus"});
 
   audioData = [];
   const audioUrl = window.URL.createObjectURL(blob);
