@@ -4,6 +4,12 @@ enum Recording {
   OFF = "off"
 }
 
+// state to know if we should initiate getUserMedia for the first time
+enum RecordedBefore {
+  YES = "yes",
+  NO = "no"
+}
+
 // getUserMedia needs to work through the offscreen html file
 // create offscreen document to get permission to operate the api
 chrome.offscreen.createDocument({
@@ -13,11 +19,12 @@ chrome.offscreen.createDocument({
 });
 
 // set default recording state to off
-chrome.storage.session.set({ "recording": Recording.OFF });
+// set default recorded_before to no
+chrome.storage.session.set({ "recording": Recording.OFF, "recorded_before": RecordedBefore.NO });
 
 const input = document.querySelector("input");
 input?.addEventListener("click", () => {
-  // triggerRecordingThroughOffscreenDocument()
+  triggerRecordingThroughOffscreenDocument()
   toggleHintAndAnimation()
   changeRecordingState()
 })
@@ -39,7 +46,10 @@ function toggleHintAndAnimation() : void {
 async function changeRecordingState() {
   const { recording } = await chrome.storage.session.get("recording");
   if (recording == "off") {
-    chrome.storage.session.set({ "recording": Recording.ON });
+    chrome.storage.session.set({ 
+      "recording": Recording.ON, 
+      "recorded_before": RecordedBefore.YES 
+    });
   } else {
     chrome.storage.session.set({ "recording": Recording.OFF });
   }

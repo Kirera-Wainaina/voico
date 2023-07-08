@@ -13,6 +13,12 @@ var Recording;
     Recording["ON"] = "on";
     Recording["OFF"] = "off";
 })(Recording || (Recording = {}));
+// state to know if we should initiate getUserMedia for the first time
+var RecordedBefore;
+(function (RecordedBefore) {
+    RecordedBefore["YES"] = "yes";
+    RecordedBefore["NO"] = "no";
+})(RecordedBefore || (RecordedBefore = {}));
 // getUserMedia needs to work through the offscreen html file
 // create offscreen document to get permission to operate the api
 chrome.offscreen.createDocument({
@@ -21,10 +27,11 @@ chrome.offscreen.createDocument({
     justification: "Record audio for transcription"
 });
 // set default recording state to off
-chrome.storage.session.set({ "recording": Recording.OFF });
+// set default recorded_before to no
+chrome.storage.session.set({ "recording": Recording.OFF, "recorded_before": RecordedBefore.NO });
 const input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", () => {
-    // triggerRecordingThroughOffscreenDocument()
+    triggerRecordingThroughOffscreenDocument();
     toggleHintAndAnimation();
     changeRecordingState();
 });
@@ -45,7 +52,10 @@ function changeRecordingState() {
     return __awaiter(this, void 0, void 0, function* () {
         const { recording } = yield chrome.storage.session.get("recording");
         if (recording == "off") {
-            chrome.storage.session.set({ "recording": Recording.ON });
+            chrome.storage.session.set({
+                "recording": Recording.ON,
+                "recorded_before": RecordedBefore.YES
+            });
         }
         else {
             chrome.storage.session.set({ "recording": Recording.OFF });
