@@ -1,5 +1,14 @@
+// is the extension currently recording
+enum Recording {
+  YES = "yes",
+  NO = "no"
+}
+
 const input = document.querySelector("input");
-input?.addEventListener("click", () => handleRecording(input));
+input?.addEventListener("click", () => {
+  toggleHintAndAnimation();
+  handleRecording(input)
+});
 
 function toggleHintAndAnimation() : void {
   const hint = document.querySelector("p");
@@ -10,7 +19,6 @@ function toggleHintAndAnimation() : void {
 }
 
 async function handleRecording(element:HTMLInputElement, existingMediaRecorder?: MediaRecorder) {
-  toggleHintAndAnimation();
 
   // remove prior event listeners
   element?.replaceWith(element.cloneNode());

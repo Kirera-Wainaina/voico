@@ -7,8 +7,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+// is the extension currently recording
+var Recording;
+(function (Recording) {
+    Recording["YES"] = "yes";
+    Recording["NO"] = "no";
+})(Recording || (Recording = {}));
 const input = document.querySelector("input");
-input === null || input === void 0 ? void 0 : input.addEventListener("click", () => handleRecording(input));
+input === null || input === void 0 ? void 0 : input.addEventListener("click", () => {
+    toggleHintAndAnimation();
+    handleRecording(input);
+});
 function toggleHintAndAnimation() {
     const hint = document.querySelector("p");
     hint === null || hint === void 0 ? void 0 : hint.classList.toggle("hide");
@@ -17,7 +26,6 @@ function toggleHintAndAnimation() {
 }
 function handleRecording(element, existingMediaRecorder) {
     return __awaiter(this, void 0, void 0, function* () {
-        toggleHintAndAnimation();
         // remove prior event listeners
         element === null || element === void 0 ? void 0 : element.replaceWith(element.cloneNode());
         if (!existingMediaRecorder) {
