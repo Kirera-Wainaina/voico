@@ -42,16 +42,16 @@ chrome.storage.session.get("offscreen_exists", ({ offscreen_exists }) => {
     }
 });
 const input = document.querySelector("input");
-input === null || input === void 0 ? void 0 : input.addEventListener("click", () => {
-    triggerRecordingThroughOffscreenDocument();
+input === null || input === void 0 ? void 0 : input.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
+    yield triggerRecordingThroughOffscreenDocument();
     toggleHintAndAnimation();
     changeRecordingState();
-});
+}));
 function triggerRecordingThroughOffscreenDocument() {
     return __awaiter(this, void 0, void 0, function* () {
         // send message to offscreen to start recording
         const state = yield chrome.storage.session.get(["recording", "recorded_before"]);
-        yield chrome.runtime.sendMessage(state);
+        const response = yield chrome.runtime.sendMessage(state);
     });
 }
 // show animation to let user know the recording has started
@@ -74,4 +74,10 @@ function changeRecordingState() {
             chrome.storage.session.set({ "recording": Recording.OFF });
         }
     });
+}
+function createAudioElement(src) {
+    const audioElement = new Audio("src");
+    audioElement.setAttribute("controls", "");
+    audioElement.setAttribute("src", src);
+    return audioElement;
 }

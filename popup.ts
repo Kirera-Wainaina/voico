@@ -38,8 +38,8 @@ chrome.storage.session.get("offscreen_exists", ({ offscreen_exists }) => {
 
 
 const input = document.querySelector("input");
-input?.addEventListener("click", () => {
-  triggerRecordingThroughOffscreenDocument()
+input?.addEventListener("click", async () => {
+  await triggerRecordingThroughOffscreenDocument()
   toggleHintAndAnimation()
   changeRecordingState()
 })
@@ -47,7 +47,7 @@ input?.addEventListener("click", () => {
 async function triggerRecordingThroughOffscreenDocument() {
   // send message to offscreen to start recording
   const state = await chrome.storage.session.get(["recording", "recorded_before"]);
-  await chrome.runtime.sendMessage(state);
+  const response = await chrome.runtime.sendMessage(state);
 }
 
 // show animation to let user know the recording has started
@@ -69,4 +69,11 @@ async function changeRecordingState() {
   } else {
     chrome.storage.session.set({ "recording": Recording.OFF });
   }
+}
+
+function createAudioElement(src: string) {
+  const audioElement = new Audio("src");
+  audioElement.setAttribute("controls", "");
+  audioElement.setAttribute("src", src);
+  return audioElement
 }
