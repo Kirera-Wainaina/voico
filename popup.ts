@@ -12,6 +12,9 @@ chrome.offscreen.createDocument({
   justification: "Record audio for transcription"
 });
 
+// set default recording state to off
+chrome.storage.session.set({ "recording": Recording.OFF });
+
 const input = document.querySelector("input");
 input?.addEventListener("click", triggerRecordingThroughOffscreenDocument)
 
