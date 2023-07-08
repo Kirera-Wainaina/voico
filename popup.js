@@ -26,7 +26,7 @@ chrome.storage.session.set({
 // check if offscreen exists to set default value
 // if it doesn't then it's first time popup is clicked
 chrome.storage.session.get("offscreen_exists", ({ offscreen_exists }) => {
-    if (offscreen_exists == "no") {
+    if (offscreen_exists == "no" || !offscreen_exists) {
         // set initial values
         chrome.storage.session.set({
             "offscreen_exists": YesOrNo.YES,
