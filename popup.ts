@@ -4,6 +4,10 @@ enum Recording {
   NO = "no"
 }
 
+// ensure there is not recording state when this script runs
+chrome.storage.session.clear()
+
+
 const input = document.querySelector("input");
 input?.addEventListener("click", async () => {
   toggleHintAndAnimation();
