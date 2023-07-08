@@ -24,8 +24,9 @@ chrome.offscreen.createDocument({
 chrome.storage.session.set({ "recording": Recording.OFF });
 const input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", () => {
-    triggerRecordingThroughOffscreenDocument();
-    toggleHintAndAnimation;
+    // triggerRecordingThroughOffscreenDocument()
+    toggleHintAndAnimation();
+    changeRecordingState();
 });
 function triggerRecordingThroughOffscreenDocument() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -39,4 +40,15 @@ function toggleHintAndAnimation() {
     hint === null || hint === void 0 ? void 0 : hint.classList.toggle("hide");
     const recordingAnimation = document.getElementById("recording-animation");
     recordingAnimation === null || recordingAnimation === void 0 ? void 0 : recordingAnimation.classList.toggle("hide");
+}
+function changeRecordingState() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { recording } = yield chrome.storage.session.get("recording");
+        if (recording == "off") {
+            chrome.storage.session.set({ "recording": Recording.ON });
+        }
+        else {
+            chrome.storage.session.set({ "recording": Recording.OFF });
+        }
+    });
 }

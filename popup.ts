@@ -17,8 +17,9 @@ chrome.storage.session.set({ "recording": Recording.OFF });
 
 const input = document.querySelector("input");
 input?.addEventListener("click", () => {
-  triggerRecordingThroughOffscreenDocument()
-  toggleHintAndAnimation
+  // triggerRecordingThroughOffscreenDocument()
+  toggleHintAndAnimation()
+  changeRecordingState()
 })
 
 async function triggerRecordingThroughOffscreenDocument() {
@@ -33,4 +34,13 @@ function toggleHintAndAnimation() : void {
 
   const recordingAnimation = document.getElementById("recording-animation");
   recordingAnimation?.classList.toggle("hide");
+}
+
+async function changeRecordingState() {
+  const { recording } = await chrome.storage.session.get("recording");
+  if (recording == "off") {
+    chrome.storage.session.set({ "recording": Recording.ON });
+  } else {
+    chrome.storage.session.set({ "recording": Recording.OFF });
+  }
 }
