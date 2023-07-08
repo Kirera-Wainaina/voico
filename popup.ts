@@ -16,9 +16,18 @@ chrome.offscreen.createDocument({
 chrome.storage.session.set({ "recording": Recording.OFF });
 
 const input = document.querySelector("input");
-input?.addEventListener("click", triggerRecordingThroughOffscreenDocument)
+// input?.addEventListener("click", triggerRecordingThroughOffscreenDocument)
+input?.addEventListener("click", toggleHintAndAnimation)
 
 async function triggerRecordingThroughOffscreenDocument() {
   // send message to offscreen to start recording
   await chrome.runtime.sendMessage("handle-recording");
+}
+
+function toggleHintAndAnimation() : void {
+  const hint = document.querySelector("p");
+  hint?.classList.toggle("hide");
+
+  const recordingAnimation = document.getElementById("recording-animation");
+  recordingAnimation?.classList.toggle("hide");
 }

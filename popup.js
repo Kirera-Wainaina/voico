@@ -23,10 +23,17 @@ chrome.offscreen.createDocument({
 // set default recording state to off
 chrome.storage.session.set({ "recording": Recording.OFF });
 const input = document.querySelector("input");
-input === null || input === void 0 ? void 0 : input.addEventListener("click", triggerRecordingThroughOffscreenDocument);
+// input?.addEventListener("click", triggerRecordingThroughOffscreenDocument)
+input === null || input === void 0 ? void 0 : input.addEventListener("click", toggleHintAndAnimation);
 function triggerRecordingThroughOffscreenDocument() {
     return __awaiter(this, void 0, void 0, function* () {
         // send message to offscreen to start recording
         yield chrome.runtime.sendMessage("handle-recording");
     });
+}
+function toggleHintAndAnimation() {
+    const hint = document.querySelector("p");
+    hint === null || hint === void 0 ? void 0 : hint.classList.toggle("hide");
+    const recordingAnimation = document.getElementById("recording-animation");
+    recordingAnimation === null || recordingAnimation === void 0 ? void 0 : recordingAnimation.classList.toggle("hide");
 }
