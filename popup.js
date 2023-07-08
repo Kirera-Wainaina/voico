@@ -14,21 +14,33 @@ var Recording;
     Recording["OFF"] = "off";
 })(Recording || (Recording = {}));
 // state to know if we should initiate getUserMedia for the first time
-var RecordedBefore;
-(function (RecordedBefore) {
-    RecordedBefore["YES"] = "yes";
-    RecordedBefore["NO"] = "no";
-})(RecordedBefore || (RecordedBefore = {}));
-// getUserMedia needs to work through the offscreen html file
-// create offscreen document to get permission to operate the api
-chrome.offscreen.createDocument({
-    url: "offscreen-recording.html",
-    reasons: [chrome.offscreen.Reason.USER_MEDIA],
-    justification: "Record audio for transcription"
-});
+var YesOrNo;
+(function (YesOrNo) {
+    YesOrNo["YES"] = "yes";
+    YesOrNo["NO"] = "no";
+})(YesOrNo || (YesOrNo = {}));
 // set default recording state to off
-// set default recorded_before to no
-chrome.storage.session.set({ "recording": Recording.OFF, "recorded_before": RecordedBefore.NO });
+chrome.storage.session.set({
+    "recording": Recording.OFF,
+});
+// check if offscreen exists to set default value
+// if it doesn't then it's first time popup is clicked
+chrome.storage.session.get("offscreen_exists", ({ offscreen_exists }) => {
+    if (offscreen_exists == "no") {
+        // set initial values
+        chrome.storage.session.set({
+            "offscreen_exists": YesOrNo.YES,
+            "recorded_before": YesOrNo.NO,
+        });
+        // getUserMedia needs to work through the offscreen html file
+        // create offscreen document to get permission to operate the api
+        chrome.offscreen.createDocument({
+            url: "offscreen-recording.html",
+            reasons: [chrome.offscreen.Reason.USER_MEDIA],
+            justification: "Record audio for transcription"
+        });
+    }
+});
 const input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", () => {
     triggerRecordingThroughOffscreenDocument();
@@ -38,7 +50,8 @@ input === null || input === void 0 ? void 0 : input.addEventListener("click", ()
 function triggerRecordingThroughOffscreenDocument() {
     return __awaiter(this, void 0, void 0, function* () {
         // send message to offscreen to start recording
-        yield chrome.runtime.sendMessage("handle-recording");
+        const state = yield chrome.storage.session.get(["recording", "recorded_before"]);
+        yield chrome.runtime.sendMessage(state);
     });
 }
 // show animation to let user know the recording has started
@@ -54,7 +67,7 @@ function changeRecordingState() {
         if (recording == "off") {
             chrome.storage.session.set({
                 "recording": Recording.ON,
-                "recorded_before": RecordedBefore.YES
+                "recorded_before": YesOrNo.YES
             });
         }
         else {
