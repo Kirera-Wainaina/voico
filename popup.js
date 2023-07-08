@@ -14,12 +14,12 @@ var Recording;
     Recording["NO"] = "no";
 })(Recording || (Recording = {}));
 const input = document.querySelector("input");
-input === null || input === void 0 ? void 0 : input.addEventListener("click", () => {
+input === null || input === void 0 ? void 0 : input.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
     toggleHintAndAnimation();
     // handleRecording(input)
-    handleRecording();
-    changeRecordingState();
-});
+    yield handleRecording();
+    toggleRecordingState();
+}));
 function toggleHintAndAnimation() {
     const hint = document.querySelector("p");
     hint === null || hint === void 0 ? void 0 : hint.classList.toggle("hide");
@@ -46,12 +46,28 @@ function toggleHintAndAnimation() {
 //     input?.addEventListener("click", () => handleRecording(input, existingMediaRecorder))  
 //   }
 // }
-function handleRecording() {
+function handleRecording(existingMediaRecorder) {
     return __awaiter(this, void 0, void 0, function* () {
         // get the current recording state
         const { recording } = yield chrome.storage.session.get("recording");
-        if (recording == Recording.NO || !recording) {
-            // start recording
+        if (recording && !existingMediaRecorder) {
+            // ignore the first click event handler after setting up tabCapture
+            // it has no media recorder object
+            return;
+        }
+        if (!recording) {
+            // start recording process
+            startRecording();
+            removeAudioElement();
+        }
+        else if (recording === Recording.NO) {
+            // restart recording process
+            existingMediaRecorder === null || existingMediaRecorder === void 0 ? void 0 : existingMediaRecorder.start();
+            removeAudioElement();
+        }
+        else {
+            // stop the recording process
+            existingMediaRecorder === null || existingMediaRecorder === void 0 ? void 0 : existingMediaRecorder.stop();
         }
     });
 }
@@ -89,13 +105,13 @@ function startRecording() {
             const mediaRecorder = new MediaRecorder(stream);
             mediaRecorder.start();
             const input = document.querySelector("input");
-            input === null || input === void 0 ? void 0 : input.addEventListener("click", () => handleRecording(input, mediaRecorder));
+            input === null || input === void 0 ? void 0 : input.addEventListener("click", () => handleRecording(mediaRecorder));
             mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
             mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
         }
     });
 }
-function changeRecordingState() {
+function toggleRecordingState() {
     return __awaiter(this, void 0, void 0, function* () {
         const { recording } = yield chrome.storage.session.get("recording");
         if (recording == Recording.YES) {

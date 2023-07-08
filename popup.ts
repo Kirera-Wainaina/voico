@@ -5,11 +5,11 @@ enum Recording {
 }
 
 const input = document.querySelector("input");
-input?.addEventListener("click", () => {
+input?.addEventListener("click", async () => {
   toggleHintAndAnimation();
   // handleRecording(input)
-  handleRecording();
-  changeRecordingState()
+  await handleRecording();
+  toggleRecordingState()
 });
 
 function toggleHintAndAnimation() : void {
@@ -43,13 +43,27 @@ function toggleHintAndAnimation() : void {
 //   }
 // }
 
-async function handleRecording() {
+async function handleRecording(existingMediaRecorder?: MediaRecorder) {
   // get the current recording state
   const { recording } = await chrome.storage.session.get("recording");
 
-  if (recording == Recording.NO || !recording) {
-    // start recording
+  if (recording && !existingMediaRecorder) {
+    // ignore the first click event handler after setting up tabCapture
+    // it has no media recorder object
+    return;
+  }
 
+  if (!recording) {
+    // start recording process
+    startRecording()
+    removeAudioElement()
+  } else if (recording === Recording.NO) {
+    // restart recording process
+    existingMediaRecorder?.start()
+    removeAudioElement()
+  } else {
+    // stop the recording process
+    existingMediaRecorder?.stop();
   }
 }
 
@@ -94,7 +108,7 @@ function startRecording() {
       mediaRecorder.start();
 
       const input = document.querySelector("input");
-      input?.addEventListener("click", () => handleRecording(input, mediaRecorder));
+      input?.addEventListener("click", () => handleRecording(mediaRecorder));
 
       mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
       mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
@@ -102,7 +116,7 @@ function startRecording() {
   })
 }
 
-async function changeRecordingState() {
+async function toggleRecordingState() {
   const { recording } = await chrome.storage.session.get("recording");
 
   if (recording == Recording.YES) {
