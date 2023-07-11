@@ -9,7 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 chrome.runtime.onMessage.addListener(handleOffscreenMessages);
 function handleOffscreenMessages(message) {
-    if (message.name == "state") {
+    console.log("called");
+    if (message.name == "recording_state") {
         handleRecording(message.content);
     }
 }
@@ -20,9 +21,12 @@ function handleRecording(content) {
         if (recording == "off" && recorded_before == "no") {
             // this is the first time recording
             // set up recorder
-            const result = yield startRecording();
-            if (result)
+            const result = yield setupRecording();
+            if (result) {
                 mediaRecorder = result;
+                mediaRecorder.start();
+            }
+            ;
             handleAudioElementRemoval();
         }
         else if (recording == "off" && recorded_before == "yes") {
@@ -38,13 +42,12 @@ function handleRecording(content) {
         }
     });
 }
-function startRecording() {
+function setupRecording() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const stream = yield navigator.mediaDevices.getUserMedia({ audio: true });
             const audioData = [];
             const mediaRecorder = new MediaRecorder(stream);
-            mediaRecorder.start();
             mediaRecorder.addEventListener("stop", () => handleDataSaving(audioData));
             mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
             return mediaRecorder;
