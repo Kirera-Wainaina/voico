@@ -20,40 +20,6 @@ chrome.storage.session.set({
   "recording": Recording.OFF, 
 });
 
-// check if offscreen exists to set default value
-// if it doesn't then it's first time popup is clicked
-
-// chrome.storage.session.get("offscreen_exists", async ({ offscreen_exists }) => {
-//   if (offscreen_exists == "no" || !offscreen_exists) {
-//     // set initial values
-//     await chrome.storage.session.set({ 
-//       "offscreen_exists": YesOrNo.YES,
-//       "recorded_before": YesOrNo.NO,
-//     });
-  
-//     // getUserMedia needs to work through the offscreen html file
-//     // create offscreen document to get permission to operate the api
-//     const tabId = await getCurrentTabId();
-//     if (typeof tabId === "number") {
-//       chrome.scripting.executeScript({
-//         target: { tabId },
-//         func: hasUserMediaPermission
-//       }).then(async feedback => {
-//         // hasUserMediaPermission will return true if granted permission
-//         if (feedback[0].result) {
-//           await chrome.offscreen.createDocument({
-//             url: "offscreen-recording.html",
-//             reasons: [chrome.offscreen.Reason.USER_MEDIA],
-//             justification: "Record audio for transcription"
-//           });
-//         }
-//       })
-//     }
-
-//   }
-// });
-
-
 
 chrome.runtime.onMessage.addListener(handleMessages)
 
@@ -141,7 +107,7 @@ async function getUserMediaStream() {
   // local function calling the getUserMedia method
   async function getStream() {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-    return new MediaRecorder(stream)
+    return stream
   }
 
   const tabId = await getCurrentTabId();
