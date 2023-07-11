@@ -34,11 +34,22 @@ chrome.storage.session.get("offscreen_exists", ({ offscreen_exists }) => __await
         });
         // getUserMedia needs to work through the offscreen html file
         // create offscreen document to get permission to operate the api
-        yield chrome.offscreen.createDocument({
-            url: "offscreen-recording.html",
-            reasons: [chrome.offscreen.Reason.USER_MEDIA],
-            justification: "Record audio for transcription"
-        });
+        const tabId = yield getCurrentTabId();
+        if (typeof tabId === "number") {
+            chrome.scripting.executeScript({
+                target: { tabId },
+                func: hasUserMediaPermission
+            }).then((granted) => __awaiter(this, void 0, void 0, function* () {
+                // hasUserMediaPermission will return true if granted permission
+                if (granted) {
+                    yield chrome.offscreen.createDocument({
+                        url: "offscreen-recording.html",
+                        reasons: [chrome.offscreen.Reason.USER_MEDIA],
+                        justification: "Record audio for transcription"
+                    });
+                }
+            }));
+        }
     }
 }));
 chrome.runtime.onMessage.addListener(handleMessages);
@@ -101,4 +112,17 @@ function removeAudioElement() {
     if (audioElement) {
         audioElement.remove();
     }
+}
+function hasUserMediaPermission() {
+    // run function as content script in order to acquire user permission
+    return navigator.mediaDevices.getUserMedia({ audio: true })
+        .then((stream) => {
+        if (stream)
+            return true;
+        return false;
+    });
+}
+function getCurrentTabId() {
+    return chrome.tabs.query({ active: true, lastFocusedWindow: true })
+        .then(tabs => tabs[0].id);
 }

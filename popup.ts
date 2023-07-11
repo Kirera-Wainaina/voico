@@ -32,11 +32,23 @@ chrome.storage.session.get("offscreen_exists", async ({ offscreen_exists }) => {
   
     // getUserMedia needs to work through the offscreen html file
     // create offscreen document to get permission to operate the api
-    await chrome.offscreen.createDocument({
-      url: "offscreen-recording.html",
-      reasons: [chrome.offscreen.Reason.USER_MEDIA],
-      justification: "Record audio for transcription"
-    });
+    const tabId = await getCurrentTabId();
+    if (typeof tabId === "number") {
+      chrome.scripting.executeScript({
+        target: { tabId },
+        func: hasUserMediaPermission
+      }).then(async granted => {
+        // hasUserMediaPermission will return true if granted permission
+        if (granted) {
+          await chrome.offscreen.createDocument({
+            url: "offscreen-recording.html",
+            reasons: [chrome.offscreen.Reason.USER_MEDIA],
+            justification: "Record audio for transcription"
+          });
+        }
+      })
+    }
+
   }
 });
 
@@ -104,4 +116,18 @@ function removeAudioElement() : void {
   if (audioElement) {
     audioElement.remove();
   }
+}
+
+function hasUserMediaPermission() {
+  // run function as content script in order to acquire user permission
+  return navigator.mediaDevices.getUserMedia({ audio: true })
+    .then((stream: MediaStream) => {
+      if (stream) return true;
+      return false
+    })
+}
+
+function getCurrentTabId() {
+  return chrome.tabs.query({ active: true, lastFocusedWindow: true })
+    .then(tabs => tabs[0].id)
 }
