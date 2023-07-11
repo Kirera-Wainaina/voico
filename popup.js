@@ -27,30 +27,14 @@ chrome.runtime.onMessage.addListener(handleMessages);
 // let mediaRecorder: MediaRecorder;
 const input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
-    // await triggerRecordingThroughOffscreenDocument();
-    // check if we asked for user permission
-    // if not: ask for permission and setup mediaRecorder
-    // const {user_media_is_setup, recording } = await chrome.storage.session.get(
-    //   ["user_media_is_setup", "recording"]
-    // );
-    // if (user_media_is_setup == "no" || !user_media_is_setup) {
-    //   await chrome.storage.session.set({
-    //     "user_media_is_setup": YesOrNo.YES
-    //   });
-    //   await setupRecording()
-    //   removeAudioElement()
-    // } else if (recording == "off") {
-    //   // we already asked for permission but the recorder is off
-    //   mediaRecorder.start();
-    //   removeAudioElement()
-    // } else {
-    //   // the recorder is on, so we stop it.
-    //   mediaRecorder.stop()
-    // }
     const tabId = yield getCurrentTabId();
     if (typeof tabId === "number") {
         const state = yield chrome.storage.session.get(null);
         yield chrome.tabs.sendMessage(tabId, { name: "record_click", content: state });
+        if (state.recording == "off") {
+            // remove previous audio element, if any
+            removeAudioElement();
+        }
     }
     toggleHintAndAnimation();
     changeRecordingState();
@@ -77,18 +61,14 @@ function changeRecordingState() {
     });
 }
 function createAudioElement(src) {
-    const audioElement = new Audio("src");
+    const audioElement = new Audio(src);
     audioElement.setAttribute("controls", "");
-    audioElement.setAttribute("src", src);
+    // audioElement.setAttribute("src", src);
     return audioElement;
 }
 function handleMessages(message) {
-    console.log(message, "received");
-    if (message.name == "audioUrl") {
-        displayAudioElement(message.content);
-    }
-    else if (message.name == "remove-audio-element") {
-        removeAudioElement();
+    if (message.name == "audio-data") {
+        saveRecordedMedia(message.content);
     }
 }
 function displayAudioElement(audioUrl) {
@@ -102,36 +82,15 @@ function removeAudioElement() {
         audioElement.remove();
     }
 }
-// async function getUserMediaStream() {
-//   // run function as content script in order to acquire user permission
-//   // local function calling the getUserMedia method
-//   async function getStream() {
-//     const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-//     return stream
-//   }
-//   const tabId = await getCurrentTabId();
-//   if (typeof tabId == "number") {
-//     return chrome.scripting.executeScript({
-//       target: {tabId},
-//       func: getStream
-//     }).then(([feedback]) => {
-//       console.log(feedback)
-//       if (feedback.result) {
-//         // the stream is in the result property
-//         return feedback.result
-//       }
-//     })
-//   }
-// }
 function getCurrentTabId() {
     return chrome.tabs.query({ active: true, lastFocusedWindow: true })
         .then(tabs => tabs[0].id);
 }
 function saveRecordedMedia(audioData) {
-    const blob = new Blob(audioData, { type: "audio/webm;codecs=opus" });
-    audioData = [];
+    const blob = new Blob([audioData]);
+    // const blob = new Blob([audioData], { type: "audio/webm;codecs=opus"});
+    console.log(blob);
     const audioUrl = window.URL.createObjectURL(blob);
     displayAudioElement(audioUrl);
-    // return audioUrl
-    return;
+    return audioUrl;
 }
