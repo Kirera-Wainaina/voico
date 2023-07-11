@@ -24,7 +24,7 @@ async function handleRecording(content: any) {
     if (mediaRecorder) mediaRecorder.start()
   } else {
     // recording is on and its time to pause
-    if (mediaRecorder) mediaRecorder.pause();
+    if (mediaRecorder) mediaRecorder.stop();
   }
 
 }

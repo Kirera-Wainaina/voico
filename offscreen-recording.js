@@ -32,7 +32,7 @@ function handleRecording(content) {
         else {
             // recording is on and its time to pause
             if (mediaRecorder)
-                mediaRecorder.pause();
+                mediaRecorder.stop();
         }
     });
 }
