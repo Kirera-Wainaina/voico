@@ -1,23 +1,32 @@
-type State = MessageName & {
+type State = {
   recorded_before: string,
   recording: string
 }
 
-type MessageName = {
-  name: string
+chrome.runtime.onMessage.addListener(handleOffscreenMessages);
+
+function handleOffscreenMessages(message: Message) {
+  if (message.name == "state") {
+    handleRecording(message.content);
+  }
 }
 
-chrome.runtime.onMessage.addListener(handleRecording);
-
-
-async function handleRecording(message: State, sender: any, sendResponse: Function) {
-  const { recording, recorded_before } = message;
-
+async function handleRecording(content: any) {
+  let mediaRecorder: any = null;
+  const { recording, recorded_before } = content;
   if (recording == "off" && recorded_before == "no") {
     // this is the first time recording
     // set up recorder
-    await startRecording()
+    const result = await startRecording();
+    if (result) mediaRecorder = result;
+  } else if (recording == "off" && recorded_before == "yes"){
+    // media recorder has already been set up 
+    if (mediaRecorder) mediaRecorder.start()
+  } else {
+    // recording is on and its time to pause
+    if (mediaRecorder) mediaRecorder.pause();
   }
+
 }
 
 async function startRecording() {
@@ -30,7 +39,7 @@ async function startRecording() {
     // mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
     mediaRecorder.addEventListener("stop", () => handleDataSaving(audioData));
     mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
-      
+    return mediaRecorder
   } catch (error) {
     console.log(error)
   }

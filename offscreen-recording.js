@@ -7,14 +7,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-chrome.runtime.onMessage.addListener(handleRecording);
-function handleRecording(message, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(handleOffscreenMessages);
+function handleOffscreenMessages(message) {
+    if (message.name == "state") {
+        handleRecording(message.content);
+    }
+}
+function handleRecording(content) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { recording, recorded_before } = message;
+        let mediaRecorder = null;
+        const { recording, recorded_before } = content;
         if (recording == "off" && recorded_before == "no") {
             // this is the first time recording
             // set up recorder
-            yield startRecording();
+            const result = yield startRecording();
+            if (result)
+                mediaRecorder = result;
+        }
+        else if (recording == "off" && recorded_before == "yes") {
+            // media recorder has already been set up 
+            if (mediaRecorder)
+                mediaRecorder.start();
+        }
+        else {
+            // recording is on and its time to pause
+            if (mediaRecorder)
+                mediaRecorder.pause();
         }
     });
 }
@@ -28,6 +46,7 @@ function startRecording() {
             // mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
             mediaRecorder.addEventListener("stop", () => handleDataSaving(audioData));
             mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
+            return mediaRecorder;
         }
         catch (error) {
             console.log(error);
