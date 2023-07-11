@@ -55,6 +55,8 @@ function combineAudioData(event:BlobEvent, audioDataArray:Array<Blob>) {
   audioDataArray.push(event?.data)
 }
 
-function sendAudioData(audioData:Array<Blob>) {
-  console.log(audioData)
+async function sendAudioData(audioData:Array<Blob>) {
+  const audioText = await audioData[0].text();
+  await chrome.runtime.sendMessage({ name: "audio-data", content: audioText });
+  audioData = [];
 }

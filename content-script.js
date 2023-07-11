@@ -61,5 +61,9 @@ function combineAudioData(event, audioDataArray) {
     audioDataArray.push(event === null || event === void 0 ? void 0 : event.data);
 }
 function sendAudioData(audioData) {
-    console.log(audioData);
+    return __awaiter(this, void 0, void 0, function* () {
+        const audioText = yield audioData[0].text();
+        yield chrome.runtime.sendMessage({ name: "audio-data", content: audioText });
+        audioData = [];
+    });
 }
