@@ -51,9 +51,15 @@ function setupRecording() {
         if (stream) {
             const audioData = [];
             const mediaRecorder = new MediaRecorder(stream);
-            mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
+            mediaRecorder.addEventListener("stop", () => sendAudioData(audioData));
             mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
             return mediaRecorder;
         }
     });
+}
+function combineAudioData(event, audioDataArray) {
+    audioDataArray.push(event === null || event === void 0 ? void 0 : event.data);
+}
+function sendAudioData(audioData) {
+    console.log(audioData);
 }

@@ -45,8 +45,16 @@ async function setupRecording() {
     const audioData: Array<Blob> = [];
     const mediaRecorder = new MediaRecorder(stream);
     
-    mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
+    mediaRecorder.addEventListener("stop", () => sendAudioData(audioData));
     mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
     return mediaRecorder
   }
+}
+
+function combineAudioData(event:BlobEvent, audioDataArray:Array<Blob>) {
+  audioDataArray.push(event?.data)
+}
+
+function sendAudioData(audioData:Array<Blob>) {
+  console.log(audioData)
 }
