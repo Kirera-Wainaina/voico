@@ -61,7 +61,7 @@ function removeAudioElement() {
     }
 }
 function saveRecordedMedia(audioData) {
-    const blob = new Blob(audioData, { type: "audio/mp3; codecs=opus" });
+    const blob = new Blob(audioData, { type: "audio/webm;codecs=opus" });
     audioData = [];
     const audioUrl = window.URL.createObjectURL(blob);
     return audioUrl;
