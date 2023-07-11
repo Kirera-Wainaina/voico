@@ -51,7 +51,7 @@ function triggerRecordingThroughOffscreenDocument() {
     return __awaiter(this, void 0, void 0, function* () {
         // send message to offscreen to start recording
         const state = yield chrome.storage.session.get(["recording", "recorded_before"]);
-        const response = yield chrome.runtime.sendMessage(state);
+        const response = yield chrome.runtime.sendMessage(Object.assign({ name: "state" }, state));
     });
 }
 // show animation to let user know the recording has started

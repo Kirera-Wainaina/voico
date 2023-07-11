@@ -47,7 +47,7 @@ input?.addEventListener("click", async () => {
 async function triggerRecordingThroughOffscreenDocument() {
   // send message to offscreen to start recording
   const state = await chrome.storage.session.get(["recording", "recorded_before"]);
-  const response = await chrome.runtime.sendMessage(state);
+  const response = await chrome.runtime.sendMessage({ name: "state", ...state });
 }
 
 // show animation to let user know the recording has started
