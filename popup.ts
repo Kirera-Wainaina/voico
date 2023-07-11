@@ -141,9 +141,6 @@ async function getUserMediaStream() {
   // local function calling the getUserMedia method
   function getStream() {
     return navigator.mediaDevices.getUserMedia({ audio: true })
-    .then((stream: MediaStream) => {
-      return stream;
-    })
   }
 
   const tabId = await getCurrentTabId();
@@ -151,10 +148,11 @@ async function getUserMediaStream() {
     return chrome.scripting.executeScript({
       target: {tabId},
       func: getStream
-    }).then(feedback => {
-      if (feedback) {
+    }).then(([feedback]) => {
+      console.log(feedback)
+      if (feedback.result) {
         // the stream is in the result property
-        return feedback[0].result
+        return feedback.result
       }
     })
   }

@@ -130,20 +130,18 @@ function getUserMediaStream() {
         // run function as content script in order to acquire user permission
         // local function calling the getUserMedia method
         function getStream() {
-            return navigator.mediaDevices.getUserMedia({ audio: true })
-                .then((stream) => {
-                return stream;
-            });
+            return navigator.mediaDevices.getUserMedia({ audio: true });
         }
         const tabId = yield getCurrentTabId();
         if (typeof tabId == "number") {
             return chrome.scripting.executeScript({
                 target: { tabId },
                 func: getStream
-            }).then(feedback => {
-                if (feedback) {
+            }).then(([feedback]) => {
+                console.log(feedback);
+                if (feedback.result) {
                     // the stream is in the result property
-                    return feedback[0].result;
+                    return feedback.result;
                 }
             });
         }
