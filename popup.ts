@@ -22,17 +22,17 @@ chrome.storage.session.set({
 
 // check if offscreen exists to set default value
 // if it doesn't then it's first time popup is clicked
-chrome.storage.session.get("offscreen_exists", ({ offscreen_exists }) => {
+chrome.storage.session.get("offscreen_exists", async ({ offscreen_exists }) => {
   if (offscreen_exists == "no" || !offscreen_exists) {
     // set initial values
-    chrome.storage.session.set({ 
+    await chrome.storage.session.set({ 
       "offscreen_exists": YesOrNo.YES,
       "recorded_before": YesOrNo.NO,
     });
   
     // getUserMedia needs to work through the offscreen html file
     // create offscreen document to get permission to operate the api
-    chrome.offscreen.createDocument({
+    await chrome.offscreen.createDocument({
       url: "offscreen-recording.html",
       reasons: [chrome.offscreen.Reason.USER_MEDIA],
       justification: "Record audio for transcription"

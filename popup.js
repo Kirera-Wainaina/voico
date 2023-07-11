@@ -25,22 +25,22 @@ chrome.storage.session.set({
 });
 // check if offscreen exists to set default value
 // if it doesn't then it's first time popup is clicked
-chrome.storage.session.get("offscreen_exists", ({ offscreen_exists }) => {
+chrome.storage.session.get("offscreen_exists", ({ offscreen_exists }) => __awaiter(this, void 0, void 0, function* () {
     if (offscreen_exists == "no" || !offscreen_exists) {
         // set initial values
-        chrome.storage.session.set({
+        yield chrome.storage.session.set({
             "offscreen_exists": YesOrNo.YES,
             "recorded_before": YesOrNo.NO,
         });
         // getUserMedia needs to work through the offscreen html file
         // create offscreen document to get permission to operate the api
-        chrome.offscreen.createDocument({
+        yield chrome.offscreen.createDocument({
             url: "offscreen-recording.html",
             reasons: [chrome.offscreen.Reason.USER_MEDIA],
             justification: "Record audio for transcription"
         });
     }
-});
+}));
 chrome.runtime.onMessage.addListener(handleMessages);
 const input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
