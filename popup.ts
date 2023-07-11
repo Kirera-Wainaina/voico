@@ -139,8 +139,9 @@ async function getUserMediaStream() {
   // run function as content script in order to acquire user permission
 
   // local function calling the getUserMedia method
-  function getStream() {
-    return navigator.mediaDevices.getUserMedia({ audio: true })
+  async function getStream() {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+    return new MediaRecorder(stream)
   }
 
   const tabId = await getCurrentTabId();

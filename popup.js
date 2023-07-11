@@ -130,7 +130,10 @@ function getUserMediaStream() {
         // run function as content script in order to acquire user permission
         // local function calling the getUserMedia method
         function getStream() {
-            return navigator.mediaDevices.getUserMedia({ audio: true });
+            return __awaiter(this, void 0, void 0, function* () {
+                const stream = yield navigator.mediaDevices.getUserMedia({ audio: true });
+                return new MediaRecorder(stream);
+            });
         }
         const tabId = yield getCurrentTabId();
         if (typeof tabId == "number") {
