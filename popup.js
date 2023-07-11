@@ -24,28 +24,32 @@ chrome.storage.session.set({
     "recording": Recording.OFF,
 });
 chrome.runtime.onMessage.addListener(handleMessages);
-let mediaRecorder;
+// let mediaRecorder: MediaRecorder;
 const input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
     // await triggerRecordingThroughOffscreenDocument();
     // check if we asked for user permission
     // if not: ask for permission and setup mediaRecorder
-    const { user_media_is_setup, recording } = yield chrome.storage.session.get(["user_media_is_setup", "recording"]);
-    if (user_media_is_setup == "no" || !user_media_is_setup) {
-        yield chrome.storage.session.set({
-            "user_media_is_setup": YesOrNo.YES
-        });
-        yield setupRecording();
-        removeAudioElement();
-    }
-    else if (recording == "off") {
-        // we already asked for permission but the recorder is off
-        mediaRecorder.start();
-        removeAudioElement();
-    }
-    else {
-        // the recorder is on, so we stop it.
-        mediaRecorder.stop();
+    // const {user_media_is_setup, recording } = await chrome.storage.session.get(
+    //   ["user_media_is_setup", "recording"]
+    // );
+    // if (user_media_is_setup == "no" || !user_media_is_setup) {
+    //   await chrome.storage.session.set({
+    //     "user_media_is_setup": YesOrNo.YES
+    //   });
+    //   await setupRecording()
+    //   removeAudioElement()
+    // } else if (recording == "off") {
+    //   // we already asked for permission but the recorder is off
+    //   mediaRecorder.start();
+    //   removeAudioElement()
+    // } else {
+    //   // the recorder is on, so we stop it.
+    //   mediaRecorder.stop()
+    // }
+    const tabId = yield getCurrentTabId();
+    if (typeof tabId === "number") {
+        yield chrome.tabs.sendMessage(tabId, { name: "record_click" });
     }
     toggleHintAndAnimation();
     changeRecordingState();
@@ -122,7 +126,7 @@ function getUserMediaStream() {
     });
 }
 function getCurrentTabId() {
-    return chrome.tabs.query({ active: true, currentWindow: true })
+    return chrome.tabs.query({ active: true, lastFocusedWindow: true })
         .then(tabs => tabs[0].id);
 }
 function setupRecording() {

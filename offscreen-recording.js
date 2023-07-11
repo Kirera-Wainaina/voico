@@ -12,11 +12,11 @@ function handleOffscreenMessages(message) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log("called");
         if (message.name == "recording_state") {
-            yield handleRecording(message.content);
+            yield handleRecording_(message.content);
         }
     });
 }
-function handleRecording(content) {
+function handleRecording_(content) {
     return __awaiter(this, void 0, void 0, function* () {
         let mediaRecorder = null;
         const { recording, recorded_before } = content;

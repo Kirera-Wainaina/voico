@@ -8,11 +8,11 @@ chrome.runtime.onMessage.addListener(handleOffscreenMessages);
 async function handleOffscreenMessages(message: Message) {
   console.log("called")
   if (message.name == "recording_state") {
-    await handleRecording(message.content);
+    await handleRecording_(message.content);
   }
 }
 
-async function handleRecording(content: any) {
+async function handleRecording_(content: any) {
   let mediaRecorder: any = null;
   const { recording, recorded_before } = content;
   if (recording == "off" && recorded_before == "no") {

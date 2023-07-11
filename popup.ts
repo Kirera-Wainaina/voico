@@ -23,31 +23,34 @@ chrome.storage.session.set({
 
 chrome.runtime.onMessage.addListener(handleMessages)
 
-let mediaRecorder: MediaRecorder;
+// let mediaRecorder: MediaRecorder;
 const input = document.querySelector("input");
 input?.addEventListener("click", async () => {
   // await triggerRecordingThroughOffscreenDocument();
 
   // check if we asked for user permission
   // if not: ask for permission and setup mediaRecorder
-  const {user_media_is_setup, recording } = await chrome.storage.session.get(
-    ["user_media_is_setup", "recording"]
-  );
-  if (user_media_is_setup == "no" || !user_media_is_setup) {
-    await chrome.storage.session.set({
-      "user_media_is_setup": YesOrNo.YES
-    });
-    await setupRecording()
-    removeAudioElement()
-  } else if (recording == "off") {
-    // we already asked for permission but the recorder is off
-    mediaRecorder.start();
-    removeAudioElement()
-  } else {
-    // the recorder is on, so we stop it.
-    mediaRecorder.stop()
+  // const {user_media_is_setup, recording } = await chrome.storage.session.get(
+  //   ["user_media_is_setup", "recording"]
+  // );
+  // if (user_media_is_setup == "no" || !user_media_is_setup) {
+  //   await chrome.storage.session.set({
+  //     "user_media_is_setup": YesOrNo.YES
+  //   });
+  //   await setupRecording()
+  //   removeAudioElement()
+  // } else if (recording == "off") {
+  //   // we already asked for permission but the recorder is off
+  //   mediaRecorder.start();
+  //   removeAudioElement()
+  // } else {
+  //   // the recorder is on, so we stop it.
+  //   mediaRecorder.stop()
+  // }
+  const tabId = await getCurrentTabId();
+  if (typeof tabId === "number") {
+    await chrome.tabs.sendMessage(tabId, { name: "record_click" })
   }
-
   toggleHintAndAnimation()
   changeRecordingState()
 })
@@ -128,7 +131,7 @@ async function getUserMediaStream() {
 }
 
 function getCurrentTabId() {
-  return chrome.tabs.query({ active: true, currentWindow: true })
+  return chrome.tabs.query({ active: true, lastFocusedWindow: true })
     .then(tabs => tabs[0].id)
 }
 

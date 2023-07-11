@@ -10,3 +10,17 @@ Once it receives a click event,
   see if I can pass audio data through an event to popup file so an
   audio element is created
 */
+
+chrome.runtime.onMessage.addListener(handleContentScriptMessages);
+
+function handleContentScriptMessages(message:Message) {
+  console.log("called")
+
+  if (message.name === "record_click") {
+    handleRecording();
+  }
+}
+
+function handleRecording() {
+  console.log("called")
+}
