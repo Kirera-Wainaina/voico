@@ -5,10 +5,10 @@ type State = {
 
 chrome.runtime.onMessage.addListener(handleOffscreenMessages);
 
-function handleOffscreenMessages(message: Message) {
+async function handleOffscreenMessages(message: Message) {
   console.log("called")
   if (message.name == "recording_state") {
-    handleRecording(message.content);
+    await handleRecording(message.content);
   }
 }
 
@@ -36,23 +36,21 @@ async function handleRecording(content: any) {
 }
 
 async function setupRecording() {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true})
-    const audioData: Array<Blob> = [];
-    const mediaRecorder = new MediaRecorder(stream);
-    
-    mediaRecorder.addEventListener("stop", () => handleDataSaving(audioData));
-    mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
-    return mediaRecorder
-  } catch (error) {
-    console.log(error)
-  }
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true})
+  const audioData: Array<Blob> = [];
+  const mediaRecorder = new MediaRecorder(stream);
+  
+  mediaRecorder.addEventListener("stop", () => handleDataSaving(audioData));
+  // console.error("hello")
+  mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
+  return mediaRecorder
 }
 
-function handleDataSaving(audioData: Array<Blob>) {
+async function handleDataSaving(audioData: Array<Blob>) {
   const audioUrl = saveRecordedMedia(audioData);
 
-  chrome.runtime.sendMessage({ name: "audioUrl", content: audioUrl });
+  await chrome.runtime.sendMessage({ name: "audioUrl", content: audioUrl });
+  return
 }
 
 function saveRecordedMedia(audioData: Array<Blob>) {

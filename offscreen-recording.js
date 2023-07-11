@@ -9,10 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 chrome.runtime.onMessage.addListener(handleOffscreenMessages);
 function handleOffscreenMessages(message) {
-    console.log("called");
-    if (message.name == "recording_state") {
-        handleRecording(message.content);
-    }
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log("called");
+        if (message.name == "recording_state") {
+            yield handleRecording(message.content);
+        }
+    });
 }
 function handleRecording(content) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -44,22 +46,21 @@ function handleRecording(content) {
 }
 function setupRecording() {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const stream = yield navigator.mediaDevices.getUserMedia({ audio: true });
-            const audioData = [];
-            const mediaRecorder = new MediaRecorder(stream);
-            mediaRecorder.addEventListener("stop", () => handleDataSaving(audioData));
-            mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
-            return mediaRecorder;
-        }
-        catch (error) {
-            console.log(error);
-        }
+        const stream = yield navigator.mediaDevices.getUserMedia({ audio: true });
+        const audioData = [];
+        const mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.addEventListener("stop", () => handleDataSaving(audioData));
+        // console.error("hello")
+        mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
+        return mediaRecorder;
     });
 }
 function handleDataSaving(audioData) {
-    const audioUrl = saveRecordedMedia(audioData);
-    chrome.runtime.sendMessage({ name: "audioUrl", content: audioUrl });
+    return __awaiter(this, void 0, void 0, function* () {
+        const audioUrl = saveRecordedMedia(audioData);
+        yield chrome.runtime.sendMessage({ name: "audioUrl", content: audioUrl });
+        return;
+    });
 }
 function saveRecordedMedia(audioData) {
     const blob = new Blob(audioData, { type: "audio/webm;codecs=opus" });
