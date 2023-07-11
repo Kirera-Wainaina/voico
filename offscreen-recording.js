@@ -25,7 +25,8 @@ function startRecording() {
             const audioData = [];
             const mediaRecorder = new MediaRecorder(stream);
             mediaRecorder.start();
-            mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
+            // mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
+            mediaRecorder.addEventListener("stop", () => handleDataSaving(audioData));
             mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
         }
         catch (error) {
@@ -59,6 +60,10 @@ function removeAudioElement() {
     if (audioElement) {
         audioElement.remove();
     }
+}
+function handleDataSaving(audioData) {
+    const audioUrl = saveRecordedMedia(audioData);
+    chrome.runtime.sendMessage({ name: "audioUrl", audioUrl });
 }
 function saveRecordedMedia(audioData) {
     const blob = new Blob(audioData, { type: "audio/webm;codecs=opus" });

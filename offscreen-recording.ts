@@ -1,6 +1,10 @@
-type State = {
+type State = MessageName & {
   recorded_before: string,
   recording: string
+}
+
+type MessageName = {
+  name: string
 }
 
 chrome.runtime.onMessage.addListener(handleRecording);
@@ -23,7 +27,8 @@ async function startRecording() {
     const mediaRecorder = new MediaRecorder(stream);
     mediaRecorder.start();
   
-    mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
+    // mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
+    mediaRecorder.addEventListener("stop", () => handleDataSaving(audioData));
     mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
       
   } catch (error) {
@@ -60,6 +65,12 @@ function removeAudioElement() : void {
   if (audioElement) {
     audioElement.remove();
   }
+}
+
+function handleDataSaving(audioData: Array<Blob>) {
+  const audioUrl = saveRecordedMedia(audioData);
+
+  chrome.runtime.sendMessage({ name: "audioUrl", audioUrl });
 }
 
 function saveRecordedMedia(audioData: Array<Blob>) {
