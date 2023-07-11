@@ -10,6 +10,11 @@ enum YesOrNo {
   NO = "no"
 }
 
+type Message = {
+  name: string,
+  content: any
+}
+
 // set default recording state to off
 chrome.storage.session.set({ 
   "recording": Recording.OFF, 
@@ -35,6 +40,7 @@ chrome.storage.session.get("offscreen_exists", ({ offscreen_exists }) => {
   }
 });
 
+chrome.runtime.onMessage.addListener(handleMessages)
 
 
 const input = document.querySelector("input");
@@ -76,4 +82,8 @@ function createAudioElement(src: string) {
   audioElement.setAttribute("controls", "");
   audioElement.setAttribute("src", src);
   return audioElement
+}
+
+function handleMessages(message: {name: string, content: any}) {
+  if (message.name == )
 }

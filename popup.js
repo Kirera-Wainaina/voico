@@ -41,6 +41,7 @@ chrome.storage.session.get("offscreen_exists", ({ offscreen_exists }) => {
         });
     }
 });
+chrome.runtime.onMessage.addListener(handleMessages);
 const input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
     yield triggerRecordingThroughOffscreenDocument();
@@ -80,4 +81,8 @@ function createAudioElement(src) {
     audioElement.setAttribute("controls", "");
     audioElement.setAttribute("src", src);
     return audioElement;
+}
+function handleMessages(message) {
+    if (message.name == )
+        ;
 }
