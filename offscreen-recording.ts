@@ -41,7 +41,6 @@ async function setupRecording() {
   const mediaRecorder = new MediaRecorder(stream);
   
   mediaRecorder.addEventListener("stop", () => handleDataSaving(audioData));
-  // console.error("hello")
   mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
   return mediaRecorder
 }

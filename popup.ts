@@ -37,9 +37,9 @@ chrome.storage.session.get("offscreen_exists", async ({ offscreen_exists }) => {
       chrome.scripting.executeScript({
         target: { tabId },
         func: hasUserMediaPermission
-      }).then(async granted => {
+      }).then(async feedback => {
         // hasUserMediaPermission will return true if granted permission
-        if (granted) {
+        if (feedback[0].result) {
           await chrome.offscreen.createDocument({
             url: "offscreen-recording.html",
             reasons: [chrome.offscreen.Reason.USER_MEDIA],
@@ -128,6 +128,6 @@ function hasUserMediaPermission() {
 }
 
 function getCurrentTabId() {
-  return chrome.tabs.query({ active: true, lastFocusedWindow: true })
+  return chrome.tabs.query({ active: true, currentWindow: true })
     .then(tabs => tabs[0].id)
 }
