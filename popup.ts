@@ -12,7 +12,7 @@ enum YesOrNo {
 
 type Message = {
   name: string,
-  content: any
+  content?: any
 }
 
 // set default recording state to off
@@ -87,7 +87,9 @@ function createAudioElement(src: string) {
 function handleMessages(message: Message) {
   console.log(message, "received")
   if (message.name == "audioUrl") {
-    displayAudioElement(message.name)
+    displayAudioElement(message.content)
+  } else if (message.name == "remove-audio-element") {
+    removeAudioElement()
   }
 }
 
@@ -95,4 +97,11 @@ function displayAudioElement(audioUrl:string) {
   const audioElement = createAudioElement(audioUrl);
   const script = document.querySelector("script");
   script?.insertAdjacentElement("beforebegin", audioElement);
+}
+
+function removeAudioElement() : void {
+  const audioElement = document.querySelector("audio");
+  if (audioElement) {
+    audioElement.remove();
+  }
 }

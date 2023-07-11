@@ -19,9 +19,11 @@ async function handleRecording(content: any) {
     // set up recorder
     const result = await startRecording();
     if (result) mediaRecorder = result;
+    handleAudioElementRemoval()
   } else if (recording == "off" && recorded_before == "yes"){
     // media recorder has already been set up 
-    if (mediaRecorder) mediaRecorder.start()
+    if (mediaRecorder) mediaRecorder.start();
+    handleAudioElementRemoval()
   } else {
     // recording is on and its time to pause
     if (mediaRecorder) mediaRecorder.stop();
@@ -44,13 +46,6 @@ async function startRecording() {
   }
 }
 
-function removeAudioElement() : void {
-  const audioElement = document.querySelector("audio");
-  if (audioElement) {
-    audioElement.remove();
-  }
-}
-
 function handleDataSaving(audioData: Array<Blob>) {
   const audioUrl = saveRecordedMedia(audioData);
 
@@ -67,4 +62,8 @@ function saveRecordedMedia(audioData: Array<Blob>) {
 
 function combineAudioData(event:BlobEvent, audioDataArray:Array<Blob>) {
   audioDataArray.push(event?.data)
+}
+
+function handleAudioElementRemoval() {
+  chrome.runtime.sendMessage({ name: "remove-audio-element" })
 }

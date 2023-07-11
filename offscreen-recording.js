@@ -23,11 +23,13 @@ function handleRecording(content) {
             const result = yield startRecording();
             if (result)
                 mediaRecorder = result;
+            handleAudioElementRemoval();
         }
         else if (recording == "off" && recorded_before == "yes") {
             // media recorder has already been set up 
             if (mediaRecorder)
                 mediaRecorder.start();
+            handleAudioElementRemoval();
         }
         else {
             // recording is on and its time to pause
@@ -52,12 +54,6 @@ function startRecording() {
         }
     });
 }
-function removeAudioElement() {
-    const audioElement = document.querySelector("audio");
-    if (audioElement) {
-        audioElement.remove();
-    }
-}
 function handleDataSaving(audioData) {
     const audioUrl = saveRecordedMedia(audioData);
     chrome.runtime.sendMessage({ name: "audioUrl", content: audioUrl });
@@ -70,4 +66,7 @@ function saveRecordedMedia(audioData) {
 }
 function combineAudioData(event, audioDataArray) {
     audioDataArray.push(event === null || event === void 0 ? void 0 : event.data);
+}
+function handleAudioElementRemoval() {
+    chrome.runtime.sendMessage({ name: "remove-audio-element" });
 }

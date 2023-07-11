@@ -85,11 +85,20 @@ function createAudioElement(src) {
 function handleMessages(message) {
     console.log(message, "received");
     if (message.name == "audioUrl") {
-        displayAudioElement(message.name);
+        displayAudioElement(message.content);
+    }
+    else if (message.name == "remove-audio-element") {
+        removeAudioElement();
     }
 }
 function displayAudioElement(audioUrl) {
     const audioElement = createAudioElement(audioUrl);
     const script = document.querySelector("script");
     script === null || script === void 0 ? void 0 : script.insertAdjacentElement("beforebegin", audioElement);
+}
+function removeAudioElement() {
+    const audioElement = document.querySelector("audio");
+    if (audioElement) {
+        audioElement.remove();
+    }
 }
