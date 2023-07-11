@@ -49,8 +49,8 @@ input === null || input === void 0 ? void 0 : input.addEventListener("click", ()
     // }
     const tabId = yield getCurrentTabId();
     if (typeof tabId === "number") {
-        const user_media_is_setup = yield chrome.storage.session.get("user_media_is_setup");
-        yield chrome.tabs.sendMessage(tabId, { name: "record_click", content: user_media_is_setup });
+        const state = yield chrome.storage.session.get(null);
+        yield chrome.tabs.sendMessage(tabId, { name: "record_click", content: state });
     }
     toggleHintAndAnimation();
     changeRecordingState();

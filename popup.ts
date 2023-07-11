@@ -50,10 +50,10 @@ input?.addEventListener("click", async () => {
   
   const tabId = await getCurrentTabId();
   if (typeof tabId === "number") {
-    const user_media_is_setup = await chrome.storage.session.get("user_media_is_setup");
+    const state = await chrome.storage.session.get(null);
     await chrome.tabs.sendMessage(
       tabId, 
-      { name: "record_click", content: user_media_is_setup }
+      { name: "record_click", content: state }
     )
   }
   toggleHintAndAnimation()
