@@ -10,17 +10,36 @@ Once it receives a click event,
   see if I can pass audio data through an event to popup file so an
   audio element is created
 */
+let mediaRecorder: MediaRecorder;
 
 chrome.runtime.onMessage.addListener(handleContentScriptMessages);
 
 function handleContentScriptMessages(message:Message) {
-  console.log("called")
-
   if (message.name === "record_click") {
-    handleRecording();
+    handleRecording(message.content);
   }
 }
 
-function handleRecording() {
-  console.log("called")
+async function handleRecording(content: any) {
+  
+  // set up user media if it doesn't exist
+  // this is the case for every first click on extension
+  if (!Object.keys(content).length) {
+    const result = await setupRecording();
+    if (result) mediaRecorder = result;
+  }
+
+}
+
+async function setupRecording() {
+  
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  if (stream) {
+    const audioData: Array<Blob> = [];
+    const mediaRecorder = new MediaRecorder(stream);
+    
+    mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
+    mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
+    return mediaRecorder
+  }
 }

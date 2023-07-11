@@ -49,7 +49,8 @@ input === null || input === void 0 ? void 0 : input.addEventListener("click", ()
     // }
     const tabId = yield getCurrentTabId();
     if (typeof tabId === "number") {
-        yield chrome.tabs.sendMessage(tabId, { name: "record_click" });
+        const user_media_is_setup = yield chrome.storage.session.get("user_media_is_setup");
+        yield chrome.tabs.sendMessage(tabId, { name: "record_click", content: user_media_is_setup });
     }
     toggleHintAndAnimation();
     changeRecordingState();
@@ -100,46 +101,30 @@ function removeAudioElement() {
         audioElement.remove();
     }
 }
-function getUserMediaStream() {
-    return __awaiter(this, void 0, void 0, function* () {
-        // run function as content script in order to acquire user permission
-        // local function calling the getUserMedia method
-        function getStream() {
-            return __awaiter(this, void 0, void 0, function* () {
-                const stream = yield navigator.mediaDevices.getUserMedia({ audio: true });
-                return stream;
-            });
-        }
-        const tabId = yield getCurrentTabId();
-        if (typeof tabId == "number") {
-            return chrome.scripting.executeScript({
-                target: { tabId },
-                func: getStream
-            }).then(([feedback]) => {
-                console.log(feedback);
-                if (feedback.result) {
-                    // the stream is in the result property
-                    return feedback.result;
-                }
-            });
-        }
-    });
-}
+// async function getUserMediaStream() {
+//   // run function as content script in order to acquire user permission
+//   // local function calling the getUserMedia method
+//   async function getStream() {
+//     const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+//     return stream
+//   }
+//   const tabId = await getCurrentTabId();
+//   if (typeof tabId == "number") {
+//     return chrome.scripting.executeScript({
+//       target: {tabId},
+//       func: getStream
+//     }).then(([feedback]) => {
+//       console.log(feedback)
+//       if (feedback.result) {
+//         // the stream is in the result property
+//         return feedback.result
+//       }
+//     })
+//   }
+// }
 function getCurrentTabId() {
     return chrome.tabs.query({ active: true, lastFocusedWindow: true })
         .then(tabs => tabs[0].id);
-}
-function setupRecording() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const stream = yield getUserMediaStream();
-        if (stream) {
-            const audioData = [];
-            const mediaRecorder = new MediaRecorder(stream);
-            mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
-            mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
-            return mediaRecorder;
-        }
-    });
 }
 function saveRecordedMedia(audioData) {
     const blob = new Blob(audioData, { type: "audio/webm;codecs=opus" });
