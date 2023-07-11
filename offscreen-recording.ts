@@ -70,7 +70,7 @@ function removeAudioElement() : void {
 function handleDataSaving(audioData: Array<Blob>) {
   const audioUrl = saveRecordedMedia(audioData);
 
-  chrome.runtime.sendMessage({ name: "audioUrl", audioUrl });
+  chrome.runtime.sendMessage({ name: "audioUrl", content: audioUrl });
 }
 
 function saveRecordedMedia(audioData: Array<Blob>) {

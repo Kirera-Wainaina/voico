@@ -63,7 +63,7 @@ function removeAudioElement() {
 }
 function handleDataSaving(audioData) {
     const audioUrl = saveRecordedMedia(audioData);
-    chrome.runtime.sendMessage({ name: "audioUrl", audioUrl });
+    chrome.runtime.sendMessage({ name: "audioUrl", content: audioUrl });
 }
 function saveRecordedMedia(audioData) {
     const blob = new Blob(audioData, { type: "audio/webm;codecs=opus" });
