@@ -44,7 +44,7 @@ function handleRecording(content) {
         }
     });
 }
-function setupRecording() {
+function setupRecording_() {
     return __awaiter(this, void 0, void 0, function* () {
         const stream = yield navigator.mediaDevices.getUserMedia({ audio: true });
         const audioData = [];
@@ -60,15 +60,6 @@ function handleDataSaving(audioData) {
         yield chrome.runtime.sendMessage({ name: "audioUrl", content: audioUrl });
         return;
     });
-}
-function saveRecordedMedia(audioData) {
-    const blob = new Blob(audioData, { type: "audio/webm;codecs=opus" });
-    audioData = [];
-    const audioUrl = window.URL.createObjectURL(blob);
-    return audioUrl;
-}
-function combineAudioData(event, audioDataArray) {
-    audioDataArray.push(event === null || event === void 0 ? void 0 : event.data);
 }
 function handleAudioElementRemoval() {
     chrome.runtime.sendMessage({ name: "remove-audio-element" });

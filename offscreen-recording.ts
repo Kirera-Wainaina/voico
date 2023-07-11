@@ -35,7 +35,7 @@ async function handleRecording(content: any) {
 
 }
 
-async function setupRecording() {
+async function setupRecording_() {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true})
   const audioData: Array<Blob> = [];
   const mediaRecorder = new MediaRecorder(stream);
@@ -50,18 +50,6 @@ async function handleDataSaving(audioData: Array<Blob>) {
 
   await chrome.runtime.sendMessage({ name: "audioUrl", content: audioUrl });
   return
-}
-
-function saveRecordedMedia(audioData: Array<Blob>) {
-  const blob = new Blob(audioData, { type: "audio/webm;codecs=opus"});
-
-  audioData = [];
-  const audioUrl = window.URL.createObjectURL(blob);
-  return audioUrl
-}
-
-function combineAudioData(event:BlobEvent, audioDataArray:Array<Blob>) {
-  audioDataArray.push(event?.data)
 }
 
 function handleAudioElementRemoval() {
