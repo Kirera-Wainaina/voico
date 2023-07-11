@@ -51,7 +51,8 @@ function setupRecording() {
         if (stream) {
             const audioData = [];
             const mediaRecorder = new MediaRecorder(stream);
-            mediaRecorder.addEventListener("stop", () => sendAudioData(audioData));
+            // mediaRecorder.addEventListener("stop", () => sendAudioData(audioData));
+            mediaRecorder.addEventListener("stop", () => displayAudio(audioData));
             mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
             return mediaRecorder;
         }
@@ -66,4 +67,17 @@ function sendAudioData(audioData) {
         yield chrome.runtime.sendMessage({ name: "audio-data", content: audioText });
         audioData = [];
     });
+}
+function displayAudio(audioData) {
+    const blob = new Blob(audioData, { type: "audio/webm;codecs=opus" });
+    const url = URL.createObjectURL(blob);
+    // const audioElement = new Audio(url);
+    // audioElement.controls = true;
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'audio';
+    a.text = 'Download your audio';
+    const body = document.querySelector('body');
+    body === null || body === void 0 ? void 0 : body.appendChild(a);
+    audioData = [];
 }

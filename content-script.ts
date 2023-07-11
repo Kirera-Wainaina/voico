@@ -45,7 +45,8 @@ async function setupRecording() {
     const audioData: Array<Blob> = [];
     const mediaRecorder = new MediaRecorder(stream);
     
-    mediaRecorder.addEventListener("stop", () => sendAudioData(audioData));
+    // mediaRecorder.addEventListener("stop", () => sendAudioData(audioData));
+    mediaRecorder.addEventListener("stop", () => displayAudio(audioData));
     mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
     return mediaRecorder
   }
@@ -59,4 +60,21 @@ async function sendAudioData(audioData:Array<Blob>) {
   const audioText = await audioData[0].text();
   await chrome.runtime.sendMessage({ name: "audio-data", content: audioText });
   audioData = [];
+}
+
+function displayAudio(audioData:Array<Blob>) {
+  const blob = new Blob(audioData, { type: "audio/webm;codecs=opus"});
+  const url = URL.createObjectURL(blob);
+
+  // const audioElement = new Audio(url);
+  // audioElement.controls = true;
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'audio';
+  a.text = 'Download your audio';
+  
+  const body = document.querySelector('body');
+  body?.appendChild(a);
+  audioData = []
 }
