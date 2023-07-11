@@ -36,7 +36,6 @@ async function startRecording() {
     const mediaRecorder = new MediaRecorder(stream);
     mediaRecorder.start();
   
-    // mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
     mediaRecorder.addEventListener("stop", () => handleDataSaving(audioData));
     mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
     return mediaRecorder
@@ -44,30 +43,6 @@ async function startRecording() {
     console.log(error)
   }
 }
-
-// async function handleRecording(element:HTMLInputElement, existingMediaRecorder?: MediaRecorder) {
-//   toggleHintAndAnimation();
-
-//   // remove prior event listeners
-//   element?.replaceWith(element.cloneNode());
-
-//   if (!existingMediaRecorder) {
-//     // start recording
-//     removeAudioElement();
-//     await startRecording()  
-//   } else {
-//     if (existingMediaRecorder.state == "inactive") {
-//       // restart recording
-//       existingMediaRecorder.start();
-//       removeAudioElement();
-//     } else {
-//       // stop recording
-//       existingMediaRecorder.stop();
-//     }
-//     const input = document.querySelector("input");
-//     input?.addEventListener("click", () => handleRecording(input, existingMediaRecorder))  
-//   }
-// }
 
 function removeAudioElement() : void {
   const audioElement = document.querySelector("audio");
@@ -88,9 +63,6 @@ function saveRecordedMedia(audioData: Array<Blob>) {
   audioData = [];
   const audioUrl = window.URL.createObjectURL(blob);
   return audioUrl
-  // const audioElement = createAudioElement(audioUrl);
-  // const script = document.querySelector("script");
-  // script?.insertAdjacentElement("beforebegin", audioElement);
 }
 
 function combineAudioData(event:BlobEvent, audioDataArray:Array<Blob>) {
