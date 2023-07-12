@@ -10,13 +10,13 @@ Once it receives a click event,
   see if I can pass audio data through an event to popup file so an
   audio element is created
 */
-let mediaRecorder: MediaRecorder;
+var mediaRecorder: MediaRecorder | null = null;
 
 chrome.runtime.onMessage.addListener(handleContentScriptMessages);
 
-function handleContentScriptMessages(message:Message) {
+async function handleContentScriptMessages(message:Message) {
   if (message.name === "record_click") {
-    handleRecording(message.content);
+    await handleRecording(message.content);
   }
 }
 
@@ -31,9 +31,9 @@ async function handleRecording(content: any) {
       mediaRecorder.start()
     }
   } else if (content.recording === "off") {
-    mediaRecorder.start();
+    mediaRecorder?.start();
   } else {
-    mediaRecorder.stop();
+    mediaRecorder?.stop();
   }
 
 }
