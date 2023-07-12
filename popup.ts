@@ -34,9 +34,13 @@ chrome.runtime.onMessage.addListener(handleMessages);
       files: ["content-script.js"]
     })
   }
+})();
+
+// set user_media_is_setup state to an initial value 'no'
+(async() => {
+  await chrome.storage.session.set({ "user_media_is_setup": YesOrNo.NO })
 })()
 
-// let mediaRecorder: MediaRecorder;
 const input = document.querySelector("input");
 input?.addEventListener("click", async () => {
   

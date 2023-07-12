@@ -35,7 +35,10 @@ chrome.runtime.onMessage.addListener(handleMessages);
         });
     }
 }))();
-// let mediaRecorder: MediaRecorder;
+// set user_media_is_setup state to an initial value 'no'
+(() => __awaiter(this, void 0, void 0, function* () {
+    yield chrome.storage.session.set({ "user_media_is_setup": YesOrNo.NO });
+}))();
 const input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
     const tabId = yield getCurrentTabId();

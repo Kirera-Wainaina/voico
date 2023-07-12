@@ -30,7 +30,7 @@ function handleRecording(content) {
     return __awaiter(this, void 0, void 0, function* () {
         // set up user media if it doesn't exist
         // this is the case for every first click on extension
-        if (!content.user_media_is_setup) {
+        if (!content.user_media_is_setup || content.user_media_is_setup == "no") {
             const result = yield setupRecording();
             if (result) {
                 mediaRecorder = result;
