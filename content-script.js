@@ -59,7 +59,7 @@ function setupRecording() {
     });
 }
 function combineAudioData(event, audioDataArray) {
-    audioDataArray.push(event === null || event === void 0 ? void 0 : event.data);
+    audioDataArray.unshift(event === null || event === void 0 ? void 0 : event.data);
 }
 function sendAudioData(audioData) {
     return __awaiter(this, void 0, void 0, function* () {

@@ -53,7 +53,7 @@ async function setupRecording() {
 }
 
 function combineAudioData(event:BlobEvent, audioDataArray:Array<Blob>) {
-  audioDataArray.push(event?.data)
+  audioDataArray.unshift(event?.data)
 }
 
 async function sendAudioData(audioData:Array<Blob>) {
