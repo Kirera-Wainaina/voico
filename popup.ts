@@ -21,7 +21,20 @@ chrome.storage.session.set({
 });
 
 
-chrome.runtime.onMessage.addListener(handleMessages)
+chrome.runtime.onMessage.addListener(handleMessages);
+
+// load the recording content script to ensure it loads
+// prevents the error: could not establish connection
+(async () => {
+  const tabId = await getCurrentTabId();
+  
+  if (typeof tabId === "number") {
+    await chrome.scripting.executeScript({
+      target: { tabId },
+      files: ["content-script.js"]
+    })
+  }
+})()
 
 // let mediaRecorder: MediaRecorder;
 const input = document.querySelector("input");
@@ -92,7 +105,7 @@ function removeAudioElement() : void {
 }
 
 function getCurrentTabId() {
-  return chrome.tabs.query({ active: true, lastFocusedWindow: true })
+  return chrome.tabs.query({ active: true, currentWindow: true })
     .then(tabs => tabs[0].id)
 }
 
