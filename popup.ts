@@ -1,21 +1,67 @@
-// is the extension currently recording
+// save recording state to know if click should start/stop recording
 enum Recording {
+  ON = "on",
+  OFF = "off"
+}
+
+// state to know if we should initiate getUserMedia for the first time
+enum YesOrNo {
   YES = "yes",
   NO = "no"
 }
 
-// ensure there is not recording state when this script runs
-chrome.storage.session.clear()
+type Message = {
+  name: string,
+  content?: any
+}
 
+// set default recording state to off
+chrome.storage.session.set({ 
+  "recording": Recording.OFF, 
+});
+
+
+chrome.runtime.onMessage.addListener(handleMessages);
+
+// load the recording content script to ensure it loads
+// prevents the error: could not establish connection
+(async () => {
+  const tabId = await getCurrentTabId();
+  
+  if (typeof tabId === "number") {
+    await chrome.scripting.executeScript({
+      target: { tabId },
+      files: ["content-script.js"]
+    })
+  }
+})();
+
+// set user_media_is_setup state to an initial value 'no'
+(async() => {
+  await chrome.storage.session.set({ "user_media_is_setup": YesOrNo.NO })
+})()
 
 const input = document.querySelector("input");
 input?.addEventListener("click", async () => {
-  toggleHintAndAnimation();
-  // handleRecording(input)
-  await handleRecording();
-  toggleRecordingState()
-});
+  
+  const tabId = await getCurrentTabId();
+  if (typeof tabId === "number") {
+    const state = await chrome.storage.session.get(null);
+    await chrome.tabs.sendMessage(
+      tabId, 
+      { name: "record_click", content: state }
+    );
 
+    if (state.recording == "off") {
+      // remove previous audio element, if any
+      removeAudioElement()
+    }
+  }
+  toggleHintAndAnimation()
+  changeRecordingState()
+})
+
+// show animation to let user know the recording has started
 function toggleHintAndAnimation() : void {
   const hint = document.querySelector("p");
   hint?.classList.toggle("hide");
@@ -24,70 +70,35 @@ function toggleHintAndAnimation() : void {
   recordingAnimation?.classList.toggle("hide");
 }
 
-async function handleRecording(existingMediaRecorder?: MediaRecorder) {
-  // get the current recording state
+async function changeRecordingState() {
   const { recording } = await chrome.storage.session.get("recording");
-
-  if (recording && !existingMediaRecorder) {
-    // ignore the first click event handler after setting up tabCapture
-    // it has no media recorder object
-    return;
-  }
-
-  if (!recording) {
-    // start recording process
-    startRecording()
-    removeAudioElement()
-  } else if (recording === Recording.NO) {
-    // restart recording process
-    existingMediaRecorder?.start()
-    removeAudioElement()
+  if (recording == "off") {
+    chrome.storage.session.set({ 
+      "recording": Recording.ON,
+      "user_media_is_setup": YesOrNo.YES
+    });
   } else {
-    // stop the recording process
-    existingMediaRecorder?.stop();
+    chrome.storage.session.set({ "recording": Recording.OFF });
   }
-}
-
-function startRecording() {
-  chrome.tabCapture.capture({ audio: true }, (stream) => {
-    if (stream) {
-      // // Continue to play the captured audio to the user.
-      // const output = new AudioContext();
-      // const source = output.createMediaStreamSource(stream);
-      // source.connect(output.destination);
-      
-      const audioData: Array<Blob> = [];
-      const mediaRecorder = new MediaRecorder(stream);
-      mediaRecorder.start();
-
-      const input = document.querySelector("input");
-      input?.addEventListener("click", () => handleRecording(mediaRecorder));
-
-      mediaRecorder.addEventListener("stop", () => saveRecordedMedia(audioData));
-      mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
-    }
-  })
-}
-
-function saveRecordedMedia(audioData: Array<Blob>) {
-  const blob = new Blob(audioData, { type: "audio/webm;codecs=opus"});
-
-  audioData = [];
-  const audioUrl = window.URL.createObjectURL(blob);
-  const audioElement = createAudioElement(audioUrl);
-  const script = document.querySelector("script");
-  script?.insertAdjacentElement("beforebegin", audioElement);
-}
-
-function combineAudioData(event:BlobEvent, audioDataArray:Array<Blob>) {
-  audioDataArray.push(event?.data)
 }
 
 function createAudioElement(src: string) {
-  const audioElement = document.createElement("audio");
-  audioElement.controls =  true;
-  audioElement.src = src;
+  const audioElement = new Audio(src);
+  audioElement.setAttribute("controls", "");
+  // audioElement.setAttribute("src", src);
   return audioElement
+}
+
+function handleMessages(message: Message) {
+  if (message.name == "audio-data") {
+    saveRecordedMedia(message.content)
+  }
+}
+
+function displayAudioElement(audioUrl:string) {
+  const audioElement = createAudioElement(audioUrl);
+  const script = document.querySelector("script");
+  script?.insertAdjacentElement("beforebegin", audioElement);
 }
 
 function removeAudioElement() : void {
@@ -97,12 +108,18 @@ function removeAudioElement() : void {
   }
 }
 
-async function toggleRecordingState() {
-  const { recording } = await chrome.storage.session.get("recording");
+function getCurrentTabId() {
+  return chrome.tabs.query({ active: true, currentWindow: true })
+    .then(tabs => tabs[0].id)
+}
 
-  if (recording == Recording.YES) {
-    await chrome.storage.session.set({ "recording": Recording.NO })
-  } else {
-    await chrome.storage.session.set({ "recording": Recording.YES })
-  }
+
+function saveRecordedMedia(audioData: any) {
+  const blob = new Blob([audioData]);
+  // const blob = new Blob([audioData], { type: "audio/webm;codecs=opus"});
+  console.log(blob)
+  const audioUrl = window.URL.createObjectURL(blob);
+
+  displayAudioElement(audioUrl)
+  return audioUrl
 }
