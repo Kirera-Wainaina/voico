@@ -53,8 +53,7 @@ function setupRecording() {
         if (stream) {
             const audioData = [];
             const mediaRecorder = new MediaRecorder(stream);
-            // mediaRecorder.addEventListener("stop", () => sendAudioData(audioData));
-            mediaRecorder.addEventListener("stop", () => displayAudio(audioData));
+            mediaRecorder.addEventListener("stop", () => transmitAudio(audioData));
             mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
             return mediaRecorder;
         }
@@ -63,23 +62,15 @@ function setupRecording() {
 function combineAudioData(event, audioDataArray) {
     audioDataArray.unshift(event === null || event === void 0 ? void 0 : event.data);
 }
-function sendAudioData(audioData) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const audioText = yield audioData[0].text();
-        yield chrome.runtime.sendMessage({ name: "audio-data", content: audioText });
-        audioData = [];
-    });
-}
-function displayAudio(audioData) {
+function transmitAudio(audioData) {
     const blob = new Blob(audioData, { type: "audio/webm;codecs=opus" });
-    const url = URL.createObjectURL(blob);
-    // const audioElement = new Audio(url);
-    // audioElement.controls = true;
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'audio';
-    a.text = 'Download your audio';
-    const body = document.querySelector('body');
-    body === null || body === void 0 ? void 0 : body.appendChild(a);
+    const formdata = new FormData();
+    formdata.append("audio", blob);
+    formdata.append("fileNumber", "1");
     audioData = [];
+    fetch("https://voico.ddns.net/api/transcribe", {
+        method: "POST",
+        body: formdata
+    }).then(response => response.text())
+        .then(text => console.log(text));
 }

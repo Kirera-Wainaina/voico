@@ -20,9 +20,6 @@ chrome.storage.session.set({
   "recording": Recording.OFF, 
 });
 
-
-chrome.runtime.onMessage.addListener(handleMessages);
-
 // load the recording content script to ensure it loads
 // prevents the error: could not establish connection
 (async () => {
@@ -51,11 +48,6 @@ input?.addEventListener("click", async () => {
       tabId, 
       { name: "record_click", content: state }
     );
-
-    if (state.recording == "off") {
-      // remove previous audio element, if any
-      removeAudioElement()
-    }
   }
   toggleHintAndAnimation()
   changeRecordingState()
@@ -82,44 +74,7 @@ async function changeRecordingState() {
   }
 }
 
-function createAudioElement(src: string) {
-  const audioElement = new Audio(src);
-  audioElement.setAttribute("controls", "");
-  // audioElement.setAttribute("src", src);
-  return audioElement
-}
-
-function handleMessages(message: Message) {
-  if (message.name == "audio-data") {
-    saveRecordedMedia(message.content)
-  }
-}
-
-function displayAudioElement(audioUrl:string) {
-  const audioElement = createAudioElement(audioUrl);
-  const script = document.querySelector("script");
-  script?.insertAdjacentElement("beforebegin", audioElement);
-}
-
-function removeAudioElement() : void {
-  const audioElement = document.querySelector("audio");
-  if (audioElement) {
-    audioElement.remove();
-  }
-}
-
 function getCurrentTabId() {
   return chrome.tabs.query({ active: true, currentWindow: true })
     .then(tabs => tabs[0].id)
-}
-
-
-function saveRecordedMedia(audioData: any) {
-  const blob = new Blob([audioData]);
-  // const blob = new Blob([audioData], { type: "audio/webm;codecs=opus"});
-  console.log(blob)
-  const audioUrl = window.URL.createObjectURL(blob);
-
-  displayAudioElement(audioUrl)
-  return audioUrl
 }

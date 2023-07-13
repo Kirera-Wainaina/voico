@@ -23,7 +23,6 @@ var YesOrNo;
 chrome.storage.session.set({
     "recording": Recording.OFF,
 });
-chrome.runtime.onMessage.addListener(handleMessages);
 // load the recording content script to ensure it loads
 // prevents the error: could not establish connection
 (() => __awaiter(this, void 0, void 0, function* () {
@@ -45,10 +44,6 @@ input === null || input === void 0 ? void 0 : input.addEventListener("click", ()
     if (typeof tabId === "number") {
         const state = yield chrome.storage.session.get(null);
         yield chrome.tabs.sendMessage(tabId, { name: "record_click", content: state });
-        if (state.recording == "off") {
-            // remove previous audio element, if any
-            removeAudioElement();
-        }
     }
     toggleHintAndAnimation();
     changeRecordingState();
@@ -74,37 +69,7 @@ function changeRecordingState() {
         }
     });
 }
-function createAudioElement(src) {
-    const audioElement = new Audio(src);
-    audioElement.setAttribute("controls", "");
-    // audioElement.setAttribute("src", src);
-    return audioElement;
-}
-function handleMessages(message) {
-    if (message.name == "audio-data") {
-        saveRecordedMedia(message.content);
-    }
-}
-function displayAudioElement(audioUrl) {
-    const audioElement = createAudioElement(audioUrl);
-    const script = document.querySelector("script");
-    script === null || script === void 0 ? void 0 : script.insertAdjacentElement("beforebegin", audioElement);
-}
-function removeAudioElement() {
-    const audioElement = document.querySelector("audio");
-    if (audioElement) {
-        audioElement.remove();
-    }
-}
 function getCurrentTabId() {
     return chrome.tabs.query({ active: true, currentWindow: true })
         .then(tabs => tabs[0].id);
-}
-function saveRecordedMedia(audioData) {
-    const blob = new Blob([audioData]);
-    // const blob = new Blob([audioData], { type: "audio/webm;codecs=opus"});
-    console.log(blob);
-    const audioUrl = window.URL.createObjectURL(blob);
-    displayAudioElement(audioUrl);
-    return audioUrl;
 }
