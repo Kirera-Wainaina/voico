@@ -103,3 +103,30 @@ audio {
     transform: scaleY(.5);
   }
 }
+
+#spinner {
+  border-color: var(--primary-color);
+  border-top-color: var(--hover-color);
+  border-width: 5px;
+  border-style: solid;
+  border-radius: 50%;
+  grid-column: 3 / 4;
+  height: 50px;
+  width: 50px;
+  padding: 1em;
+
+  animation-name: spinning;
+  animation-duration: .5s;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes spinning {
+  from {
+    transform: rotateZ(0);
+  }
+
+  to {
+    transform: rotateZ(360deg);
+  }
+}

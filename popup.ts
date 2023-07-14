@@ -82,5 +82,13 @@ function getCurrentTabId() {
 }
 
 function handleLoadingIcon(recordingState: Recording) {
-  
+  if (recordingState == Recording.ON) {
+    // recording is on, button is pressed to switch it off
+    const input = document.querySelector("input");
+    input?.classList.toggle("hide");
+
+    // display the loading icon
+    const spinner = document.getElementById("spinner");
+    spinner?.classList.toggle("hide")
+  }
 }

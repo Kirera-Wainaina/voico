@@ -76,4 +76,12 @@ function getCurrentTabId() {
         .then(tabs => tabs[0].id);
 }
 function handleLoadingIcon(recordingState) {
+    if (recordingState == Recording.ON) {
+        // recording is on, button is pressed to switch it off
+        const input = document.querySelector("input");
+        input === null || input === void 0 ? void 0 : input.classList.toggle("hide");
+        // display the loading icon
+        const spinner = document.getElementById("spinner");
+        spinner === null || spinner === void 0 ? void 0 : spinner.classList.toggle("hide");
+    }
 }
