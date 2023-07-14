@@ -111,8 +111,8 @@ audio {
   border-style: solid;
   border-radius: 50%;
   grid-column: 3 / 4;
-  height: 50px;
-  width: 50px;
+  height: 30px;
+  width: 30px;
   padding: 1em;
 
   animation-name: spinning;

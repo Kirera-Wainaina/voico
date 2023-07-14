@@ -78,10 +78,15 @@ function getCurrentTabId() {
 function handleLoadingIcon(recordingState) {
     if (recordingState == Recording.ON) {
         // recording is on, button is pressed to switch it off
-        const input = document.querySelector("input");
-        input === null || input === void 0 ? void 0 : input.classList.toggle("hide");
-        // display the loading icon
-        const spinner = document.getElementById("spinner");
-        spinner === null || spinner === void 0 ? void 0 : spinner.classList.toggle("hide");
+        toggleLoadingIcon();
     }
+}
+function toggleLoadingIcon() {
+    const input = document.querySelector("input");
+    input === null || input === void 0 ? void 0 : input.classList.toggle("hide");
+    const hint = document.getElementById("hint");
+    hint === null || hint === void 0 ? void 0 : hint.classList.toggle("hide");
+    // display the loading icon
+    const spinner = document.getElementById("spinner");
+    spinner === null || spinner === void 0 ? void 0 : spinner.classList.toggle("hide");
 }
