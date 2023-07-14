@@ -64,8 +64,9 @@ function transmitAudio(audioData:Blob[]) {
 
   fetch("https://voico.ddns.net/api/transcribe", {
     method: "POST",
-    body: formdata
+    body: formdata,
+    mode: "cors"
   }).then(response => response.text())
-  .then(text => console.log(text))
+  .then(text => console.log(text));
 
 }
