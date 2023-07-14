@@ -19,6 +19,8 @@ var YesOrNo;
     YesOrNo["YES"] = "yes";
     YesOrNo["NO"] = "no";
 })(YesOrNo || (YesOrNo = {}));
+// listen to messages
+chrome.runtime.onMessage.addListener(handlePopupMessages);
 // load the recording content script to ensure it loads
 // prevents the error: could not establish connection
 (() => __awaiter(this, void 0, void 0, function* () {
@@ -89,4 +91,9 @@ function toggleLoadingIcon() {
     // display the loading icon
     const spinner = document.getElementById("spinner");
     spinner === null || spinner === void 0 ? void 0 : spinner.classList.toggle("hide");
+}
+function handlePopupMessages(message) {
+    if (message.name == "transcript_received") {
+        toggleLoadingIcon();
+    }
 }

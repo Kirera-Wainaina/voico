@@ -15,6 +15,9 @@ type Message = {
   content?: any
 }
 
+// listen to messages
+chrome.runtime.onMessage.addListener(handlePopupMessages);
+
 // load the recording content script to ensure it loads
 // prevents the error: could not establish connection
 (async () => {
@@ -99,4 +102,10 @@ function toggleLoadingIcon() {
   const spinner = document.getElementById("spinner");
   spinner?.classList.toggle("hide")
 
+}
+
+function handlePopupMessages(message:Message) {
+  if (message.name == "transcript_received") {
+    toggleLoadingIcon();
+  }
 }
