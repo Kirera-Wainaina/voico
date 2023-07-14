@@ -73,5 +73,8 @@ function transmitAudio(audioData) {
         body: formdata,
         mode: "cors"
     }).then(response => response.text())
-        .then(text => console.log(text));
+        .then(text => {
+        console.log(text);
+        chrome.runtime.sendMessage({ name: "transcript_received", content: text });
+    });
 }
