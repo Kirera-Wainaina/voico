@@ -15,11 +15,6 @@ type Message = {
   content?: any
 }
 
-// set default recording state to off
-chrome.storage.session.set({ 
-  "recording": Recording.OFF, 
-});
-
 // load the recording content script to ensure it loads
 // prevents the error: could not establish connection
 (async () => {
@@ -34,8 +29,12 @@ chrome.storage.session.set({
 })();
 
 // set user_media_is_setup state to an initial value 'no'
+// set default recording state to off
 (async() => {
-  await chrome.storage.session.set({ "user_media_is_setup": YesOrNo.NO })
+  await chrome.storage.session.set({ 
+    "user_media_is_setup": YesOrNo.NO,
+    "recording": Recording.OFF
+  })
 })()
 
 const input = document.querySelector("input");
@@ -48,6 +47,9 @@ input?.addEventListener("click", async () => {
       tabId, 
       { name: "record_click", content: state }
     );
+
+    // handle loading icon
+    handleLoadingIcon(state.recording);
   }
   toggleHintAndAnimation()
   changeRecordingState()
@@ -77,4 +79,8 @@ async function changeRecordingState() {
 function getCurrentTabId() {
   return chrome.tabs.query({ active: true, currentWindow: true })
     .then(tabs => tabs[0].id)
+}
+
+function handleLoadingIcon(recordingState: Recording) {
+  
 }

@@ -19,10 +19,6 @@ var YesOrNo;
     YesOrNo["YES"] = "yes";
     YesOrNo["NO"] = "no";
 })(YesOrNo || (YesOrNo = {}));
-// set default recording state to off
-chrome.storage.session.set({
-    "recording": Recording.OFF,
-});
 // load the recording content script to ensure it loads
 // prevents the error: could not establish connection
 (() => __awaiter(this, void 0, void 0, function* () {
@@ -35,8 +31,12 @@ chrome.storage.session.set({
     }
 }))();
 // set user_media_is_setup state to an initial value 'no'
+// set default recording state to off
 (() => __awaiter(this, void 0, void 0, function* () {
-    yield chrome.storage.session.set({ "user_media_is_setup": YesOrNo.NO });
+    yield chrome.storage.session.set({
+        "user_media_is_setup": YesOrNo.NO,
+        "recording": Recording.OFF
+    });
 }))();
 const input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
@@ -44,6 +44,8 @@ input === null || input === void 0 ? void 0 : input.addEventListener("click", ()
     if (typeof tabId === "number") {
         const state = yield chrome.storage.session.get(null);
         yield chrome.tabs.sendMessage(tabId, { name: "record_click", content: state });
+        // handle loading icon
+        handleLoadingIcon(state.recording);
     }
     toggleHintAndAnimation();
     changeRecordingState();
@@ -72,4 +74,6 @@ function changeRecordingState() {
 function getCurrentTabId() {
     return chrome.tabs.query({ active: true, currentWindow: true })
         .then(tabs => tabs[0].id);
+}
+function handleLoadingIcon(recordingState) {
 }
