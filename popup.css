@@ -114,6 +114,7 @@ audio {
   height: 30px;
   width: 30px;
   padding: 1em;
+  margin-bottom: 1em;
 
   animation-name: spinning;
   animation-duration: .5s;
