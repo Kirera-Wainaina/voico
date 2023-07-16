@@ -64,6 +64,10 @@ function toggleHint() {
     const hint = document.querySelector("p");
     hint === null || hint === void 0 ? void 0 : hint.classList.toggle("hide");
 }
+function togglePermissionNote() {
+    const note = document.getElementById("permission-note");
+    note === null || note === void 0 ? void 0 : note.classList.toggle("hide");
+}
 function changeRecordingState() {
     return __awaiter(this, void 0, void 0, function* () {
         const { recording } = yield chrome.storage.session.get("recording");
@@ -121,6 +125,8 @@ function handlePermissionDenied() {
             "recording": Recording.OFF,
             "permission_granted": YesOrNo.NO
         });
+        // show the permission note
+        togglePermissionNote();
     });
 }
 function handlePermissionGranted() {

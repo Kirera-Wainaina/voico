@@ -72,6 +72,11 @@ function toggleHint() {
   hint?.classList.toggle("hide");  
 }
 
+function togglePermissionNote() {
+  const note = document.getElementById("permission-note");
+  note?.classList.toggle("hide");
+}
+
 async function changeRecordingState() {
   const { recording } = await chrome.storage.session.get("recording");
   if (recording == "off") {
@@ -137,7 +142,8 @@ async function handlePermissionDenied() {
     "recording": Recording.OFF,
     "permission_granted": YesOrNo.NO
   })
-
+  // show the permission note
+  togglePermissionNote()
 }
 
 async function handlePermissionGranted() {
