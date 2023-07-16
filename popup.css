@@ -33,12 +33,14 @@ h1 {
 }
 
 #mic:hover,
-#expand-more:hover {
+#expand-more:hover,
+#expand-less:hover {
   background-color: var(--hover-color);
 }
 
 #mic:active,
-#expand-more:active {
+#expand-more:active,
+#expand-less:active {
   background-color: var(--active-color);
 }
 
@@ -138,7 +140,8 @@ audio {
   grid-column: 2 / 5;
 }
 
-#expand-more {
+#expand-more,
+#expand-less {
   grid-column: 1 / 6;
   display: flex;
   justify-self: center;
