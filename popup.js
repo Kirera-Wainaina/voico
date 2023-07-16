@@ -99,11 +99,18 @@ function toggleLoadingIcon() {
     spinner === null || spinner === void 0 ? void 0 : spinner.classList.toggle("hide");
 }
 function handlePopupMessages(message) {
-    if (message.name == "transcript_received") {
-        toggleLoadingIcon();
-    }
-    else if (message.name == "permission_denied") {
-        handlePermissionDenied();
+    switch (message.name) {
+        case "transcript_received":
+            toggleLoadingIcon();
+            break;
+        case "permission_denied":
+            handlePermissionDenied();
+            break;
+        case "permission_granted":
+            handlePermissionGranted();
+            break;
+        default:
+            break;
     }
 }
 function handlePermissionDenied() {
@@ -111,7 +118,18 @@ function handlePermissionDenied() {
         // restore state
         yield chrome.storage.session.set({
             "user_media_is_setup": YesOrNo.NO,
-            "recording": Recording.OFF
+            "recording": Recording.OFF,
+            "permission_granted": YesOrNo.NO
         });
+    });
+}
+function handlePermissionGranted() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { permission_granted } = yield chrome.storage.session.get("permission_granted");
+        // if permission was set, nothing to do
+        if (permission_granted == YesOrNo.YES)
+            return;
+        yield chrome.storage.session.set({ "permission_granted": YesOrNo.YES });
+        return;
     });
 }
