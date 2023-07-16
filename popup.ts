@@ -18,17 +18,16 @@ type Message = {
 // listen to messages
 chrome.runtime.onMessage.addListener(handlePopupMessages);
 
-// load the recording content script to ensure it loads
-// prevents the error: could not establish connection
+// register content scripts once
+// executing scripts causes the extension to have many scripts running
+// simultaneusly
 (async () => {
-  const tabId = await getCurrentTabId();
-  
-  if (typeof tabId === "number") {
-    await chrome.scripting.executeScript({
-      target: { tabId },
-      files: ["content-script.js"]
-    })
-  }
+  await chrome.scripting.registerContentScripts([{
+    id: "recording_script", 
+    js: ["content-script.js"],
+    matches: ["*://*/*"]
+  }]);
+
 })();
 
 // set user_media_is_setup state to an initial value 'no'

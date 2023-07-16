@@ -21,16 +21,15 @@ var YesOrNo;
 })(YesOrNo || (YesOrNo = {}));
 // listen to messages
 chrome.runtime.onMessage.addListener(handlePopupMessages);
-// load the recording content script to ensure it loads
-// prevents the error: could not establish connection
+// register content scripts once
+// executing scripts causes the extension to have many scripts running
+// simultaneusly
 (() => __awaiter(this, void 0, void 0, function* () {
-    const tabId = yield getCurrentTabId();
-    if (typeof tabId === "number") {
-        yield chrome.scripting.executeScript({
-            target: { tabId },
-            files: ["content-script.js"]
-        });
-    }
+    yield chrome.scripting.registerContentScripts([{
+            id: "recording_script",
+            js: ["content-script.js"],
+            matches: ["*://*/*"]
+        }]);
 }))();
 // set user_media_is_setup state to an initial value 'no'
 // set default recording state to off
