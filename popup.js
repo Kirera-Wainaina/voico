@@ -80,6 +80,7 @@ function getCurrentTabId() {
 function handleLoadingIcon(recordingState) {
     if (recordingState == Recording.ON) {
         // recording is on, button is pressed to switch it off
+        // show loading icon because audio is being processed
         toggleLoadingIcon();
     }
 }
