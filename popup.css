@@ -131,3 +131,7 @@ audio {
     transform: rotateZ(360deg);
   }
 }
+
+#permission-note {
+  grid-column: 2 / 5;
+}
