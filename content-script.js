@@ -78,5 +78,15 @@ function transmitAudio(audioData) {
         .then(text => {
         console.log(text);
         chrome.runtime.sendMessage({ name: "transcript_received", content: text });
+        inputTextIntoActiveElement(text);
     });
+}
+function inputTextIntoActiveElement(text) {
+    const activeElement = document.activeElement;
+    const tagName = activeElement === null || activeElement === void 0 ? void 0 : activeElement.tagName;
+    if (tagName == "INPUT" || tagName == "TEXTAREA") {
+        if (activeElement) {
+            activeElement.textContent = text;
+        }
+    }
 }

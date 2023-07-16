@@ -71,7 +71,18 @@ function transmitAudio(audioData:Blob[]) {
   }).then(response => response.text())
   .then(text => {
     console.log(text);
-    chrome.runtime.sendMessage({name: "transcript_received", content: text})
+    chrome.runtime.sendMessage({name: "transcript_received", content: text});
+    inputTextIntoActiveElement(text)
   });
 
+}
+
+function inputTextIntoActiveElement(text:string) {
+  const activeElement = document.activeElement;
+  const tagName = activeElement?.tagName;
+  if (tagName == "INPUT" || tagName == "TEXTAREA") {
+    if (activeElement) {
+      activeElement.textContent = text;
+    }
+  }
 }
