@@ -52,6 +52,7 @@ function setupRecording() {
         try {
             const stream = yield navigator.mediaDevices.getUserMedia({ audio: true });
             if (stream) {
+                chrome.runtime.sendMessage({ name: "permission_granted" });
                 const audioData = [];
                 const mediaRecorder = new MediaRecorder(stream);
                 mediaRecorder.addEventListener("stop", () => transmitAudio(audioData));

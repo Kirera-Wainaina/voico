@@ -42,6 +42,7 @@ async function setupRecording() {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     if (stream) {
+      chrome.runtime.sendMessage({ name: "permission_granted" });
       const audioData: Array<Blob> = [];
       const mediaRecorder = new MediaRecorder(stream);
       
