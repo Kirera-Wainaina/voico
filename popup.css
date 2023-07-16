@@ -25,18 +25,20 @@ h1 {
   text-align: center;
 }
 
-input {
+#mic {
   grid-column: 3 / 4;
   border-radius: 50%;
   box-shadow: var(--shadow);
   padding: 1em;
 }
 
-input:hover {
+#mic:hover,
+#expand-more:hover {
   background-color: var(--hover-color);
 }
 
-input:active {
+#mic:active,
+#expand-more:active {
   background-color: var(--active-color);
 }
 
@@ -135,3 +137,15 @@ audio {
 #permission-note {
   grid-column: 2 / 5;
 }
+
+#expand-more {
+  grid-column: 1 / 6;
+  display: flex;
+  justify-self: center;
+  margin-top: 1em;
+  background-color: var(--primary-color);
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+
