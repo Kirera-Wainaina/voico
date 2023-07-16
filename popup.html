@@ -6,7 +6,12 @@
   </head>
   <body>
     <h1>Voico</h1>
-    <input id="mic" type="image" src="images/48.png" alt="Voico icon logo">
+    <input 
+      id="mic" 
+      type="image" 
+      src="images/48.png" 
+      alt="Voico icon logo"
+    >
     <p id="hint">Click to start recording</p>
     <div id="recording-animation" class="hide">
       <div class="recording-bar"></div>
@@ -16,9 +21,22 @@
     </div>
     <div id="spinner" class="hide"></div>
     <p id="permission-note" class="hide">
-      Please grant the extension permission to record on this website or use a different website.
+      Please grant the extension permission to record
+      on this website or use a different website.
     </p>
-    <input id="expand-more" type="image" src="/images/expand-more.svg" alt="expand more">
+    <input 
+      id="expand-more" 
+      type="image" 
+      src="/images/expand-more.svg" 
+      alt="expand more"
+    >
+    <input 
+      id="expand-less"
+      type="image" 
+      src="/images/expand-more.svg" 
+      alt="expand less"
+      class="hide"
+    >
     <script src="popup.js"></script>
   </body>
 </html>
