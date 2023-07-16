@@ -43,21 +43,24 @@ chrome.runtime.onMessage.addListener(handlePopupMessages);
 const input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
     const tabId = yield getCurrentTabId();
-    if (typeof tabId === "number") {
-        const state = yield chrome.storage.session.get(null);
-        yield chrome.tabs.sendMessage(tabId, { name: "record_click", content: state });
-        // handle loading icon
-        handleLoadingIcon(state.recording);
-    }
-    toggleHintAndAnimation();
+    if (!tabId)
+        return; // no tab id, no action
+    const state = yield chrome.storage.session.get(null);
+    yield chrome.tabs.sendMessage(tabId, { name: "record_click", content: state });
+    // handle loading icon
+    handleLoadingIcon(state.recording);
+    toggleRecordingAnimation();
+    toggleHint();
     changeRecordingState();
 }));
 // show animation to let user know the recording has started
-function toggleHintAndAnimation() {
-    const hint = document.querySelector("p");
-    hint === null || hint === void 0 ? void 0 : hint.classList.toggle("hide");
+function toggleRecordingAnimation() {
     const recordingAnimation = document.getElementById("recording-animation");
     recordingAnimation === null || recordingAnimation === void 0 ? void 0 : recordingAnimation.classList.toggle("hide");
+}
+function toggleHint() {
+    const hint = document.querySelector("p");
+    hint === null || hint === void 0 ? void 0 : hint.classList.toggle("hide");
 }
 function changeRecordingState() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -97,4 +100,16 @@ function handlePopupMessages(message) {
     if (message.name == "transcript_received") {
         toggleLoadingIcon();
     }
+    else if (message.name == "permission_denied") {
+        handlePermissionDenied();
+    }
+}
+function handlePermissionDenied() {
+    return __awaiter(this, void 0, void 0, function* () {
+        // restore state
+        yield chrome.storage.session.set({
+            "user_media_is_setup": YesOrNo.NO,
+            "recording": Recording.OFF
+        });
+    });
 }

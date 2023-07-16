@@ -44,27 +44,30 @@ const input = document.querySelector("input");
 input?.addEventListener("click", async () => {
   
   const tabId = await getCurrentTabId();
-  if (typeof tabId === "number") {
-    const state = await chrome.storage.session.get(null);
-    await chrome.tabs.sendMessage(
-      tabId, 
-      { name: "record_click", content: state }
-    );
-
-    // handle loading icon
-    handleLoadingIcon(state.recording);
-  }
-  toggleHintAndAnimation()
+  if (!tabId) return // no tab id, no action
+  
+  const state = await chrome.storage.session.get(null);
+  await chrome.tabs.sendMessage(
+    tabId, 
+    { name: "record_click", content: state }
+  );
+  
+  // handle loading icon
+  handleLoadingIcon(state.recording);
+  toggleRecordingAnimation();
+  toggleHint();
   changeRecordingState()
 })
 
 // show animation to let user know the recording has started
-function toggleHintAndAnimation() : void {
-  const hint = document.querySelector("p");
-  hint?.classList.toggle("hide");
-
+function toggleRecordingAnimation() : void {
   const recordingAnimation = document.getElementById("recording-animation");
   recordingAnimation?.classList.toggle("hide");
+}
+
+function toggleHint() {
+  const hint = document.querySelector("p");
+  hint?.classList.toggle("hide");  
 }
 
 async function changeRecordingState() {
@@ -108,5 +111,16 @@ function toggleLoadingIcon() {
 function handlePopupMessages(message:Message) {
   if (message.name == "transcript_received") {
     toggleLoadingIcon();
+  } else if(message.name == "permission_denied") {
+    handlePermissionDenied()
   }
+}
+
+async function handlePermissionDenied() {
+  // restore state
+  await chrome.storage.session.set({ 
+    "user_media_is_setup": YesOrNo.NO,
+    "recording": Recording.OFF
+  })
+
 }
