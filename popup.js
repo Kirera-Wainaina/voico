@@ -21,16 +21,6 @@ var YesOrNo;
 })(YesOrNo || (YesOrNo = {}));
 // listen to messages
 chrome.runtime.onMessage.addListener(handlePopupMessages);
-// register content scripts once
-// executing scripts causes the extension to have many scripts running
-// simultaneusly
-(() => __awaiter(this, void 0, void 0, function* () {
-    yield chrome.scripting.registerContentScripts([{
-            id: "recording_script",
-            js: ["content-script.js"],
-            matches: ["*://*/*"]
-        }]);
-}))();
 // set user_media_is_setup state to an initial value 'no'
 // set default recording state to off
 (() => __awaiter(this, void 0, void 0, function* () {

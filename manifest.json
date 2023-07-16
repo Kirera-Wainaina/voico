@@ -16,5 +16,11 @@
   "action": {
     "default_title": "Start writing using your voice",
     "default_popup": "popup.html"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["content-script.js"]
+    }
+  ]
 }
