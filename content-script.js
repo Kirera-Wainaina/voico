@@ -49,13 +49,20 @@ function handleRecording(content) {
 }
 function setupRecording() {
     return __awaiter(this, void 0, void 0, function* () {
-        const stream = yield navigator.mediaDevices.getUserMedia({ audio: true });
-        if (stream) {
-            const audioData = [];
-            const mediaRecorder = new MediaRecorder(stream);
-            mediaRecorder.addEventListener("stop", () => transmitAudio(audioData));
-            mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
-            return mediaRecorder;
+        try {
+            const stream = yield navigator.mediaDevices.getUserMedia({ audio: true });
+            if (stream) {
+                const audioData = [];
+                const mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.addEventListener("stop", () => transmitAudio(audioData));
+                mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
+                return mediaRecorder;
+            }
+        }
+        catch (error) {
+            // user denied permission
+            console.log(error);
+            chrome.runtime.sendMessage({ name: "permission_denied" });
         }
     });
 }

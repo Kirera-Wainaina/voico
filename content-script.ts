@@ -39,16 +39,22 @@ async function handleRecording(content: any) {
 }
 
 async function setupRecording() {
-  
-  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  if (stream) {
-    const audioData: Array<Blob> = [];
-    const mediaRecorder = new MediaRecorder(stream);
-    
-    mediaRecorder.addEventListener("stop", () => transmitAudio(audioData));
-    mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
-    return mediaRecorder
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    if (stream) {
+      const audioData: Array<Blob> = [];
+      const mediaRecorder = new MediaRecorder(stream);
+      
+      mediaRecorder.addEventListener("stop", () => transmitAudio(audioData));
+      mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
+      return mediaRecorder
+    }      
+  } catch (error) {
+    // user denied permission
+    console.log(error);
+    chrome.runtime.sendMessage({ name: "permission_denied" })
   }
+  
 }
 
 function combineAudioData(event:BlobEvent, audioDataArray:Array<Blob>) {
