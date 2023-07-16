@@ -68,6 +68,8 @@ function transmitAudio(audioData) {
     formdata.append("audio", blob);
     formdata.append("fileNumber", "1");
     audioData = [];
+    // use 'cors' because the request isn't going to same origin
+    // the server has allowed access through "access-control-allow-origin" header
     fetch("https://voico.ddns.net/api/transcribe", {
         method: "POST",
         body: formdata,
