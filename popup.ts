@@ -56,7 +56,7 @@ input?.addEventListener("click", async () => {
     // only applicable if user has granted permission
     toggleRecordingAnimation();
     toggleHint();  
-    changeRecordingState()
+    await changeRecordingState()
   }
   handleLoadingIcon(state.recording);
 })
@@ -147,5 +147,9 @@ async function handlePermissionGranted() {
   if (permission_granted == YesOrNo.YES) return;
 
   await chrome.storage.session.set({ "permission_granted": YesOrNo.YES});
+  await changeRecordingState()
+  toggleRecordingAnimation();
+  toggleHint();  
+
   return ;
 }

@@ -51,7 +51,7 @@ input === null || input === void 0 ? void 0 : input.addEventListener("click", ()
         // only applicable if user has granted permission
         toggleRecordingAnimation();
         toggleHint();
-        changeRecordingState();
+        yield changeRecordingState();
     }
     handleLoadingIcon(state.recording);
 }));
@@ -130,6 +130,9 @@ function handlePermissionGranted() {
         if (permission_granted == YesOrNo.YES)
             return;
         yield chrome.storage.session.set({ "permission_granted": YesOrNo.YES });
+        yield changeRecordingState();
+        toggleRecordingAnimation();
+        toggleHint();
         return;
     });
 }
