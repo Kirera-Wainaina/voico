@@ -68,14 +68,16 @@ function setupRecording() {
     });
 }
 function combineAudioData(event, audioDataArray) {
-    audioDataArray.unshift(event === null || event === void 0 ? void 0 : event.data);
+    // remove the current blob in the array
+    audioDataArray.pop();
+    // enter the new blob. Only one blob will be in the array
+    audioDataArray.push(event.data);
 }
 function transmitAudio(audioData) {
     const blob = new Blob(audioData, { type: "audio/webm;codecs=opus" });
     const formdata = new FormData();
     formdata.append("audio", blob);
     formdata.append("fileNumber", "1");
-    audioData = [];
     // use 'cors' because the request isn't going to same origin
     // the server has allowed access through "access-control-allow-origin" header
     fetch("https://voico.ddns.net/api/transcribe", {
