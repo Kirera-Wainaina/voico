@@ -146,3 +146,16 @@ async function handlePermissionGranted() {
 
   return ;
 }
+
+const expandMore = document.getElementById("expand-more");
+const expandLess = document.getElementById("expand-less");
+
+expandMore?.addEventListener("click", () => {
+  expandMore.classList.toggle("hide");
+  expandLess?.classList.toggle("hide");
+})
+
+expandLess?.addEventListener("click", () => {
+  expandMore?.classList.toggle("hide");
+  expandLess?.classList.toggle("hide");
+})

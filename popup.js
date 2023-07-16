@@ -131,3 +131,13 @@ function handlePermissionGranted() {
         return;
     });
 }
+const expandMore = document.getElementById("expand-more");
+const expandLess = document.getElementById("expand-less");
+expandMore === null || expandMore === void 0 ? void 0 : expandMore.addEventListener("click", () => {
+    expandMore.classList.toggle("hide");
+    expandLess === null || expandLess === void 0 ? void 0 : expandLess.classList.toggle("hide");
+});
+expandLess === null || expandLess === void 0 ? void 0 : expandLess.addEventListener("click", () => {
+    expandMore === null || expandMore === void 0 ? void 0 : expandMore.classList.toggle("hide");
+    expandLess === null || expandLess === void 0 ? void 0 : expandLess.classList.toggle("hide");
+});
