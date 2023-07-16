@@ -52,11 +52,13 @@ input?.addEventListener("click", async () => {
     { name: "record_click", content: state }
   );
   
-  // handle loading icon
+  if (state.permission_granted == YesOrNo.YES) {
+    // only applicable if user has granted permission
+    toggleRecordingAnimation();
+    toggleHint();  
+    changeRecordingState()
+  }
   handleLoadingIcon(state.recording);
-  toggleRecordingAnimation();
-  toggleHint();
-  changeRecordingState()
 })
 
 // show animation to let user know the recording has started
