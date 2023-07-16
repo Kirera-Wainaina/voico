@@ -86,10 +86,11 @@ function transmitAudio(audioData:Blob[]) {
 
 function inputTextIntoActiveElement(text:string) {
   const activeElement = document.activeElement;
-  const tagName = activeElement?.tagName;
-  if (tagName == "INPUT" || tagName == "TEXTAREA") {
-    if (activeElement) {
-      activeElement.textContent = text;
-    }
+  if (
+    activeElement instanceof HTMLInputElement 
+    || activeElement instanceof HTMLTextAreaElement
+  ) {
+    activeElement.value = text;
+    return;
   }
 }
