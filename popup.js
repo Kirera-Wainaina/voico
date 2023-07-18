@@ -25,6 +25,7 @@ function handlePopupMessages(message) {
     switch (message.name) {
         case "transcript_received":
             toggleLoadingIcon();
+            saveTranscript(message.content);
             break;
         case "permission_denied":
             handlePermissionDenied();
@@ -141,3 +142,21 @@ expandLess === null || expandLess === void 0 ? void 0 : expandLess.addEventListe
     expandMore === null || expandMore === void 0 ? void 0 : expandMore.classList.toggle("hide");
     expandLess === null || expandLess === void 0 ? void 0 : expandLess.classList.toggle("hide");
 });
+function saveTranscript(text) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let { transcripts } = yield chrome.storage.local.get("transcripts");
+        if (transcripts) {
+            transcripts = JSON.parse(transcripts);
+            if (transcripts.length >= 5) {
+                // maintain the saved transcripts at 5 or below
+                // anything above is popped
+                transcripts.pop();
+            }
+        }
+        else {
+            transcripts = [];
+        }
+        transcripts.unshift(text);
+        yield chrome.storage.local.set({ "transcripts": JSON.stringify(transcripts) });
+    });
+}

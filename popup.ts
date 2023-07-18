@@ -23,6 +23,7 @@ function handlePopupMessages(message:Message) {
   switch (message.name) {
     case "transcript_received":
       toggleLoadingIcon();
+      saveTranscript(message.content);
       break;
   
     case "permission_denied":
@@ -159,3 +160,20 @@ expandLess?.addEventListener("click", () => {
   expandMore?.classList.toggle("hide");
   expandLess?.classList.toggle("hide");
 })
+
+async function saveTranscript(text:string) {
+  let { transcripts } = await chrome.storage.local.get("transcripts");
+
+  if (transcripts) {
+    transcripts = JSON.parse(transcripts);
+    if (transcripts.length >= 5) {
+      // maintain the saved transcripts at 5 or below
+      // anything above is popped
+      transcripts.pop();
+    }
+  } else {
+    transcripts = [];
+  }
+  transcripts.unshift(text);
+  await chrome.storage.local.set({ "transcripts": JSON.stringify(transcripts) });
+}
