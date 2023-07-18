@@ -246,6 +246,8 @@ async function showNextTranscript() {
   const nextIndex = (index + 1) >= transcriptsArray.length ? 0 : index + 1;
 
   transcriptElement.textContent = transcriptsArray[nextIndex];
+
+  adjustTranscriptNumber(nextIndex);
 }
 
 const previousIcon = document.getElementById("previous-icon");
@@ -265,4 +267,17 @@ async function showPreviousTranscript() {
   const previousIndex = (index - 1) < 0 ? transcriptsArray.length - 1 : index - 1;
 
   transcriptElement.textContent = transcriptsArray[previousIndex];
+
+  adjustTranscriptNumber(previousIndex);
+}
+
+function adjustTranscriptNumber(newIndex:number) {
+  // let the user know which transcript they are looking at out of 5
+  const transcriptNumberElement = document.getElementById("transcript-number");
+  let transcriptNumber = newIndex + 1;
+
+  if (transcriptNumberElement) {
+    transcriptNumberElement.textContent = `${transcriptNumber} / 5`;
+  }
+
 }

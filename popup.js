@@ -217,6 +217,7 @@ function showNextTranscript() {
             .findIndex(transcript => transcript === currentTranscript);
         const nextIndex = (index + 1) >= transcriptsArray.length ? 0 : index + 1;
         transcriptElement.textContent = transcriptsArray[nextIndex];
+        adjustTranscriptNumber(nextIndex);
     });
 }
 const previousIcon = document.getElementById("previous-icon");
@@ -233,5 +234,14 @@ function showPreviousTranscript() {
             .findIndex(transcript => transcript === currentTranscript);
         const previousIndex = (index - 1) < 0 ? transcriptsArray.length - 1 : index - 1;
         transcriptElement.textContent = transcriptsArray[previousIndex];
+        adjustTranscriptNumber(previousIndex);
     });
+}
+function adjustTranscriptNumber(newIndex) {
+    // let the user know which transcript they are looking at out of 5
+    const transcriptNumberElement = document.getElementById("transcript-number");
+    let transcriptNumber = newIndex + 1;
+    if (transcriptNumberElement) {
+        transcriptNumberElement.textContent = `${transcriptNumber} / 5`;
+    }
 }
