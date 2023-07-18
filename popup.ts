@@ -247,3 +247,22 @@ async function showNextTranscript() {
 
   transcriptElement.textContent = transcriptsArray[nextIndex];
 }
+
+const previousIcon = document.getElementById("previous-icon");
+previousIcon?.addEventListener("click", showPreviousTranscript);
+
+async function showPreviousTranscript() {
+  let { transcripts } = await chrome.storage.local.get("transcripts");
+  const transcriptsArray: string[] = JSON.parse(transcripts);
+
+  const transcriptElement = document.getElementById("transcript");
+  const currentTranscript = transcriptElement?.textContent;
+
+  if (!currentTranscript) return;
+
+  const index = transcriptsArray
+  .findIndex(transcript => transcript === currentTranscript);
+  const previousIndex = (index - 1) < 0 ? transcriptsArray.length - 1 : index - 1;
+
+  transcriptElement.textContent = transcriptsArray[previousIndex];
+}

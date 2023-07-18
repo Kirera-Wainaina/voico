@@ -219,3 +219,19 @@ function showNextTranscript() {
         transcriptElement.textContent = transcriptsArray[nextIndex];
     });
 }
+const previousIcon = document.getElementById("previous-icon");
+previousIcon === null || previousIcon === void 0 ? void 0 : previousIcon.addEventListener("click", showPreviousTranscript);
+function showPreviousTranscript() {
+    return __awaiter(this, void 0, void 0, function* () {
+        let { transcripts } = yield chrome.storage.local.get("transcripts");
+        const transcriptsArray = JSON.parse(transcripts);
+        const transcriptElement = document.getElementById("transcript");
+        const currentTranscript = transcriptElement === null || transcriptElement === void 0 ? void 0 : transcriptElement.textContent;
+        if (!currentTranscript)
+            return;
+        const index = transcriptsArray
+            .findIndex(transcript => transcript === currentTranscript);
+        const previousIndex = (index - 1) < 0 ? transcriptsArray.length - 1 : index - 1;
+        transcriptElement.textContent = transcriptsArray[previousIndex];
+    });
+}
