@@ -73,6 +73,10 @@ function togglePermissionNote() {
     const note = document.getElementById("permission-note");
     note === null || note === void 0 ? void 0 : note.classList.toggle("hide");
 }
+function toggleTranscriptContainer() {
+    const transcript = document.getElementById("transcript-container");
+    transcript === null || transcript === void 0 ? void 0 : transcript.classList.toggle("hide");
+}
 function changeRecordingState() {
     return __awaiter(this, void 0, void 0, function* () {
         const { recording } = yield chrome.storage.session.get("recording");
@@ -137,11 +141,13 @@ const expandLess = document.getElementById("expand-less");
 expandMore === null || expandMore === void 0 ? void 0 : expandMore.addEventListener("click", () => {
     expandMore.classList.toggle("hide");
     expandLess === null || expandLess === void 0 ? void 0 : expandLess.classList.toggle("hide");
-    displayLatestTranscript();
+    enterTranscriptIntoTranscriptElement();
+    toggleTranscriptContainer();
 });
 expandLess === null || expandLess === void 0 ? void 0 : expandLess.addEventListener("click", () => {
     expandMore === null || expandMore === void 0 ? void 0 : expandMore.classList.toggle("hide");
     expandLess === null || expandLess === void 0 ? void 0 : expandLess.classList.toggle("hide");
+    toggleTranscriptContainer();
 });
 function saveTranscript(text) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -159,15 +165,17 @@ function saveTranscript(text) {
         }
         transcripts.unshift(text);
         yield chrome.storage.local.set({ "transcripts": JSON.stringify(transcripts) });
+        enterTranscriptIntoTranscriptElement();
     });
 }
-function displayLatestTranscript() {
+function enterTranscriptIntoTranscriptElement() {
     return __awaiter(this, void 0, void 0, function* () {
         let { transcripts } = yield chrome.storage.local.get("transcripts");
         transcripts = JSON.parse(transcripts);
         const transcriptElement = document.getElementById("transcript");
         if (transcriptElement) {
-            transcriptElement.textContent = transcripts[0];
+            const transcriptText = transcripts.length ? transcripts[0] : 'no transcripts yet!';
+            transcriptElement.textContent = transcriptText;
         }
     });
 }

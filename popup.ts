@@ -85,6 +85,11 @@ function togglePermissionNote() {
   note?.classList.toggle("hide");
 }
 
+function toggleTranscriptContainer() {
+  const transcript = document.getElementById("transcript-container");
+  transcript?.classList.toggle("hide");
+}
+
 async function changeRecordingState() {
   const { recording } = await chrome.storage.session.get("recording");
   if (recording == "off") {
@@ -155,12 +160,15 @@ expandMore?.addEventListener("click", () => {
   expandMore.classList.toggle("hide");
   expandLess?.classList.toggle("hide");
 
-  displayLatestTranscript();
+  enterTranscriptIntoTranscriptElement();
+  toggleTranscriptContainer();
 })
 
 expandLess?.addEventListener("click", () => {
   expandMore?.classList.toggle("hide");
   expandLess?.classList.toggle("hide");
+
+  toggleTranscriptContainer();
 })
 
 async function saveTranscript(text:string) {
@@ -178,15 +186,17 @@ async function saveTranscript(text:string) {
   }
   transcripts.unshift(text);
   await chrome.storage.local.set({ "transcripts": JSON.stringify(transcripts) });
+  
+  enterTranscriptIntoTranscriptElement();
 }
 
-async function displayLatestTranscript() {
+async function enterTranscriptIntoTranscriptElement() {
   let { transcripts } = await chrome.storage.local.get("transcripts");
   transcripts = JSON.parse(transcripts);
 
   const transcriptElement = document.getElementById("transcript");
   if (transcriptElement) {
-    transcriptElement.textContent = transcripts[0];    
-  }
-
+    const transcriptText = transcripts.length ? transcripts[0] : 'no transcripts yet!'
+    transcriptElement.textContent = transcriptText;    
+  }  
 }
