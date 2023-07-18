@@ -166,3 +166,29 @@ audio {
 #transcript-controls {
   grid-column: 1 / 6;
 }
+
+#copied-notification {
+  background-color: lightgreen;
+  padding: 5px;
+}
+
+.notify {
+  animation-name: notify;
+  animation-duration: 4s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+}
+
+@keyframes notify {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
