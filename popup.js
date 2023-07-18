@@ -137,6 +137,7 @@ const expandLess = document.getElementById("expand-less");
 expandMore === null || expandMore === void 0 ? void 0 : expandMore.addEventListener("click", () => {
     expandMore.classList.toggle("hide");
     expandLess === null || expandLess === void 0 ? void 0 : expandLess.classList.toggle("hide");
+    displayLatestTranscript();
 });
 expandLess === null || expandLess === void 0 ? void 0 : expandLess.addEventListener("click", () => {
     expandMore === null || expandMore === void 0 ? void 0 : expandMore.classList.toggle("hide");
@@ -158,5 +159,15 @@ function saveTranscript(text) {
         }
         transcripts.unshift(text);
         yield chrome.storage.local.set({ "transcripts": JSON.stringify(transcripts) });
+    });
+}
+function displayLatestTranscript() {
+    return __awaiter(this, void 0, void 0, function* () {
+        let { transcripts } = yield chrome.storage.local.get("transcripts");
+        transcripts = JSON.parse(transcripts);
+        const transcriptElement = document.getElementById("transcript");
+        if (transcriptElement) {
+            transcriptElement.textContent = transcripts[0];
+        }
     });
 }

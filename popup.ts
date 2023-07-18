@@ -154,6 +154,8 @@ const expandLess = document.getElementById("expand-less");
 expandMore?.addEventListener("click", () => {
   expandMore.classList.toggle("hide");
   expandLess?.classList.toggle("hide");
+
+  displayLatestTranscript();
 })
 
 expandLess?.addEventListener("click", () => {
@@ -176,4 +178,15 @@ async function saveTranscript(text:string) {
   }
   transcripts.unshift(text);
   await chrome.storage.local.set({ "transcripts": JSON.stringify(transcripts) });
+}
+
+async function displayLatestTranscript() {
+  let { transcripts } = await chrome.storage.local.get("transcripts");
+  transcripts = JSON.parse(transcripts);
+
+  const transcriptElement = document.getElementById("transcript");
+  if (transcriptElement) {
+    transcriptElement.textContent = transcripts[0];    
+  }
+
 }
