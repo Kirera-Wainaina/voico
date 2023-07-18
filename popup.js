@@ -190,5 +190,16 @@ function copyTranscriptToClipboard() {
         if (typeof transcriptContent == 'string') {
             yield navigator.clipboard.writeText(transcriptContent);
         }
+        showNotification();
+    });
+}
+function showNotification() {
+    const copiedNotification = document.getElementById("copied-notification");
+    copiedNotification === null || copiedNotification === void 0 ? void 0 : copiedNotification.classList.toggle("hide");
+    copiedNotification === null || copiedNotification === void 0 ? void 0 : copiedNotification.classList.toggle("notify");
+    // hide the notification again
+    copiedNotification === null || copiedNotification === void 0 ? void 0 : copiedNotification.addEventListener("animationend", () => {
+        copiedNotification === null || copiedNotification === void 0 ? void 0 : copiedNotification.classList.toggle("hide");
+        copiedNotification === null || copiedNotification === void 0 ? void 0 : copiedNotification.classList.toggle("notify");
     });
 }

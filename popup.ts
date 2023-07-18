@@ -214,4 +214,17 @@ async function copyTranscriptToClipboard() {
   if (typeof transcriptContent == 'string') {
     await navigator.clipboard.writeText(transcriptContent)    
   }
+  showNotification()
+}
+
+function showNotification() {
+  const copiedNotification = document.getElementById("copied-notification");
+  copiedNotification?.classList.toggle("hide");
+  copiedNotification?.classList.toggle("notify");
+
+  // hide the notification again
+  copiedNotification?.addEventListener("animationend", () => {
+    copiedNotification?.classList.toggle("hide");
+    copiedNotification?.classList.toggle("notify");
+  })
 }
