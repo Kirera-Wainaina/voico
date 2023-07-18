@@ -165,6 +165,9 @@ audio {
 
 #transcript-controls {
   grid-column: 1 / 6;
+
+  display: flex;
+  align-items: center;
 }
 
 #copied-notification {
@@ -191,4 +194,15 @@ audio {
   100% {
     opacity: 0;
   }
+}
+
+#copy-icon {
+  height: 60%;
+  margin-right: 5px;
+}
+
+#transcript-number {
+  display: inline;
+  margin-left: 3px;
+  margin-right: 3px;
 }
