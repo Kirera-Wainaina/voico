@@ -203,3 +203,15 @@ async function enterTranscriptIntoTranscriptElement() {
     transcriptElement.textContent = transcriptText;    
   }  
 }
+
+const copyIcon = document.getElementById("copy-icon");
+copyIcon?.addEventListener("click", copyTranscriptToClipboard);
+
+async function copyTranscriptToClipboard() {
+  const transcriptElement = document.getElementById("transcript");
+  const transcriptContent = transcriptElement?.textContent;
+
+  if (typeof transcriptContent == 'string') {
+    await navigator.clipboard.writeText(transcriptContent)    
+  }
+}

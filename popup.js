@@ -181,3 +181,14 @@ function enterTranscriptIntoTranscriptElement() {
         }
     });
 }
+const copyIcon = document.getElementById("copy-icon");
+copyIcon === null || copyIcon === void 0 ? void 0 : copyIcon.addEventListener("click", copyTranscriptToClipboard);
+function copyTranscriptToClipboard() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const transcriptElement = document.getElementById("transcript");
+        const transcriptContent = transcriptElement === null || transcriptElement === void 0 ? void 0 : transcriptElement.textContent;
+        if (typeof transcriptContent == 'string') {
+            yield navigator.clipboard.writeText(transcriptContent);
+        }
+    });
+}
