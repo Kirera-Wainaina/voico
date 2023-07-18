@@ -73,8 +73,8 @@ function togglePermissionNote() {
     const note = document.getElementById("permission-note");
     note === null || note === void 0 ? void 0 : note.classList.toggle("hide");
 }
-function toggleTranscriptContainer() {
-    const transcript = document.getElementById("transcript-container");
+function toggleTranscript() {
+    const transcript = document.getElementById("transcript");
     transcript === null || transcript === void 0 ? void 0 : transcript.classList.toggle("hide");
 }
 function changeRecordingState() {
@@ -142,12 +142,12 @@ expandMore === null || expandMore === void 0 ? void 0 : expandMore.addEventListe
     expandMore.classList.toggle("hide");
     expandLess === null || expandLess === void 0 ? void 0 : expandLess.classList.toggle("hide");
     enterTranscriptIntoTranscriptElement();
-    toggleTranscriptContainer();
+    toggleTranscript();
 });
 expandLess === null || expandLess === void 0 ? void 0 : expandLess.addEventListener("click", () => {
     expandMore === null || expandMore === void 0 ? void 0 : expandMore.classList.toggle("hide");
     expandLess === null || expandLess === void 0 ? void 0 : expandLess.classList.toggle("hide");
-    toggleTranscriptContainer();
+    toggleTranscript();
 });
 function saveTranscript(text) {
     return __awaiter(this, void 0, void 0, function* () {

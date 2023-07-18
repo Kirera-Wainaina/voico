@@ -85,8 +85,8 @@ function togglePermissionNote() {
   note?.classList.toggle("hide");
 }
 
-function toggleTranscriptContainer() {
-  const transcript = document.getElementById("transcript-container");
+function toggleTranscript() {
+  const transcript = document.getElementById("transcript");
   transcript?.classList.toggle("hide");
 }
 
@@ -161,14 +161,14 @@ expandMore?.addEventListener("click", () => {
   expandLess?.classList.toggle("hide");
 
   enterTranscriptIntoTranscriptElement();
-  toggleTranscriptContainer();
+  toggleTranscript();
 })
 
 expandLess?.addEventListener("click", () => {
   expandMore?.classList.toggle("hide");
   expandLess?.classList.toggle("hide");
 
-  toggleTranscriptContainer();
+  toggleTranscript();
 })
 
 async function saveTranscript(text:string) {
