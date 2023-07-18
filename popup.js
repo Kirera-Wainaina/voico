@@ -203,3 +203,19 @@ function showNotification() {
         copiedNotification === null || copiedNotification === void 0 ? void 0 : copiedNotification.classList.toggle("notify");
     });
 }
+const nextIcon = document.getElementById("next-icon");
+nextIcon === null || nextIcon === void 0 ? void 0 : nextIcon.addEventListener("click", showNextTranscript);
+function showNextTranscript() {
+    return __awaiter(this, void 0, void 0, function* () {
+        let { transcripts } = yield chrome.storage.local.get("transcripts");
+        const transcriptsArray = JSON.parse(transcripts);
+        const transcriptElement = document.getElementById("transcript");
+        const currentTranscript = transcriptElement === null || transcriptElement === void 0 ? void 0 : transcriptElement.textContent;
+        if (!currentTranscript)
+            return;
+        const index = transcriptsArray
+            .findIndex(transcript => transcript === currentTranscript);
+        const nextIndex = (index + 1) >= transcriptsArray.length ? 0 : index + 1;
+        transcriptElement.textContent = transcriptsArray[nextIndex];
+    });
+}

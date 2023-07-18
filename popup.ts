@@ -228,3 +228,22 @@ function showNotification() {
     copiedNotification?.classList.toggle("notify");
   })
 }
+
+const nextIcon = document.getElementById("next-icon");
+nextIcon?.addEventListener("click", showNextTranscript);
+
+async function showNextTranscript() {
+  let { transcripts } = await chrome.storage.local.get("transcripts");
+  const transcriptsArray: string[] = JSON.parse(transcripts);
+
+  const transcriptElement = document.getElementById("transcript");
+  const currentTranscript = transcriptElement?.textContent;
+
+  if (!currentTranscript) return;
+
+  const index = transcriptsArray
+    .findIndex(transcript => transcript === currentTranscript);
+  const nextIndex = (index + 1) >= transcriptsArray.length ? 0 : index + 1;
+
+  transcriptElement.textContent = transcriptsArray[nextIndex];
+}
