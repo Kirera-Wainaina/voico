@@ -32,13 +32,13 @@ h1 {
   padding: 1em;
 }
 
-#mic:hover,
+input[type="image"]:hover,
 #expand-more:hover,
 #expand-less:hover {
   background-color: var(--hover-color);
 }
 
-#mic:active,
+input[type="image"]:active,
 #expand-more:active,
 #expand-less:active {
   background-color: var(--active-color);
