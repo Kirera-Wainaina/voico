@@ -88,6 +88,9 @@ function togglePermissionNote() {
 function toggleTranscript() {
   const transcript = document.getElementById("transcript");
   transcript?.classList.toggle("hide");
+
+  const transcriptControls = document.getElementById("transcript-controls");
+  transcriptControls?.classList.toggle("hide");
 }
 
 async function changeRecordingState() {
