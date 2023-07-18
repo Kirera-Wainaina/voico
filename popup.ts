@@ -18,6 +18,26 @@ type Message = {
 // listen to messages
 chrome.runtime.onMessage.addListener(handlePopupMessages);
 
+function handlePopupMessages(message:Message) {
+
+  switch (message.name) {
+    case "transcript_received":
+      toggleLoadingIcon();
+      break;
+  
+    case "permission_denied":
+      handlePermissionDenied();
+      break;
+
+    case "permission_granted":
+      handlePermissionGranted();
+      break;
+
+    default:
+      break;
+  }
+}
+
 // set user_media_is_setup state to an initial value 'no'
 // set default recording state to off
 (async() => {
@@ -100,26 +120,6 @@ function toggleLoadingIcon() {
   const spinner = document.getElementById("spinner");
   spinner?.classList.toggle("hide")
 
-}
-
-function handlePopupMessages(message:Message) {
-
-  switch (message.name) {
-    case "transcript_received":
-      toggleLoadingIcon();
-      break;
-  
-    case "permission_denied":
-      handlePermissionDenied();
-      break;
-
-    case "permission_granted":
-      handlePermissionGranted();
-      break;
-
-    default:
-      break;
-  }
 }
 
 async function handlePermissionDenied() {

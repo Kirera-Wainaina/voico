@@ -21,6 +21,21 @@ var YesOrNo;
 })(YesOrNo || (YesOrNo = {}));
 // listen to messages
 chrome.runtime.onMessage.addListener(handlePopupMessages);
+function handlePopupMessages(message) {
+    switch (message.name) {
+        case "transcript_received":
+            toggleLoadingIcon();
+            break;
+        case "permission_denied":
+            handlePermissionDenied();
+            break;
+        case "permission_granted":
+            handlePermissionGranted();
+            break;
+        default:
+            break;
+    }
+}
 // set user_media_is_setup state to an initial value 'no'
 // set default recording state to off
 (() => __awaiter(this, void 0, void 0, function* () {
@@ -90,21 +105,6 @@ function toggleLoadingIcon() {
     // display the loading icon
     const spinner = document.getElementById("spinner");
     spinner === null || spinner === void 0 ? void 0 : spinner.classList.toggle("hide");
-}
-function handlePopupMessages(message) {
-    switch (message.name) {
-        case "transcript_received":
-            toggleLoadingIcon();
-            break;
-        case "permission_denied":
-            handlePermissionDenied();
-            break;
-        case "permission_granted":
-            handlePermissionGranted();
-            break;
-        default:
-            break;
-    }
 }
 function handlePermissionDenied() {
     return __awaiter(this, void 0, void 0, function* () {
