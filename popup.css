@@ -152,3 +152,6 @@ audio {
   border-radius: 50%;
 }
 
+#transcript-container {
+  grid-column: 1 / 6;
+}
