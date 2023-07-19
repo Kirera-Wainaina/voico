@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Caprasimo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caprasimo&family=Inter&display=swap');
 
 :root {
   --primary-color: #5841b9;
@@ -9,6 +9,10 @@
 
 .hide {
   display: none !important;
+}
+
+* {
+  font-family: 'Inter', sans-serif;
 }
 
 body {
