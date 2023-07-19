@@ -34,3 +34,16 @@ select, input {
   margin-top: .3em;
   margin-bottom: 2em;
 }
+
+input[type="submit"] {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+input[type="submit"]:hover {
+  background-color: var(--hover-color);
+}
+
+input[type="submit"]:active {
+  background-color: var(--active-color);
+}
