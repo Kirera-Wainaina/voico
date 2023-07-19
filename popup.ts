@@ -46,6 +46,13 @@ function handlePopupMessages(message:Message) {
     "user_media_is_setup": YesOrNo.NO,
     "recording": Recording.OFF
   })
+})();
+
+// check if there is an API KEY
+// send user to option page to set it if there is none
+(async () => {
+  const { APIKey } = await chrome.storage.local.get("APIKey");
+  if (!APIKey) chrome.runtime.openOptionsPage();
 })()
 
 const input = document.querySelector("input");

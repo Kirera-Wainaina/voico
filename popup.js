@@ -45,6 +45,13 @@ function handlePopupMessages(message) {
         "recording": Recording.OFF
     });
 }))();
+// check if there is an API KEY
+// send user to option page to set it if there is none
+(() => __awaiter(this, void 0, void 0, function* () {
+    const { APIKey } = yield chrome.storage.local.get("APIKey");
+    if (!APIKey)
+        chrome.runtime.openOptionsPage();
+}))();
 const input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
     const tabId = yield getCurrentTabId();
