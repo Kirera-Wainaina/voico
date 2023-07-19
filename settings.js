@@ -7,6 +7,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+// retrieve current API Key and language
+(() => __awaiter(this, void 0, void 0, function* () {
+    const { language, APIKey } = yield chrome.storage.local.get(null);
+    if (language) {
+        const chosenOption = document.querySelector(`option[value=${language}]`);
+        if (chosenOption)
+            chosenOption.setAttribute("selected", "");
+    }
+    if (APIKey) {
+        const APIKeyInput = document.querySelector("input[type='password']");
+        if (APIKeyInput instanceof HTMLInputElement)
+            APIKeyInput.value = APIKey;
+    }
+}))();
 const form = document.querySelector("form");
 form === null || form === void 0 ? void 0 : form.addEventListener("submit", saveSettings);
 function saveSettings(event) {

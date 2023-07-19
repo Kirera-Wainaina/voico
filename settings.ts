@@ -3,6 +3,21 @@ type Settings = {
   APIKey: string
 }
 
+// retrieve current API Key and language
+(async () => {
+  const {language, APIKey} = await chrome.storage.local.get(null);
+
+  if (language) {
+    const chosenOption = document.querySelector(`option[value=${language}]`);
+    if (chosenOption) chosenOption.setAttribute("selected", "");
+  }
+
+  if (APIKey) {
+    const APIKeyInput = document.querySelector("input[type='password']");
+    if (APIKeyInput instanceof HTMLInputElement) APIKeyInput.value = APIKey;
+  }
+})()
+
 const form = document.querySelector("form");
 form?.addEventListener("submit", saveSettings);
 
