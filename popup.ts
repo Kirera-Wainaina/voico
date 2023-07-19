@@ -284,3 +284,10 @@ function adjustTranscriptNumber(newIndex:number) {
   }
 
 }
+
+const settingsIcon = document.getElementById("settings-icon");
+settingsIcon?.addEventListener("click", navigateToOptionsPage);
+
+async function navigateToOptionsPage() {
+  await chrome.runtime.openOptionsPage()
+}

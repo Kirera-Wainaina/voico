@@ -247,3 +247,10 @@ function adjustTranscriptNumber(newIndex) {
         transcriptNumberElement.textContent = `${transcriptNumber} / 5`;
     }
 }
+const settingsIcon = document.getElementById("settings-icon");
+settingsIcon === null || settingsIcon === void 0 ? void 0 : settingsIcon.addEventListener("click", navigateToOptionsPage);
+function navigateToOptionsPage() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield chrome.runtime.openOptionsPage();
+    });
+}
