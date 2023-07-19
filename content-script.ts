@@ -25,7 +25,7 @@ async function handleRecording(content: any) {
   // set up user media if it doesn't exist
   // this is the case for every first click on extension
   if (!content.user_media_is_setup || content.user_media_is_setup == "no") {
-    const result = await setupRecording();
+    const result = await setupRecording(content.language, content.APIKey);
     if (result) {
       mediaRecorder = result;
       mediaRecorder.start()
@@ -38,7 +38,7 @@ async function handleRecording(content: any) {
 
 }
 
-async function setupRecording() {
+async function setupRecording(language: string, APIKey: string) {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     if (stream) {
@@ -46,7 +46,7 @@ async function setupRecording() {
       const audioData: Array<Blob> = [];
       const mediaRecorder = new MediaRecorder(stream);
       
-      mediaRecorder.addEventListener("stop", () => transmitAudio(audioData));
+      mediaRecorder.addEventListener("stop", () => transmitAudio(audioData, language, APIKey));
       mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
       return mediaRecorder
     }      
@@ -65,11 +65,13 @@ function combineAudioData(event:BlobEvent, audioDataArray:Array<Blob>) {
   audioDataArray.push(event.data);
 }
 
-function transmitAudio(audioData:Blob[]) {
+function transmitAudio(audioData:Blob[], language: string, APIKey: string) {
   const blob = new Blob(audioData, { type: "audio/webm;codecs=opus"});
   const formdata = new FormData();
   formdata.append("audio", blob);
   formdata.append("fileNumber", "1");
+  formdata.append("language", language);
+  formdata.append("APIKey", APIKey);
 
   // use 'cors' because the request isn't going to same origin
   // the server has allowed access through "access-control-allow-origin" header

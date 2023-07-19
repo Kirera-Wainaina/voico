@@ -33,7 +33,7 @@ function handleRecording(content) {
         // set up user media if it doesn't exist
         // this is the case for every first click on extension
         if (!content.user_media_is_setup || content.user_media_is_setup == "no") {
-            const result = yield setupRecording();
+            const result = yield setupRecording(content.language, content.APIKey);
             if (result) {
                 mediaRecorder = result;
                 mediaRecorder.start();
@@ -47,7 +47,7 @@ function handleRecording(content) {
         }
     });
 }
-function setupRecording() {
+function setupRecording(language, APIKey) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const stream = yield navigator.mediaDevices.getUserMedia({ audio: true });
@@ -55,7 +55,7 @@ function setupRecording() {
                 chrome.runtime.sendMessage({ name: "permission_granted" });
                 const audioData = [];
                 const mediaRecorder = new MediaRecorder(stream);
-                mediaRecorder.addEventListener("stop", () => transmitAudio(audioData));
+                mediaRecorder.addEventListener("stop", () => transmitAudio(audioData, language, APIKey));
                 mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
                 return mediaRecorder;
             }
@@ -73,11 +73,13 @@ function combineAudioData(event, audioDataArray) {
     // enter the new blob. Only one blob will be in the array
     audioDataArray.push(event.data);
 }
-function transmitAudio(audioData) {
+function transmitAudio(audioData, language, APIKey) {
     const blob = new Blob(audioData, { type: "audio/webm;codecs=opus" });
     const formdata = new FormData();
     formdata.append("audio", blob);
     formdata.append("fileNumber", "1");
+    formdata.append("language", language);
+    formdata.append("APIKey", APIKey);
     // use 'cors' because the request isn't going to same origin
     // the server has allowed access through "access-control-allow-origin" header
     fetch("https://voico.ddns.net/api/transcribe", {
