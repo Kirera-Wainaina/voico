@@ -53,3 +53,35 @@ input[type="submit"]:active {
   height: 1%;
   margin-left: 49.5%;
 }
+
+#saved-slider {
+  font-size: 1.2em;
+  padding: 2em;
+  background-color: lightgreen;
+  border-radius: 1%;
+  color: var(--primary-color);
+  width: 20vw;
+  position: absolute;
+  bottom: 0;
+  left: 40vw;
+
+  animation-name: slide;
+  animation-duration: 3s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+}
+
+@keyframes slide {
+  0% {
+    opacity: 0;
+    transform: translateY(-1vh);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-20vh);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-1vh);
+  }
+}
