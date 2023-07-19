@@ -91,6 +91,9 @@ function toggleTranscript() {
 
   const transcriptControls = document.getElementById("transcript-controls");
   transcriptControls?.classList.toggle("hide");
+
+  const settingsIcon = document.getElementById("settings-icon");
+  settingsIcon?.classList.toggle("hide");
 }
 
 async function changeRecordingState() {

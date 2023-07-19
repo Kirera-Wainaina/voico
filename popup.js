@@ -78,6 +78,8 @@ function toggleTranscript() {
     transcript === null || transcript === void 0 ? void 0 : transcript.classList.toggle("hide");
     const transcriptControls = document.getElementById("transcript-controls");
     transcriptControls === null || transcriptControls === void 0 ? void 0 : transcriptControls.classList.toggle("hide");
+    const settingsIcon = document.getElementById("settings-icon");
+    settingsIcon === null || settingsIcon === void 0 ? void 0 : settingsIcon.classList.toggle("hide");
 }
 function changeRecordingState() {
     return __awaiter(this, void 0, void 0, function* () {
