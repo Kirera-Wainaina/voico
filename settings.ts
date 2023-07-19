@@ -9,7 +9,7 @@ form?.addEventListener("submit", saveSettings);
 async function saveSettings(event: Event) {
   event.preventDefault();
   // show the spinner and remove button
-  toggleLoadingIcon();
+  toggleLoadingIconAndButton();
 
   const formValues = retrieveFormValues()
   if (formValues) {
@@ -17,7 +17,7 @@ async function saveSettings(event: Event) {
   }
 
   // show the submit button and remove spinner
-  toggleLoadingIcon()
+  toggleLoadingIconAndButton()
 }
 
 function retrieveFormValues():Settings | undefined  {
@@ -36,7 +36,7 @@ function retrieveFormValues():Settings | undefined  {
 
 }
 
-function toggleLoadingIcon() {
+function toggleLoadingIconAndButton() {
   const submitButton = document.querySelector("input[type='submit']");
   submitButton?.classList.toggle("hide");
 
