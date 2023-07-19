@@ -17,7 +17,8 @@ async function saveSettings(event: Event) {
   }
 
   // show the submit button and remove spinner
-  toggleLoadingIconAndButton()
+  toggleLoadingIconAndButton();
+  showSavedAnimation()
 }
 
 function retrieveFormValues():Settings | undefined  {
@@ -42,4 +43,13 @@ function toggleLoadingIconAndButton() {
 
   const spinner = document.getElementById("spinner");
   spinner?.classList.toggle("hide")
+}
+
+function showSavedAnimation() {
+  const slider = document.getElementById("saved-slider");
+  slider?.classList.toggle("hide");
+
+  slider?.addEventListener("animationend", () => {
+    slider.classList.toggle("hide");
+  })
 }

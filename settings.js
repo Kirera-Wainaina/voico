@@ -20,6 +20,7 @@ function saveSettings(event) {
         }
         // show the submit button and remove spinner
         toggleLoadingIconAndButton();
+        showSavedAnimation();
     });
 }
 function retrieveFormValues() {
@@ -38,4 +39,11 @@ function toggleLoadingIconAndButton() {
     submitButton === null || submitButton === void 0 ? void 0 : submitButton.classList.toggle("hide");
     const spinner = document.getElementById("spinner");
     spinner === null || spinner === void 0 ? void 0 : spinner.classList.toggle("hide");
+}
+function showSavedAnimation() {
+    const slider = document.getElementById("saved-slider");
+    slider === null || slider === void 0 ? void 0 : slider.classList.toggle("hide");
+    slider === null || slider === void 0 ? void 0 : slider.addEventListener("animationend", () => {
+        slider.classList.toggle("hide");
+    });
 }
