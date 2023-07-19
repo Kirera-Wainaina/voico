@@ -23,5 +23,5 @@
       "js": ["content-script.js"]
     }
   ],
-  "options_page": "options.html"
+  "options_page": "settings.html"
 }
