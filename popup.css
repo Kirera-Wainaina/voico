@@ -164,7 +164,7 @@ audio {
 }
 
 #transcript-controls {
-  grid-column: 1 / 6;
+  grid-column: 1 / 5;
 
   display: flex;
   align-items: center;
@@ -205,4 +205,10 @@ audio {
   display: inline;
   margin-left: 3px;
   margin-right: 3px;
+}
+
+#settings-icon {
+  grid-column: 5 / 6;
+  margin-top: .2em;
+  height: 80%;
 }
