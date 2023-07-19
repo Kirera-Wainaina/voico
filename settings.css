@@ -47,3 +47,9 @@ input[type="submit"]:hover {
 input[type="submit"]:active {
   background-color: var(--active-color);
 }
+
+#spinner {
+  width: 1%;
+  height: 1%;
+  margin-left: 49.5%;
+}
