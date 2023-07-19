@@ -6,6 +6,13 @@
   </head>
   <body>
     <h1>Voico Settings Page</h1>
+    <p id="info">
+      Please choose the language you intend to record in and enter your OpenAI API key.
+      If you don't have an API key, you can begin by 
+      <a href="https://auth0.openai.com/u/login/identifier?state=hKFo2SBMUVZIcWF0RWFPZDVSSDJySk1fSkc5dEVvYUNPUHp4eKFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIFpJSEd4cVViSjl1UU1sV1daZFpDOUotM28zUTBLNDJlo2NpZNkgRFJpdnNubTJNdTQyVDNLT3BxZHR3QjNOWXZpSFl6d0Q">logging in</a> 
+      or signing up to OpenAI.
+      Without any of these, the chrome extension won't work.
+    </p>
     <form>
       <label>
         Audio Language
@@ -71,7 +78,7 @@
       </label>
 
       <label>
-        Open AI API Key
+        OpenAI API Key
         <input type="password" name="APIKey" required />
       </label>
 
