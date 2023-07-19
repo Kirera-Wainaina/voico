@@ -12,10 +12,14 @@ form === null || form === void 0 ? void 0 : form.addEventListener("submit", save
 function saveSettings(event) {
     return __awaiter(this, void 0, void 0, function* () {
         event.preventDefault();
+        // show the spinner and remove button
+        toggleLoadingIcon();
         const formValues = retrieveFormValues();
         if (formValues) {
             yield chrome.storage.local.set(formValues);
         }
+        // show the submit button and remove spinner
+        toggleLoadingIcon();
     });
 }
 function retrieveFormValues() {
@@ -28,4 +32,10 @@ function retrieveFormValues() {
             APIKey: APIKeyInput.value
         };
     }
+}
+function toggleLoadingIcon() {
+    const submitButton = document.querySelector("input[type='submit']");
+    submitButton === null || submitButton === void 0 ? void 0 : submitButton.classList.toggle("hide");
+    const spinner = document.getElementById("spinner");
+    spinner === null || spinner === void 0 ? void 0 : spinner.classList.toggle("hide");
 }

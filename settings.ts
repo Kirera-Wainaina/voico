@@ -8,11 +8,16 @@ form?.addEventListener("submit", saveSettings);
 
 async function saveSettings(event: Event) {
   event.preventDefault();
+  // show the spinner and remove button
+  toggleLoadingIcon();
 
   const formValues = retrieveFormValues()
   if (formValues) {
     await chrome.storage.local.set(formValues);
   }
+
+  // show the submit button and remove spinner
+  toggleLoadingIcon()
 }
 
 function retrieveFormValues():Settings | undefined  {
@@ -29,4 +34,12 @@ function retrieveFormValues():Settings | undefined  {
     }  
   }
 
+}
+
+function toggleLoadingIcon() {
+  const submitButton = document.querySelector("input[type='submit']");
+  submitButton?.classList.toggle("hide");
+
+  const spinner = document.getElementById("spinner");
+  spinner?.classList.toggle("hide")
 }
