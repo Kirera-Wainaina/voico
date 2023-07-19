@@ -58,7 +58,9 @@ input === null || input === void 0 ? void 0 : input.addEventListener("click", ()
     if (!tabId)
         return; // no tab id, no action
     const state = yield chrome.storage.session.get(null);
-    yield chrome.tabs.sendMessage(tabId, { name: "record_click", content: state });
+    // get API KEY and language
+    const state2 = yield chrome.storage.local.get(["APIKey", "language"]);
+    yield chrome.tabs.sendMessage(tabId, { name: "record_click", content: Object.assign(Object.assign({}, state), state2) });
     if (state.permission_granted == YesOrNo.YES) {
         // only applicable if user has granted permission
         toggleRecordingAnimation();

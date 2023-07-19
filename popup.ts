@@ -62,9 +62,11 @@ input?.addEventListener("click", async () => {
   if (!tabId) return // no tab id, no action
   
   const state = await chrome.storage.session.get(null);
+  // get API KEY and language
+  const state2 = await chrome.storage.local.get(["APIKey", "language"]);
   await chrome.tabs.sendMessage(
     tabId, 
-    { name: "record_click", content: state }
+    { name: "record_click", content: {...state, ...state2} }
   );
   
   if (state.permission_granted == YesOrNo.YES) {
