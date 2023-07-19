@@ -54,6 +54,14 @@ input[type="submit"]:active {
   margin-left: 49.5%;
 }
 
+#info {
+  grid-column: 4 / 10;
+  background-color: var(--hover-color);
+  font-size: 1.2em;
+  padding: 1em;
+  margin: 2em;  
+}
+
 #saved-slider {
   font-size: 1.2em;
   padding: 2em;
