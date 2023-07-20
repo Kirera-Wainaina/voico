@@ -52,7 +52,6 @@ async function setupRecording(language: string, APIKey: string) {
     }      
   } catch (error) {
     // user denied permission
-    console.log(error);
     chrome.runtime.sendMessage({ name: "permission_denied" })
   }
   
@@ -81,7 +80,6 @@ function transmitAudio(audioData:Blob[], language: string, APIKey: string) {
     mode: "cors"
   }).then(response => response.text())
   .then(text => {
-    console.log(text);
     chrome.runtime.sendMessage({name: "transcript_received", content: text});
     inputTextIntoActiveElement(text)
   });
@@ -97,6 +95,7 @@ function inputTextIntoActiveElement(text:string) {
     if (!activeElement.value) {
       activeElement.value = text;
     } else {
+      // start new paragraph
       activeElement.value += `\n${text}`;
     }
   } else if (activeElement instanceof HTMLDivElement) {
@@ -104,7 +103,8 @@ function inputTextIntoActiveElement(text:string) {
       if (!activeElement.innerText) {
         activeElement.innerText = text;
       } else {
-        activeElement.innerText += `\n${text}`;
+      // start new paragraph
+      activeElement.innerText += `\n${text}`;
       }
     }
   }
