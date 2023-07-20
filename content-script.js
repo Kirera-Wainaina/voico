@@ -97,12 +97,21 @@ function inputTextIntoActiveElement(text) {
     const activeElement = document.activeElement;
     if (activeElement instanceof HTMLInputElement
         || activeElement instanceof HTMLTextAreaElement) {
-        activeElement.value += `\n${text}`;
-        return;
+        if (activeElement.value) {
+            activeElement.value = text;
+        }
+        else {
+            activeElement.value += `\n${text}`;
+        }
     }
     else if (activeElement instanceof HTMLDivElement) {
         if (activeElement.getAttribute("contenteditable")) {
-            activeElement.innerText += `\n${text}`;
+            if (activeElement.innerText) {
+                activeElement.innerText = text;
+            }
+            else {
+                activeElement.innerText += `\n${text}`;
+            }
         }
     }
 }
