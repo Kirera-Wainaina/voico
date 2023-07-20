@@ -97,7 +97,7 @@ function inputTextIntoActiveElement(text) {
     const activeElement = document.activeElement;
     if (activeElement instanceof HTMLInputElement
         || activeElement instanceof HTMLTextAreaElement) {
-        if (activeElement.value) {
+        if (!activeElement.value) {
             activeElement.value = text;
         }
         else {
@@ -106,7 +106,7 @@ function inputTextIntoActiveElement(text) {
     }
     else if (activeElement instanceof HTMLDivElement) {
         if (activeElement.getAttribute("contenteditable")) {
-            if (activeElement.innerText) {
+            if (!activeElement.innerText) {
                 activeElement.innerText = text;
             }
             else {

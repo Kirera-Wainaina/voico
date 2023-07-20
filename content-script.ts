@@ -94,14 +94,14 @@ function inputTextIntoActiveElement(text:string) {
     activeElement instanceof HTMLInputElement 
     || activeElement instanceof HTMLTextAreaElement
   ) {
-    if (activeElement.value) {
+    if (!activeElement.value) {
       activeElement.value = text;
     } else {
       activeElement.value += `\n${text}`;
     }
   } else if (activeElement instanceof HTMLDivElement) {
     if (activeElement.getAttribute("contenteditable")) {
-      if (activeElement.innerText) {
+      if (!activeElement.innerText) {
         activeElement.innerText = text;
       } else {
         activeElement.innerText += `\n${text}`;
