@@ -89,6 +89,10 @@ function transmitAudio(audioData, language, APIKey) {
         .then(text => {
         chrome.runtime.sendMessage({ name: "transcript_received", content: text });
         inputTextIntoActiveElement(text);
+    })
+        .catch(error => {
+        // let the user know there is an error through the popup
+        chrome.runtime.sendMessage({ name: "server_error" });
     });
 }
 function inputTextIntoActiveElement(text) {
