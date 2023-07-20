@@ -33,6 +33,12 @@ function handlePopupMessages(message) {
         case "permission_granted":
             handlePermissionGranted();
             break;
+        case "server_error":
+            const errorNotification = document.getElementById("server-error");
+            if (errorNotification)
+                showNotification(errorNotification);
+            toggleLoadingIcon();
+            break;
         default:
             break;
     }
@@ -201,17 +207,18 @@ function copyTranscriptToClipboard() {
         if (typeof transcriptContent == 'string') {
             yield navigator.clipboard.writeText(transcriptContent);
         }
-        showNotification();
+        const copiedNotification = document.getElementById("copied-notification");
+        if (copiedNotification)
+            showNotification(copiedNotification);
     });
 }
-function showNotification() {
-    const copiedNotification = document.getElementById("copied-notification");
-    copiedNotification === null || copiedNotification === void 0 ? void 0 : copiedNotification.classList.toggle("hide");
-    copiedNotification === null || copiedNotification === void 0 ? void 0 : copiedNotification.classList.toggle("notify");
+function showNotification(element) {
+    element === null || element === void 0 ? void 0 : element.classList.toggle("hide");
+    element === null || element === void 0 ? void 0 : element.classList.toggle("notify");
     // hide the notification again
-    copiedNotification === null || copiedNotification === void 0 ? void 0 : copiedNotification.addEventListener("animationend", () => {
-        copiedNotification === null || copiedNotification === void 0 ? void 0 : copiedNotification.classList.toggle("hide");
-        copiedNotification === null || copiedNotification === void 0 ? void 0 : copiedNotification.classList.toggle("notify");
+    element === null || element === void 0 ? void 0 : element.addEventListener("animationend", () => {
+        element === null || element === void 0 ? void 0 : element.classList.toggle("hide");
+        element === null || element === void 0 ? void 0 : element.classList.toggle("notify");
     });
 }
 const nextIcon = document.getElementById("next-icon");

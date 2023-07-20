@@ -216,3 +216,9 @@ audio {
   margin-top: .2em;
   height: 80%;
 }
+
+#server-error {
+  background-color: pink;
+  color: red;
+  padding: 5px;
+}

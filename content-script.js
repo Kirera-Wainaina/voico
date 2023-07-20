@@ -85,7 +85,12 @@ function transmitAudio(audioData, language, APIKey) {
         method: "POST",
         body: formdata,
         mode: "cors"
-    }).then(response => response.text())
+    })
+        .then(response => {
+        if (response.status == 500)
+            throw new Error("server error");
+        return response.text();
+    })
         .then(text => {
         chrome.runtime.sendMessage({ name: "transcript_received", content: text });
         inputTextIntoActiveElement(text);
