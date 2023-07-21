@@ -222,3 +222,8 @@ audio {
   color: red;
   padding: 5px;
 }
+
+#no-wifi-icon {
+  grid-column: 3 / 4;
+  width: 100%;
+}
