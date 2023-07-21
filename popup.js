@@ -75,26 +75,31 @@ input === null || input === void 0 ? void 0 : input.addEventListener("click", ()
     }
     handleLoadingIcon(state.recording);
 }));
+function toggleElementDisplay(name, type = "id") {
+    const element = type === "id"
+        ? document.getElementById(name)
+        : document.querySelector(name);
+    element === null || element === void 0 ? void 0 : element.classList.toggle("hide");
+}
 // show animation to let user know the recording has started
 function toggleRecordingAnimation() {
-    const recordingAnimation = document.getElementById("recording-animation");
-    recordingAnimation === null || recordingAnimation === void 0 ? void 0 : recordingAnimation.classList.toggle("hide");
+    toggleElementDisplay("recording-animation");
 }
 function toggleHint() {
-    const hint = document.querySelector("p");
-    hint === null || hint === void 0 ? void 0 : hint.classList.toggle("hide");
+    toggleElementDisplay("hint");
 }
 function togglePermissionNote() {
-    const note = document.getElementById("permission-note");
-    note === null || note === void 0 ? void 0 : note.classList.toggle("hide");
+    toggleElementDisplay("permission-note");
 }
 function toggleTranscript() {
-    const transcript = document.getElementById("transcript");
-    transcript === null || transcript === void 0 ? void 0 : transcript.classList.toggle("hide");
-    const transcriptControls = document.getElementById("transcript-controls");
-    transcriptControls === null || transcriptControls === void 0 ? void 0 : transcriptControls.classList.toggle("hide");
-    const settingsIcon = document.getElementById("settings-icon");
-    settingsIcon === null || settingsIcon === void 0 ? void 0 : settingsIcon.classList.toggle("hide");
+    toggleElementDisplay("transcript");
+    toggleElementDisplay("transcript-controls");
+    toggleElementDisplay("settings-icon");
+}
+function toggleLoadingIcon() {
+    toggleElementDisplay("input", "tag");
+    toggleElementDisplay("hint");
+    toggleElementDisplay("spinner");
 }
 function changeRecordingState() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -120,15 +125,6 @@ function handleLoadingIcon(recordingState) {
         // show loading icon because audio is being processed
         toggleLoadingIcon();
     }
-}
-function toggleLoadingIcon() {
-    const input = document.querySelector("input");
-    input === null || input === void 0 ? void 0 : input.classList.toggle("hide");
-    const hint = document.getElementById("hint");
-    hint === null || hint === void 0 ? void 0 : hint.classList.toggle("hide");
-    // display the loading icon
-    const spinner = document.getElementById("spinner");
-    spinner === null || spinner === void 0 ? void 0 : spinner.classList.toggle("hide");
 }
 function handlePermissionDenied() {
     return __awaiter(this, void 0, void 0, function* () {

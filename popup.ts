@@ -59,7 +59,7 @@ function handlePopupMessages(message:Message) {
 (async () => {
   const { APIKey } = await chrome.storage.local.get("APIKey");
   if (!APIKey) chrome.runtime.openOptionsPage();
-})()
+})();
 
 const input = document.querySelector("input");
 input?.addEventListener("click", async () => {
@@ -84,31 +84,35 @@ input?.addEventListener("click", async () => {
   handleLoadingIcon(state.recording);
 })
 
+function toggleElementDisplay(name: string, type: "id" | "tag" = "id") {
+  const element = type === "id" 
+    ? document.getElementById(name)
+    : document.querySelector(name);
+  element?.classList.toggle("hide");
+}
 // show animation to let user know the recording has started
 function toggleRecordingAnimation() : void {
-  const recordingAnimation = document.getElementById("recording-animation");
-  recordingAnimation?.classList.toggle("hide");
+  toggleElementDisplay("recording-animation");
 }
 
 function toggleHint() {
-  const hint = document.querySelector("p");
-  hint?.classList.toggle("hide");  
+  toggleElementDisplay("hint")
 }
 
 function togglePermissionNote() {
-  const note = document.getElementById("permission-note");
-  note?.classList.toggle("hide");
+  toggleElementDisplay("permission-note");
 }
 
 function toggleTranscript() {
-  const transcript = document.getElementById("transcript");
-  transcript?.classList.toggle("hide");
+  toggleElementDisplay("transcript");
+  toggleElementDisplay("transcript-controls")
+  toggleElementDisplay("settings-icon");
+}
 
-  const transcriptControls = document.getElementById("transcript-controls");
-  transcriptControls?.classList.toggle("hide");
-
-  const settingsIcon = document.getElementById("settings-icon");
-  settingsIcon?.classList.toggle("hide");
+function toggleLoadingIcon() {
+  toggleElementDisplay("input", "tag");
+  toggleElementDisplay("hint");
+  toggleElementDisplay("spinner");
 }
 
 async function changeRecordingState() {
@@ -134,19 +138,6 @@ function handleLoadingIcon(recordingState: Recording) {
     // show loading icon because audio is being processed
     toggleLoadingIcon()
   }
-}
-
-function toggleLoadingIcon() {
-  const input = document.querySelector("input");
-  input?.classList.toggle("hide");
-
-  const hint = document.getElementById("hint");
-  hint?.classList.toggle("hide");
-
-  // display the loading icon
-  const spinner = document.getElementById("spinner");
-  spinner?.classList.toggle("hide")
-
 }
 
 async function handlePermissionDenied() {
