@@ -39,6 +39,8 @@ function handlePopupMessages(message) {
                 showNotification(errorNotification);
             toggleLoadingIcon();
             break;
+        case "is_online":
+            handleWifiSituation(message.content);
         default:
             break;
     }
@@ -57,6 +59,12 @@ function handlePopupMessages(message) {
     const { APIKey } = yield chrome.storage.local.get("APIKey");
     if (!APIKey)
         chrome.runtime.openOptionsPage();
+}))();
+(() => __awaiter(this, void 0, void 0, function* () {
+    const tabId = yield getCurrentTabId();
+    if (!tabId)
+        return; // no tab id, no action
+    yield chrome.tabs.sendMessage(tabId, { name: "wifi_check" });
 }))();
 const input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
@@ -265,4 +273,13 @@ function navigateToOptionsPage() {
     return __awaiter(this, void 0, void 0, function* () {
         yield chrome.runtime.openOptionsPage();
     });
+}
+function handleWifiSituation(status) {
+    if (status)
+        return; // do nothing if there is wifi
+    // show the no wifi icon
+    toggleElementDisplay("no-wifi-icon");
+    // hide the record button and hint
+    toggleElementDisplay("mic");
+    toggleElementDisplay("hint");
 }

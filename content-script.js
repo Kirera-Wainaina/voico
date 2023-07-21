@@ -14,8 +14,15 @@ var mediaRecorder = null;
 chrome.runtime.onMessage.addListener(handleContentScriptMessages);
 function handleContentScriptMessages(message) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (message.name === "record_click") {
-            yield handleRecording(message.content);
+        switch (message.name) {
+            case "record_click":
+                yield handleRecording(message.content);
+                break;
+            case "wifi_check":
+                checkForWifi();
+                break;
+            default:
+                break;
         }
     });
 }
@@ -113,5 +120,14 @@ function inputTextIntoActiveElement(text) {
                 activeElement.innerText += `\n${text}`;
             }
         }
+    }
+}
+function checkForWifi() {
+    // let the popup know if there is wifi
+    if (navigator.onLine) {
+        chrome.runtime.sendMessage({ name: "is_online", content: true });
+    }
+    else {
+        chrome.runtime.sendMessage({ name: "is_online", content: false });
     }
 }

@@ -7,8 +7,18 @@ var mediaRecorder: MediaRecorder | null = null;
 chrome.runtime.onMessage.addListener(handleContentScriptMessages);
 
 async function handleContentScriptMessages(message:Message) {
-  if (message.name === "record_click") {
-    await handleRecording(message.content);
+
+  switch (message.name) {
+    case "record_click":
+      await handleRecording(message.content);
+      break;
+
+    case "wifi_check":
+      checkForWifi();
+      break;
+  
+    default:
+      break;
   }
 }
 
@@ -107,5 +117,14 @@ function inputTextIntoActiveElement(text:string) {
       activeElement.innerText += `\n${text}`;
       }
     }
+  }
+}
+
+function checkForWifi() {
+  // let the popup know if there is wifi
+  if (navigator.onLine) {
+    chrome.runtime.sendMessage({ name: "is_online", content: true });
+  } else {
+    chrome.runtime.sendMessage({ name: "is_online", content: false });
   }
 }
