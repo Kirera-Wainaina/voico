@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Voico",
+  "name": "Voico Chrome Extension",
   "version": "0.0.1",
   "description": "A Chrome extension that allows you to use your voice to type on any input in any website: A speech-to-text extension.",
   "icons": {
