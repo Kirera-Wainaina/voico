@@ -255,6 +255,9 @@ nextIcon?.addEventListener("click", showNextTranscript);
 
 async function showNextTranscript() {
   let { transcripts } = await chrome.storage.local.get("transcripts");
+  if (!transcripts) {
+    return
+  }
   const transcriptsArray: string[] = JSON.parse(transcripts);
 
   const transcriptElement = document.getElementById("transcript");
@@ -276,6 +279,10 @@ previousIcon?.addEventListener("click", showPreviousTranscript);
 
 async function showPreviousTranscript() {
   let { transcripts } = await chrome.storage.local.get("transcripts");
+  if (!transcripts) {
+    return
+  }
+
   const transcriptsArray: string[] = JSON.parse(transcripts);
 
   const transcriptElement = document.getElementById("transcript");

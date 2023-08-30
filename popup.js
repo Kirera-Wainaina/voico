@@ -376,6 +376,9 @@ function showNextTranscript() {
                 case 0: return [4 /*yield*/, chrome.storage.local.get("transcripts")];
                 case 1:
                     transcripts = (_a.sent()).transcripts;
+                    if (!transcripts) {
+                        return [2 /*return*/];
+                    }
                     transcriptsArray = JSON.parse(transcripts);
                     transcriptElement = document.getElementById("transcript");
                     currentTranscript = transcriptElement === null || transcriptElement === void 0 ? void 0 : transcriptElement.textContent;
@@ -401,6 +404,9 @@ function showPreviousTranscript() {
                 case 0: return [4 /*yield*/, chrome.storage.local.get("transcripts")];
                 case 1:
                     transcripts = (_a.sent()).transcripts;
+                    if (!transcripts) {
+                        return [2 /*return*/];
+                    }
                     transcriptsArray = JSON.parse(transcripts);
                     transcriptElement = document.getElementById("transcript");
                     currentTranscript = transcriptElement === null || transcriptElement === void 0 ? void 0 : transcriptElement.textContent;
