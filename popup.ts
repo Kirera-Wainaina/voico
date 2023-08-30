@@ -214,12 +214,13 @@ async function saveTranscript(text:string) {
 
 async function enterTranscriptIntoTranscriptElement() {
   let { transcripts } = await chrome.storage.local.get("transcripts");
-  transcripts = JSON.parse(transcripts);
-
   const transcriptElement = document.getElementById("transcript");
-  if (transcriptElement) {
-    const transcriptText = transcripts.length ? transcripts[0] : 'no transcripts yet!'
-    transcriptElement.textContent = transcriptText;    
+
+  if (transcripts && transcriptElement) {
+    transcripts = JSON.parse(transcripts);
+    transcriptElement.textContent = transcripts[0];
+  } else if (!transcripts && transcriptElement) {
+    transcriptElement.textContent = "no transripts yet!"
   }  
 }
 
