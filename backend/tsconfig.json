@@ -1,0 +1,10 @@
+{
+  "include": ["*", "**/*"],
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "strict": true,
+    "types": ["node"],
+    "module": "Node16",
+    "lib": ["ES2021"],
+  },
+}

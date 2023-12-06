@@ -1,0 +1,12 @@
+# ignore node_modules folder
+node_modules/
+
+# .env
+.env
+
+# log files
+*.log
+
+# everything other than x in uploaded
+uploaded/*
+!uploaded/x

@@ -1,0 +1,19 @@
+{
+  "name": "voico-backend",
+  "version": "0.0.1",
+  "description": "Voico chrome extension backend.",
+  "main": "index.js",
+  "repository": "https://github.com/Kirera-Wainaina/voico-backend.git",
+  "author": "R. Kirera Wainaina",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^20.4.1",
+    "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "busboy": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "openai": "^3.3.0"
+  }
+}

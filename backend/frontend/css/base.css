@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Caprasimo&family=Inter&display=swap');
+
+
+* {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+:root {
+  --primary-color: #5841b9;
+  --shadow: 3px 3px 2px lightgrey;
+  --hover-color: #bdb4e4;
+  --active-color: #6b55c3;
+}
+
+img {
+  max-width: 100%;
+}
+
+body {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 35vw;
+  height: 99vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5vh;
+}
+
+header a {
+  font-size: 1.5em;
+}
+
+@media (orientation: portrait) {
+  body {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  header {
+    top: 90vh;
+    right: 0;
+    height: auto;
+    width: 99vw;
+  }
+}
