@@ -1,3 +1,5 @@
+import toggleElementDisplay from "./toggleElementDisplay.js";
+
 // save recording state to know if click should start/stop recording
 enum Recording {
   ON = "on",
@@ -94,12 +96,6 @@ input?.addEventListener("click", async () => {
   handleLoadingIcon(state.recording);
 })
 
-function toggleElementDisplay(name: string, type: "id" | "tag" = "id") {
-  const element = type === "id" 
-    ? document.getElementById(name)
-    : document.querySelector(name);
-  element?.classList.toggle("hide");
-}
 // show animation to let user know the recording has started
 function toggleRecordingAnimation() : void {
   toggleElementDisplay("recording-animation");

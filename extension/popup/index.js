@@ -45,7 +45,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var _this = this;
+import toggleElementDisplay from "./toggleElementDisplay.js";
 // save recording state to know if click should start/stop recording
 var Recording;
 (function (Recording) {
@@ -86,7 +86,7 @@ function handlePopupMessages(message) {
 }
 // set user_media_is_setup state to an initial value 'no'
 // set default recording state to off
-(function () { return __awaiter(_this, void 0, void 0, function () {
+(function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, chrome.storage.session.set({
@@ -101,7 +101,7 @@ function handlePopupMessages(message) {
 }); })();
 // check if there is an API KEY
 // send user to option page to set it if there is none
-(function () { return __awaiter(_this, void 0, void 0, function () {
+(function () { return __awaiter(void 0, void 0, void 0, function () {
     var APIKey;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -114,7 +114,7 @@ function handlePopupMessages(message) {
         }
     });
 }); })();
-(function () { return __awaiter(_this, void 0, void 0, function () {
+(function () { return __awaiter(void 0, void 0, void 0, function () {
     var tabId;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -131,7 +131,7 @@ function handlePopupMessages(message) {
     });
 }); })();
 var input = document.querySelector("input");
-input === null || input === void 0 ? void 0 : input.addEventListener("click", function () { return __awaiter(_this, void 0, void 0, function () {
+input === null || input === void 0 ? void 0 : input.addEventListener("click", function () { return __awaiter(void 0, void 0, void 0, function () {
     var tabId, state, state2;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -163,13 +163,6 @@ input === null || input === void 0 ? void 0 : input.addEventListener("click", fu
         }
     });
 }); });
-function toggleElementDisplay(name, type) {
-    if (type === void 0) { type = "id"; }
-    var element = type === "id"
-        ? document.getElementById(name)
-        : document.querySelector(name);
-    element === null || element === void 0 ? void 0 : element.classList.toggle("hide");
-}
 // show animation to let user know the recording has started
 function toggleRecordingAnimation() {
     toggleElementDisplay("recording-animation");
