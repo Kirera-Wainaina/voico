@@ -2,20 +2,20 @@
 
 <html>
   <head>
-    <link href="popup.css" rel="stylesheet"/>
+    <link href="index.css" rel="stylesheet"/>
   </head>
   <body>
     <h1>Voico</h1>
     <input 
       id="mic" 
       type="image" 
-      src="images/48.png" 
+      src="../images/48.png" 
       alt="Voico icon logo"
     >
     <p id="hint">Click to start recording</p>
 
     <img
-      src="/images/wifi-off.svg"
+      src="../images/wifi-off.svg"
       alt="no wifi" 
       id="no-wifi-icon"
       class="hide"
@@ -36,13 +36,13 @@
     <input 
       id="expand-more" 
       type="image" 
-      src="/images/expand-more.svg" 
+      src="../images/expand-more.svg" 
       alt="expand more"
     >
     <input 
       id="expand-less"
       type="image" 
-      src="/images/expand-less.svg" 
+      src="../images/expand-less.svg" 
       alt="expand less"
       class="hide"
     >
@@ -52,32 +52,32 @@
     <div id="transcript-controls" class="hide">
       <input 
         type="image" 
-        src="/images/content-copy.svg" 
+        src="../images/content-copy.svg" 
         alt="copy content icon" 
         id="copy-icon"
       >
       <input 
         type="image" 
-        src="/images/arrow-left.svg" 
+        src="../images/arrow-left.svg" 
         alt="previous transcript" 
         id="previous-icon"
       >
       <p id="transcript-number">1 / 5</p>
       <input 
         type="image" 
-        src="/images/arrow-right.svg" 
+        src="../images/arrow-right.svg" 
         alt="next transcript" 
         id="next-icon"
       >
     </div>
     <input
       type="image" 
-      src="/images/settings-icon.svg"
+      src="../images/settings-icon.svg"
       alt="Voico settings" 
       id="settings-icon"
       class="hide"
     >
     <p id="copied-notification" class="hide">Copied to clipboard</p>
-    <script src="popup.js"></script>
+    <script src="index.js"></script>
   </body>
 </html>
