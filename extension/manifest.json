@@ -15,7 +15,7 @@
   "permissions": ["activeTab", "storage"],
   "action": {
     "default_title": "Start writing using your voice",
-    "default_popup": "popup.html"
+    "default_popup": "popup/index.html"
   },
   "content_scripts": [
     {
