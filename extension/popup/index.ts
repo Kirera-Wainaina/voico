@@ -220,7 +220,7 @@ async function enterTranscriptIntoTranscriptElement() {
     transcripts = JSON.parse(transcripts);
     transcriptElement.textContent = transcripts[0];
   } else if (!transcripts && transcriptElement) {
-    transcriptElement.textContent = "no transripts yet!"
+    transcriptElement.textContent = "no transcripts yet!"
   }  
 }
 

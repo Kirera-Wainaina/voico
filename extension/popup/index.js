@@ -326,7 +326,7 @@ function enterTranscriptIntoTranscriptElement() {
                         transcriptElement.textContent = transcripts[0];
                     }
                     else if (!transcripts && transcriptElement) {
-                        transcriptElement.textContent = "no transripts yet!";
+                        transcriptElement.textContent = "no transcripts yet!";
                     }
                     return [2 /*return*/];
             }
