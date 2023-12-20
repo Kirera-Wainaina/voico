@@ -47,6 +47,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import toggleElementDisplay from "./toggleElementDisplay.js";
 import toggleHint from "./toggleHint.js";
+import togglePermissionNote from "./togglePermissionNote.js";
 import toggleRecordingAnimation from "./toggleRecordingAnimation.js";
 // save recording state to know if click should start/stop recording
 var Recording;
@@ -165,9 +166,6 @@ input === null || input === void 0 ? void 0 : input.addEventListener("click", fu
         }
     });
 }); });
-function togglePermissionNote() {
-    toggleElementDisplay("permission-note");
-}
 function toggleTranscript() {
     toggleElementDisplay("transcript");
     toggleElementDisplay("transcript-controls");

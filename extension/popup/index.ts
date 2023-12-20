@@ -1,5 +1,6 @@
 import toggleElementDisplay from "./toggleElementDisplay.js";
 import toggleHint from "./toggleHint.js";
+import togglePermissionNote from "./togglePermissionNote.js";
 import toggleRecordingAnimation from "./toggleRecordingAnimation.js";
 
 // save recording state to know if click should start/stop recording
@@ -93,9 +94,6 @@ input?.addEventListener("click", async () => {
   handleLoadingIcon(state.recording);
 })
 
-function togglePermissionNote() {
-  toggleElementDisplay("permission-note");
-}
 
 function toggleTranscript() {
   toggleElementDisplay("transcript");
