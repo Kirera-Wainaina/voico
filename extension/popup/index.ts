@@ -1,9 +1,4 @@
-import toggleElementDisplay from "./toggleElementDisplay.js";
-import toggleHint from "./toggleHint.js";
-import toggleLoadingIcon from "./toggleLoadingIcon.js";
-import togglePermissionNote from "./togglePermissionNote.js";
-import toggleRecordingAnimation from "./toggleRecordingAnimation.js";
-import toggleTranscript from "./toggleTranscript.js";
+import Toggle from "./Toggle.js";
 
 // save recording state to know if click should start/stop recording
 enum Recording {
@@ -24,7 +19,7 @@ function handlePopupMessages(message: ChromeMessage) {
 
   switch (message.name) {
     case "transcript_received":
-      toggleLoadingIcon();
+      Toggle.loadingIcon();
       saveTranscript(message.content);
       break;
   
@@ -39,7 +34,7 @@ function handlePopupMessages(message: ChromeMessage) {
     case "server_error":
       const errorNotification = document.getElementById("server-error");
       if (errorNotification) showNotification(errorNotification);
-      toggleLoadingIcon();
+      Toggle.loadingIcon();
       break;
 
     case "is_online":
@@ -89,8 +84,8 @@ input?.addEventListener("click", async () => {
   
   if (state.permission_granted == YesOrNo.YES) {
     // only applicable if user has granted permission
-    toggleRecordingAnimation();
-    toggleHint();  
+    Toggle.recordingAnimation();
+    Toggle.hint();  
     await changeRecordingState()
   }
   handleLoadingIcon(state.recording);
@@ -117,7 +112,7 @@ function handleLoadingIcon(recordingState: Recording) {
   if (recordingState == Recording.ON) {
     // recording is on, button is pressed to switch it off
     // show loading icon because audio is being processed
-    toggleLoadingIcon()
+    Toggle.loadingIcon()
   }
 }
 
@@ -129,7 +124,7 @@ async function handlePermissionDenied() {
     "permission_granted": YesOrNo.NO
   })
   // show the permission note
-  togglePermissionNote()
+  Toggle.permissionNote()
 }
 
 async function handlePermissionGranted() {
@@ -140,8 +135,8 @@ async function handlePermissionGranted() {
 
   await chrome.storage.session.set({ "permission_granted": YesOrNo.YES});
   await changeRecordingState()
-  toggleRecordingAnimation();
-  toggleHint();  
+  Toggle.recordingAnimation();
+  Toggle.hint();  
 
   return ;
 }
@@ -154,14 +149,14 @@ expandMore?.addEventListener("click", () => {
   expandLess?.classList.toggle("hide");
 
   enterTranscriptIntoTranscriptElement();
-  toggleTranscript();
+  Toggle.transcript();
 })
 
 expandLess?.addEventListener("click", () => {
   expandMore?.classList.toggle("hide");
   expandLess?.classList.toggle("hide");
 
-  toggleTranscript();
+  Toggle.transcript();
 })
 
 async function saveTranscript(text:string) {
@@ -291,9 +286,10 @@ async function navigateToOptionsPage() {
 function handleWifiSituation(status: boolean) {
   if (status) return; // do nothing if there is wifi
   // show the no wifi icon
-  toggleElementDisplay("no-wifi-icon");
+  Toggle.elementDisplay("no-wifi-icon");
+  
 
   // hide the record button and hint
-  toggleElementDisplay("mic");
-  toggleElementDisplay("hint");
+  Toggle.elementDisplay("mic");
+  Toggle.elementDisplay("hint");
 }

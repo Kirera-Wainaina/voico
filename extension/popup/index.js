@@ -45,12 +45,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import toggleElementDisplay from "./toggleElementDisplay.js";
-import toggleHint from "./toggleHint.js";
-import toggleLoadingIcon from "./toggleLoadingIcon.js";
-import togglePermissionNote from "./togglePermissionNote.js";
-import toggleRecordingAnimation from "./toggleRecordingAnimation.js";
-import toggleTranscript from "./toggleTranscript.js";
+import Toggle from "./Toggle.js";
 // save recording state to know if click should start/stop recording
 var Recording;
 (function (Recording) {
@@ -68,7 +63,7 @@ chrome.runtime.onMessage.addListener(handlePopupMessages);
 function handlePopupMessages(message) {
     switch (message.name) {
         case "transcript_received":
-            toggleLoadingIcon();
+            Toggle.loadingIcon();
             saveTranscript(message.content);
             break;
         case "permission_denied":
@@ -81,7 +76,7 @@ function handlePopupMessages(message) {
             var errorNotification = document.getElementById("server-error");
             if (errorNotification)
                 showNotification(errorNotification);
-            toggleLoadingIcon();
+            Toggle.loadingIcon();
             break;
         case "is_online":
             handleWifiSituation(message.content);
@@ -156,8 +151,8 @@ input === null || input === void 0 ? void 0 : input.addEventListener("click", fu
                 _a.sent();
                 if (!(state.permission_granted == YesOrNo.YES)) return [3 /*break*/, 6];
                 // only applicable if user has granted permission
-                toggleRecordingAnimation();
-                toggleHint();
+                Toggle.recordingAnimation();
+                Toggle.hint();
                 return [4 /*yield*/, changeRecordingState()];
             case 5:
                 _a.sent();
@@ -198,7 +193,7 @@ function handleLoadingIcon(recordingState) {
     if (recordingState == Recording.ON) {
         // recording is on, button is pressed to switch it off
         // show loading icon because audio is being processed
-        toggleLoadingIcon();
+        Toggle.loadingIcon();
     }
 }
 function handlePermissionDenied() {
@@ -218,7 +213,7 @@ function handlePermissionDenied() {
                     // restore state
                     _a.sent();
                     // show the permission note
-                    togglePermissionNote();
+                    Toggle.permissionNote();
                     return [2 /*return*/];
             }
         });
@@ -241,8 +236,8 @@ function handlePermissionGranted() {
                     return [4 /*yield*/, changeRecordingState()];
                 case 3:
                     _a.sent();
-                    toggleRecordingAnimation();
-                    toggleHint();
+                    Toggle.recordingAnimation();
+                    Toggle.hint();
                     return [2 /*return*/];
             }
         });
@@ -254,12 +249,12 @@ expandMore === null || expandMore === void 0 ? void 0 : expandMore.addEventListe
     expandMore.classList.toggle("hide");
     expandLess === null || expandLess === void 0 ? void 0 : expandLess.classList.toggle("hide");
     enterTranscriptIntoTranscriptElement();
-    toggleTranscript();
+    Toggle.transcript();
 });
 expandLess === null || expandLess === void 0 ? void 0 : expandLess.addEventListener("click", function () {
     expandMore === null || expandMore === void 0 ? void 0 : expandMore.classList.toggle("hide");
     expandLess === null || expandLess === void 0 ? void 0 : expandLess.classList.toggle("hide");
-    toggleTranscript();
+    Toggle.transcript();
 });
 function saveTranscript(text) {
     return __awaiter(this, void 0, void 0, function () {
@@ -426,8 +421,8 @@ function handleWifiSituation(status) {
     if (status)
         return; // do nothing if there is wifi
     // show the no wifi icon
-    toggleElementDisplay("no-wifi-icon");
+    Toggle.elementDisplay("no-wifi-icon");
     // hide the record button and hint
-    toggleElementDisplay("mic");
-    toggleElementDisplay("hint");
+    Toggle.elementDisplay("mic");
+    Toggle.elementDisplay("hint");
 }
