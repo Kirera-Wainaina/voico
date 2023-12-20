@@ -2,6 +2,7 @@ import toggleElementDisplay from "./toggleElementDisplay.js";
 import toggleHint from "./toggleHint.js";
 import togglePermissionNote from "./togglePermissionNote.js";
 import toggleRecordingAnimation from "./toggleRecordingAnimation.js";
+import toggleTranscript from "./toggleTranscript.js";
 
 // save recording state to know if click should start/stop recording
 enum Recording {
@@ -95,11 +96,7 @@ input?.addEventListener("click", async () => {
 })
 
 
-function toggleTranscript() {
-  toggleElementDisplay("transcript");
-  toggleElementDisplay("transcript-controls")
-  toggleElementDisplay("settings-icon");
-}
+
 
 function toggleLoadingIcon() {
   toggleElementDisplay("input", "tag");

@@ -49,6 +49,7 @@ import toggleElementDisplay from "./toggleElementDisplay.js";
 import toggleHint from "./toggleHint.js";
 import togglePermissionNote from "./togglePermissionNote.js";
 import toggleRecordingAnimation from "./toggleRecordingAnimation.js";
+import toggleTranscript from "./toggleTranscript.js";
 // save recording state to know if click should start/stop recording
 var Recording;
 (function (Recording) {
@@ -166,11 +167,6 @@ input === null || input === void 0 ? void 0 : input.addEventListener("click", fu
         }
     });
 }); });
-function toggleTranscript() {
-    toggleElementDisplay("transcript");
-    toggleElementDisplay("transcript-controls");
-    toggleElementDisplay("settings-icon");
-}
 function toggleLoadingIcon() {
     toggleElementDisplay("input", "tag");
     toggleElementDisplay("hint");
