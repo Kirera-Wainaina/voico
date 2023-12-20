@@ -47,6 +47,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import toggleElementDisplay from "./toggleElementDisplay.js";
 import toggleHint from "./toggleHint.js";
+import toggleLoadingIcon from "./toggleLoadingIcon.js";
 import togglePermissionNote from "./togglePermissionNote.js";
 import toggleRecordingAnimation from "./toggleRecordingAnimation.js";
 import toggleTranscript from "./toggleTranscript.js";
@@ -167,11 +168,6 @@ input === null || input === void 0 ? void 0 : input.addEventListener("click", fu
         }
     });
 }); });
-function toggleLoadingIcon() {
-    toggleElementDisplay("input", "tag");
-    toggleElementDisplay("hint");
-    toggleElementDisplay("spinner");
-}
 function changeRecordingState() {
     return __awaiter(this, void 0, void 0, function () {
         var recording;

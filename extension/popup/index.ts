@@ -1,5 +1,6 @@
 import toggleElementDisplay from "./toggleElementDisplay.js";
 import toggleHint from "./toggleHint.js";
+import toggleLoadingIcon from "./toggleLoadingIcon.js";
 import togglePermissionNote from "./togglePermissionNote.js";
 import toggleRecordingAnimation from "./toggleRecordingAnimation.js";
 import toggleTranscript from "./toggleTranscript.js";
@@ -94,15 +95,6 @@ input?.addEventListener("click", async () => {
   }
   handleLoadingIcon(state.recording);
 })
-
-
-
-
-function toggleLoadingIcon() {
-  toggleElementDisplay("input", "tag");
-  toggleElementDisplay("hint");
-  toggleElementDisplay("spinner");
-}
 
 async function changeRecordingState() {
   const { recording } = await chrome.storage.session.get("recording");
