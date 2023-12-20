@@ -20,7 +20,7 @@
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["content-script.js"]
+      "js": ["content_script/index.js"]
     }
   ],
   "options_page": "settings/index.html"
