@@ -46,6 +46,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import toggleElementDisplay from "./toggleElementDisplay.js";
+import toggleRecordingAnimation from "./toggleRecordingAnimation.js";
 // save recording state to know if click should start/stop recording
 var Recording;
 (function (Recording) {
@@ -163,10 +164,6 @@ input === null || input === void 0 ? void 0 : input.addEventListener("click", fu
         }
     });
 }); });
-// show animation to let user know the recording has started
-function toggleRecordingAnimation() {
-    toggleElementDisplay("recording-animation");
-}
 function toggleHint() {
     toggleElementDisplay("hint");
 }
