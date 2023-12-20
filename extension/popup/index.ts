@@ -12,15 +12,10 @@ enum YesOrNo {
   NO = "no"
 }
 
-type Message = {
-  name: string,
-  content?: any
-}
-
 // listen to messages
 chrome.runtime.onMessage.addListener(handlePopupMessages);
 
-function handlePopupMessages(message:Message) {
+function handlePopupMessages(message: ChromeMessage) {
 
   switch (message.name) {
     case "transcript_received":

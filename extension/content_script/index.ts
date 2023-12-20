@@ -6,8 +6,8 @@ var mediaRecorder: MediaRecorder | null = null;
 
 chrome.runtime.onMessage.addListener(handleContentScriptMessages);
 
-async function handleContentScriptMessages(message:Message) {
-
+async function handleContentScriptMessages(message: ChromeMessage) {
+  
   switch (message.name) {
     case "record_click":
       await handleRecording(message.content);
