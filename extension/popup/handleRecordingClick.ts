@@ -8,7 +8,7 @@ export default async function () {
   
   const sessionState: ISessionState = await chrome.storage.session.get(null);
   // get API KEY and language
-  const localState = await chrome.storage.local.get(["APIKey", "language"]);
+  const localState: ILocalState = await chrome.storage.local.get(["APIKey", "language"]);
   await chrome.tabs.sendMessage(
     tabId, 
     { name: "record_click", content: {...sessionState, ...localState} }
