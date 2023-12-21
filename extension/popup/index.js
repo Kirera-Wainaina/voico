@@ -50,6 +50,8 @@ import changeRecordingState from "./changeRecordingState.js";
 import copyTranscriptToClipboard from "./copyTranscriptToClipboard.js";
 import enterTranscriptIntoTranscriptElement from "./enterTranscriptIntoTranscriptElement.js";
 import handlePopupMessages from "./handlePopupMessages.js";
+import showNextTranscript from "./showNextTranscript.js";
+import showPreviousTranscript from "./showPreviousTranscript.js";
 // listen to messages
 chrome.runtime.onMessage.addListener(handlePopupMessages);
 // set user_media_is_setup state to an initial value 'no'
@@ -159,68 +161,8 @@ var copyIcon = document.getElementById("copy-icon");
 copyIcon === null || copyIcon === void 0 ? void 0 : copyIcon.addEventListener("click", copyTranscriptToClipboard);
 var nextIcon = document.getElementById("next-icon");
 nextIcon === null || nextIcon === void 0 ? void 0 : nextIcon.addEventListener("click", showNextTranscript);
-function showNextTranscript() {
-    return __awaiter(this, void 0, void 0, function () {
-        var transcripts, transcriptsArray, transcriptElement, currentTranscript, index, nextIndex;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, chrome.storage.local.get("transcripts")];
-                case 1:
-                    transcripts = (_a.sent()).transcripts;
-                    if (!transcripts) {
-                        return [2 /*return*/];
-                    }
-                    transcriptsArray = JSON.parse(transcripts);
-                    transcriptElement = document.getElementById("transcript");
-                    currentTranscript = transcriptElement === null || transcriptElement === void 0 ? void 0 : transcriptElement.textContent;
-                    if (!currentTranscript)
-                        return [2 /*return*/];
-                    index = transcriptsArray
-                        .findIndex(function (transcript) { return transcript === currentTranscript; });
-                    nextIndex = (index + 1) >= transcriptsArray.length ? 0 : index + 1;
-                    transcriptElement.textContent = transcriptsArray[nextIndex];
-                    adjustTranscriptNumber(nextIndex);
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
 var previousIcon = document.getElementById("previous-icon");
 previousIcon === null || previousIcon === void 0 ? void 0 : previousIcon.addEventListener("click", showPreviousTranscript);
-function showPreviousTranscript() {
-    return __awaiter(this, void 0, void 0, function () {
-        var transcripts, transcriptsArray, transcriptElement, currentTranscript, index, previousIndex;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, chrome.storage.local.get("transcripts")];
-                case 1:
-                    transcripts = (_a.sent()).transcripts;
-                    if (!transcripts) {
-                        return [2 /*return*/];
-                    }
-                    transcriptsArray = JSON.parse(transcripts);
-                    transcriptElement = document.getElementById("transcript");
-                    currentTranscript = transcriptElement === null || transcriptElement === void 0 ? void 0 : transcriptElement.textContent;
-                    if (!currentTranscript)
-                        return [2 /*return*/];
-                    index = transcriptsArray
-                        .findIndex(function (transcript) { return transcript === currentTranscript; });
-                    previousIndex = (index - 1) < 0 ? transcriptsArray.length - 1 : index - 1;
-                    transcriptElement.textContent = transcriptsArray[previousIndex];
-                    adjustTranscriptNumber(previousIndex);
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
-function adjustTranscriptNumber(newIndex) {
-    // let the user know which transcript they are looking at out of 5
-    var transcriptNumberElement = document.getElementById("transcript-number");
-    var transcriptNumber = newIndex + 1;
-    if (transcriptNumberElement) {
-        transcriptNumberElement.textContent = "".concat(transcriptNumber, " / 5");
-    }
-}
 var settingsIcon = document.getElementById("settings-icon");
 settingsIcon === null || settingsIcon === void 0 ? void 0 : settingsIcon.addEventListener("click", navigateToOptionsPage);
 function navigateToOptionsPage() {

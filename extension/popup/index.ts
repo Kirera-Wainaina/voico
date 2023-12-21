@@ -3,7 +3,8 @@ import changeRecordingState from "./changeRecordingState.js";
 import copyTranscriptToClipboard from "./copyTranscriptToClipboard.js";
 import enterTranscriptIntoTranscriptElement from "./enterTranscriptIntoTranscriptElement.js";
 import handlePopupMessages from "./handlePopupMessages.js";
-import showNotification from "./showNotification.js";
+import showNextTranscript from "./showNextTranscript.js";
+import showPreviousTranscript from "./showPreviousTranscript.js";
 
 // listen to messages
 chrome.runtime.onMessage.addListener(handlePopupMessages);
@@ -92,62 +93,8 @@ copyIcon?.addEventListener("click", copyTranscriptToClipboard);
 const nextIcon = document.getElementById("next-icon");
 nextIcon?.addEventListener("click", showNextTranscript);
 
-async function showNextTranscript() {
-  let { transcripts } = await chrome.storage.local.get("transcripts");
-  if (!transcripts) {
-    return
-  }
-  const transcriptsArray: string[] = JSON.parse(transcripts);
-
-  const transcriptElement = document.getElementById("transcript");
-  const currentTranscript = transcriptElement?.textContent;
-
-  if (!currentTranscript) return;
-
-  const index = transcriptsArray
-    .findIndex(transcript => transcript === currentTranscript);
-  const nextIndex = (index + 1) >= transcriptsArray.length ? 0 : index + 1;
-
-  transcriptElement.textContent = transcriptsArray[nextIndex];
-
-  adjustTranscriptNumber(nextIndex);
-}
-
 const previousIcon = document.getElementById("previous-icon");
 previousIcon?.addEventListener("click", showPreviousTranscript);
-
-async function showPreviousTranscript() {
-  let { transcripts } = await chrome.storage.local.get("transcripts");
-  if (!transcripts) {
-    return
-  }
-
-  const transcriptsArray: string[] = JSON.parse(transcripts);
-
-  const transcriptElement = document.getElementById("transcript");
-  const currentTranscript = transcriptElement?.textContent;
-
-  if (!currentTranscript) return;
-
-  const index = transcriptsArray
-  .findIndex(transcript => transcript === currentTranscript);
-  const previousIndex = (index - 1) < 0 ? transcriptsArray.length - 1 : index - 1;
-
-  transcriptElement.textContent = transcriptsArray[previousIndex];
-
-  adjustTranscriptNumber(previousIndex);
-}
-
-function adjustTranscriptNumber(newIndex:number) {
-  // let the user know which transcript they are looking at out of 5
-  const transcriptNumberElement = document.getElementById("transcript-number");
-  let transcriptNumber = newIndex + 1;
-
-  if (transcriptNumberElement) {
-    transcriptNumberElement.textContent = `${transcriptNumber} / 5`;
-  }
-
-}
 
 const settingsIcon = document.getElementById("settings-icon");
 settingsIcon?.addEventListener("click", navigateToOptionsPage);
