@@ -1,5 +1,6 @@
 import Toggle from "./Toggle.js";
 import changeRecordingState from "./changeRecordingState.js";
+import copyTranscriptToClipboard from "./copyTranscriptToClipboard.js";
 import enterTranscriptIntoTranscriptElement from "./enterTranscriptIntoTranscriptElement.js";
 import handlePopupMessages from "./handlePopupMessages.js";
 import showNotification from "./showNotification.js";
@@ -87,18 +88,6 @@ expandLess?.addEventListener("click", () => {
 
 const copyIcon = document.getElementById("copy-icon");
 copyIcon?.addEventListener("click", copyTranscriptToClipboard);
-
-async function copyTranscriptToClipboard() {
-  const transcriptElement = document.getElementById("transcript");
-  const transcriptContent = transcriptElement?.textContent;
-
-  if (typeof transcriptContent == 'string') {
-    await navigator.clipboard.writeText(transcriptContent)    
-  }
-
-  const copiedNotification = document.getElementById("copied-notification");
-  if (copiedNotification) showNotification(copiedNotification)
-}
 
 const nextIcon = document.getElementById("next-icon");
 nextIcon?.addEventListener("click", showNextTranscript);

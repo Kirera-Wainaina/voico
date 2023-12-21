@@ -47,9 +47,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import Toggle from "./Toggle.js";
 import changeRecordingState from "./changeRecordingState.js";
+import copyTranscriptToClipboard from "./copyTranscriptToClipboard.js";
 import enterTranscriptIntoTranscriptElement from "./enterTranscriptIntoTranscriptElement.js";
 import handlePopupMessages from "./handlePopupMessages.js";
-import showNotification from "./showNotification.js";
 // listen to messages
 chrome.runtime.onMessage.addListener(handlePopupMessages);
 // set user_media_is_setup state to an initial value 'no'
@@ -157,28 +157,6 @@ expandLess === null || expandLess === void 0 ? void 0 : expandLess.addEventListe
 });
 var copyIcon = document.getElementById("copy-icon");
 copyIcon === null || copyIcon === void 0 ? void 0 : copyIcon.addEventListener("click", copyTranscriptToClipboard);
-function copyTranscriptToClipboard() {
-    return __awaiter(this, void 0, void 0, function () {
-        var transcriptElement, transcriptContent, copiedNotification;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    transcriptElement = document.getElementById("transcript");
-                    transcriptContent = transcriptElement === null || transcriptElement === void 0 ? void 0 : transcriptElement.textContent;
-                    if (!(typeof transcriptContent == 'string')) return [3 /*break*/, 2];
-                    return [4 /*yield*/, navigator.clipboard.writeText(transcriptContent)];
-                case 1:
-                    _a.sent();
-                    _a.label = 2;
-                case 2:
-                    copiedNotification = document.getElementById("copied-notification");
-                    if (copiedNotification)
-                        showNotification(copiedNotification);
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
 var nextIcon = document.getElementById("next-icon");
 nextIcon === null || nextIcon === void 0 ? void 0 : nextIcon.addEventListener("click", showNextTranscript);
 function showNextTranscript() {
