@@ -1,14 +1,3 @@
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -46,10 +35,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import Toggle from "./Toggle.js";
-import changeRecordingState from "./changeRecordingState.js";
 import copyTranscriptToClipboard from "./copyTranscriptToClipboard.js";
 import enterTranscriptIntoTranscriptElement from "./enterTranscriptIntoTranscriptElement.js";
+import getCurrentTabId from "./getCurrentTabId.js";
 import handlePopupMessages from "./handlePopupMessages.js";
+import handleRecordingClick from "./handleRecordingClick.js";
 import showNextTranscript from "./showNextTranscript.js";
 import showPreviousTranscript from "./showPreviousTranscript.js";
 // listen to messages
@@ -101,49 +91,7 @@ chrome.runtime.onMessage.addListener(handlePopupMessages);
     });
 }); })();
 var input = document.querySelector("input");
-input === null || input === void 0 ? void 0 : input.addEventListener("click", function () { return __awaiter(void 0, void 0, void 0, function () {
-    var tabId, sessionState, localState;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, getCurrentTabId()];
-            case 1:
-                tabId = _a.sent();
-                if (!tabId)
-                    return [2 /*return*/]; // no tab id, no action
-                return [4 /*yield*/, chrome.storage.session.get(null)];
-            case 2:
-                sessionState = _a.sent();
-                return [4 /*yield*/, chrome.storage.local.get(["APIKey", "language"])];
-            case 3:
-                localState = _a.sent();
-                return [4 /*yield*/, chrome.tabs.sendMessage(tabId, { name: "record_click", content: __assign(__assign({}, sessionState), localState) })];
-            case 4:
-                _a.sent();
-                if (!sessionState.permission_granted) return [3 /*break*/, 6];
-                // only applicable if user has granted permission
-                Toggle.recordingAnimation();
-                Toggle.hint();
-                return [4 /*yield*/, changeRecordingState()];
-            case 5:
-                _a.sent();
-                _a.label = 6;
-            case 6:
-                handleLoadingIcon(sessionState.recording);
-                return [2 /*return*/];
-        }
-    });
-}); });
-function getCurrentTabId() {
-    return chrome.tabs.query({ active: true, currentWindow: true })
-        .then(function (tabs) { return tabs[0].id; });
-}
-function handleLoadingIcon(recordingState) {
-    if (recordingState) {
-        // recording is on, button is pressed to switch it off
-        // show loading icon because audio is being processed
-        Toggle.loadingIcon();
-    }
-}
+input === null || input === void 0 ? void 0 : input.addEventListener("click", handleRecordingClick);
 var expandMore = document.getElementById("expand-more");
 var expandLess = document.getElementById("expand-less");
 expandMore === null || expandMore === void 0 ? void 0 : expandMore.addEventListener("click", function () {

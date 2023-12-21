@@ -1,8 +1,9 @@
 import Toggle from "./Toggle.js";
-import changeRecordingState from "./changeRecordingState.js";
 import copyTranscriptToClipboard from "./copyTranscriptToClipboard.js";
 import enterTranscriptIntoTranscriptElement from "./enterTranscriptIntoTranscriptElement.js";
+import getCurrentTabId from "./getCurrentTabId.js";
 import handlePopupMessages from "./handlePopupMessages.js";
+import handleRecordingClick from "./handleRecordingClick.js";
 import showNextTranscript from "./showNextTranscript.js";
 import showPreviousTranscript from "./showPreviousTranscript.js";
 
@@ -34,40 +35,7 @@ chrome.runtime.onMessage.addListener(handlePopupMessages);
 })();
 
 const input = document.querySelector("input");
-input?.addEventListener("click", async () => {
-  
-  const tabId = await getCurrentTabId();
-  if (!tabId) return // no tab id, no action
-  
-  const sessionState: ISessionState = await chrome.storage.session.get(null);
-  // get API KEY and language
-  const localState = await chrome.storage.local.get(["APIKey", "language"]);
-  await chrome.tabs.sendMessage(
-    tabId, 
-    { name: "record_click", content: {...sessionState, ...localState} }
-  );
-  
-  if (sessionState.permission_granted) {
-    // only applicable if user has granted permission
-    Toggle.recordingAnimation();
-    Toggle.hint();  
-    await changeRecordingState()
-  }
-  handleLoadingIcon(sessionState.recording);
-})
-
-function getCurrentTabId() {
-  return chrome.tabs.query({ active: true, currentWindow: true })
-    .then(tabs => tabs[0].id)
-}
-
-function handleLoadingIcon(recordingState: boolean | undefined) {
-  if (recordingState) {
-    // recording is on, button is pressed to switch it off
-    // show loading icon because audio is being processed
-    Toggle.loadingIcon()
-  }
-}
+input?.addEventListener("click", handleRecordingClick)
 
 const expandMore = document.getElementById("expand-more");
 const expandLess = document.getElementById("expand-less");
