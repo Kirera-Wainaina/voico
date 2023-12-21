@@ -46,52 +46,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import Toggle from "./Toggle.js";
-// save recording state to know if click should start/stop recording
-var Recording;
-(function (Recording) {
-    Recording["ON"] = "on";
-    Recording["OFF"] = "off";
-})(Recording || (Recording = {}));
-// state to know if we should initiate getUserMedia for the first time
-var YesOrNo;
-(function (YesOrNo) {
-    YesOrNo["YES"] = "yes";
-    YesOrNo["NO"] = "no";
-})(YesOrNo || (YesOrNo = {}));
+import changeRecordingState from "./changeRecordingState.js";
+import enterTranscriptIntoTranscriptElement from "./enterTranscriptIntoTranscriptElement.js";
+import handlePopupMessages from "./handlePopupMessages.js";
+import showNotification from "./showNotification.js";
 // listen to messages
 chrome.runtime.onMessage.addListener(handlePopupMessages);
-function handlePopupMessages(message) {
-    switch (message.name) {
-        case "transcript_received":
-            Toggle.loadingIcon();
-            saveTranscript(message.content);
-            break;
-        case "permission_denied":
-            handlePermissionDenied();
-            break;
-        case "permission_granted":
-            handlePermissionGranted();
-            break;
-        case "server_error":
-            var errorNotification = document.getElementById("server-error");
-            if (errorNotification)
-                showNotification(errorNotification);
-            Toggle.loadingIcon();
-            break;
-        case "is_online":
-            handleWifiSituation(message.content);
-        default:
-            break;
-    }
-}
 // set user_media_is_setup state to an initial value 'no'
 // set default recording state to off
 (function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, chrome.storage.session.set({
-                    "user_media_is_setup": YesOrNo.NO,
-                    "recording": Recording.OFF
+                    "user_media_is_setup": false,
+                    "recording": false
                 })];
             case 1:
                 _a.sent();
@@ -132,7 +100,7 @@ function handlePopupMessages(message) {
 }); })();
 var input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", function () { return __awaiter(void 0, void 0, void 0, function () {
-    var tabId, state, state2;
+    var tabId, sessionState, localState;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, getCurrentTabId()];
@@ -142,14 +110,14 @@ input === null || input === void 0 ? void 0 : input.addEventListener("click", fu
                     return [2 /*return*/]; // no tab id, no action
                 return [4 /*yield*/, chrome.storage.session.get(null)];
             case 2:
-                state = _a.sent();
+                sessionState = _a.sent();
                 return [4 /*yield*/, chrome.storage.local.get(["APIKey", "language"])];
             case 3:
-                state2 = _a.sent();
-                return [4 /*yield*/, chrome.tabs.sendMessage(tabId, { name: "record_click", content: __assign(__assign({}, state), state2) })];
+                localState = _a.sent();
+                return [4 /*yield*/, chrome.tabs.sendMessage(tabId, { name: "record_click", content: __assign(__assign({}, sessionState), localState) })];
             case 4:
                 _a.sent();
-                if (!(state.permission_granted == YesOrNo.YES)) return [3 /*break*/, 6];
+                if (!sessionState.permission_granted) return [3 /*break*/, 6];
                 // only applicable if user has granted permission
                 Toggle.recordingAnimation();
                 Toggle.hint();
@@ -158,90 +126,21 @@ input === null || input === void 0 ? void 0 : input.addEventListener("click", fu
                 _a.sent();
                 _a.label = 6;
             case 6:
-                handleLoadingIcon(state.recording);
+                handleLoadingIcon(sessionState.recording);
                 return [2 /*return*/];
         }
     });
 }); });
-function changeRecordingState() {
-    return __awaiter(this, void 0, void 0, function () {
-        var recording;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, chrome.storage.session.get("recording")];
-                case 1:
-                    recording = (_a.sent()).recording;
-                    if (recording == "off") {
-                        chrome.storage.session.set({
-                            "recording": Recording.ON,
-                            "user_media_is_setup": YesOrNo.YES
-                        });
-                    }
-                    else {
-                        chrome.storage.session.set({ "recording": Recording.OFF });
-                    }
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
 function getCurrentTabId() {
     return chrome.tabs.query({ active: true, currentWindow: true })
         .then(function (tabs) { return tabs[0].id; });
 }
 function handleLoadingIcon(recordingState) {
-    if (recordingState == Recording.ON) {
+    if (recordingState) {
         // recording is on, button is pressed to switch it off
         // show loading icon because audio is being processed
         Toggle.loadingIcon();
     }
-}
-function handlePermissionDenied() {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: 
-                // restore state
-                return [4 /*yield*/, chrome.storage.session.set({
-                        "user_media_is_setup": YesOrNo.NO,
-                        "recording": Recording.OFF,
-                        "permission_granted": YesOrNo.NO
-                    })
-                    // show the permission note
-                ];
-                case 1:
-                    // restore state
-                    _a.sent();
-                    // show the permission note
-                    Toggle.permissionNote();
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
-function handlePermissionGranted() {
-    return __awaiter(this, void 0, void 0, function () {
-        var permission_granted;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, chrome.storage.session.get("permission_granted")];
-                case 1:
-                    permission_granted = (_a.sent()).permission_granted;
-                    // if permission was set, nothing to do
-                    if (permission_granted == YesOrNo.YES)
-                        return [2 /*return*/];
-                    return [4 /*yield*/, chrome.storage.session.set({ "permission_granted": YesOrNo.YES })];
-                case 2:
-                    _a.sent();
-                    return [4 /*yield*/, changeRecordingState()];
-                case 3:
-                    _a.sent();
-                    Toggle.recordingAnimation();
-                    Toggle.hint();
-                    return [2 /*return*/];
-            }
-        });
-    });
 }
 var expandMore = document.getElementById("expand-more");
 var expandLess = document.getElementById("expand-less");
@@ -256,56 +155,6 @@ expandLess === null || expandLess === void 0 ? void 0 : expandLess.addEventListe
     expandLess === null || expandLess === void 0 ? void 0 : expandLess.classList.toggle("hide");
     Toggle.transcript();
 });
-function saveTranscript(text) {
-    return __awaiter(this, void 0, void 0, function () {
-        var transcripts;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, chrome.storage.local.get("transcripts")];
-                case 1:
-                    transcripts = (_a.sent()).transcripts;
-                    if (transcripts) {
-                        transcripts = JSON.parse(transcripts);
-                        if (transcripts.length >= 5) {
-                            // maintain the saved transcripts at 5 or below
-                            // anything above is popped
-                            transcripts.pop();
-                        }
-                    }
-                    else {
-                        transcripts = [];
-                    }
-                    transcripts.unshift(text);
-                    return [4 /*yield*/, chrome.storage.local.set({ "transcripts": JSON.stringify(transcripts) })];
-                case 2:
-                    _a.sent();
-                    enterTranscriptIntoTranscriptElement();
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
-function enterTranscriptIntoTranscriptElement() {
-    return __awaiter(this, void 0, void 0, function () {
-        var transcripts, transcriptElement;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, chrome.storage.local.get("transcripts")];
-                case 1:
-                    transcripts = (_a.sent()).transcripts;
-                    transcriptElement = document.getElementById("transcript");
-                    if (transcripts && transcriptElement) {
-                        transcripts = JSON.parse(transcripts);
-                        transcriptElement.textContent = transcripts[0];
-                    }
-                    else if (!transcripts && transcriptElement) {
-                        transcriptElement.textContent = "no transcripts yet!";
-                    }
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
 var copyIcon = document.getElementById("copy-icon");
 copyIcon === null || copyIcon === void 0 ? void 0 : copyIcon.addEventListener("click", copyTranscriptToClipboard);
 function copyTranscriptToClipboard() {
@@ -328,15 +177,6 @@ function copyTranscriptToClipboard() {
                     return [2 /*return*/];
             }
         });
-    });
-}
-function showNotification(element) {
-    element === null || element === void 0 ? void 0 : element.classList.toggle("hide");
-    element === null || element === void 0 ? void 0 : element.classList.toggle("notify");
-    // hide the notification again
-    element === null || element === void 0 ? void 0 : element.addEventListener("animationend", function () {
-        element === null || element === void 0 ? void 0 : element.classList.toggle("hide");
-        element === null || element === void 0 ? void 0 : element.classList.toggle("notify");
     });
 }
 var nextIcon = document.getElementById("next-icon");
@@ -416,13 +256,4 @@ function navigateToOptionsPage() {
             }
         });
     });
-}
-function handleWifiSituation(status) {
-    if (status)
-        return; // do nothing if there is wifi
-    // show the no wifi icon
-    Toggle.elementDisplay("no-wifi-icon");
-    // hide the record button and hint
-    Toggle.elementDisplay("mic");
-    Toggle.elementDisplay("hint");
 }
