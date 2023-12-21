@@ -8,3 +8,8 @@ interface ISessionState {
   recording?: boolean;
   permission_granted?: boolean
 }
+
+interface ILocalState {
+  language?: string;
+  APIKey?: string;
+}
