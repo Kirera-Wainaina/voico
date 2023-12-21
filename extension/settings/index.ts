@@ -1,8 +1,3 @@
-type Settings = {
-  language: string,
-  APIKey: string
-}
-
 // retrieve current API Key and language
 (async () => {
   const {language, APIKey} = await chrome.storage.local.get(null);
@@ -36,7 +31,7 @@ async function saveSettings(event: Event) {
   showSavedAnimation()
 }
 
-function retrieveFormValues():Settings | undefined  {
+function retrieveFormValues(): ILocalState | undefined  {
   const languageSelect = form?.querySelector("select");
   let APIKeyInput = form?.querySelector("input[type='password']");
 
