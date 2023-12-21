@@ -1,11 +1,11 @@
 export default async function changeRecordingState() {
-  const { recording } = await chrome.storage.session.get("recording");
-  if (recording == "off") {
+  const { recording }: ISessionState = await chrome.storage.session.get("recording");
+  if (!recording) {
     chrome.storage.session.set({ 
-      "recording": Recording.ON,
-      "user_media_is_setup": YesOrNo.YES
-    });
+      "recording": true,
+      "user_media_is_setup": true
+    } as ISessionState);
   } else {
-    chrome.storage.session.set({ "recording": Recording.OFF });
+    chrome.storage.session.set({ "recording": false } as ISessionState);
   }
 }

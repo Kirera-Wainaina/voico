@@ -42,14 +42,14 @@ export default function changeRecordingState() {
                 case 0: return [4 /*yield*/, chrome.storage.session.get("recording")];
                 case 1:
                     recording = (_a.sent()).recording;
-                    if (recording == "off") {
+                    if (!recording) {
                         chrome.storage.session.set({
-                            "recording": Recording.ON,
-                            "user_media_is_setup": YesOrNo.YES
+                            "recording": true,
+                            "user_media_is_setup": true
                         });
                     }
                     else {
-                        chrome.storage.session.set({ "recording": Recording.OFF });
+                        chrome.storage.session.set({ "recording": false });
                     }
                     return [2 /*return*/];
             }
