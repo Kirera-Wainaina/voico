@@ -34,8 +34,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import checkForWifi from "./checkForWifi";
-import handleRecording from "./handleRecording";
+import checkForWifi from "./checkForWifi.js";
+import handleRecording from "./handleRecording.js";
 export default function (message) {
     return __awaiter(this, void 0, void 0, function () {
         var _a;

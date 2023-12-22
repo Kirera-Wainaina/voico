@@ -1,5 +1,5 @@
-import checkForWifi from "./checkForWifi";
-import handleRecording from "./handleRecording";
+import checkForWifi from "./checkForWifi.js";
+import handleRecording from "./handleRecording.js";
 
 export default async function(message: ChromeMessage) {
   
