@@ -22,11 +22,11 @@ async function handleContentScriptMessages(message: ChromeMessage) {
   }
 }
 
-async function handleRecording(content: any) {
+async function handleRecording(content: ISessionState & ILocalState) {
   
   // set up user media if it doesn't exist
   // this is the case for every first click on extension
-  if (!content.user_media_is_setup) {
+  if (!content.user_media_is_setup && content.language && content.APIKey) {
     const result = await setupRecording(content.language, content.APIKey);
     if (result) {
       mediaRecorder = result;

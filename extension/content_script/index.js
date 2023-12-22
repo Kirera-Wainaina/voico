@@ -70,7 +70,7 @@ function handleRecording(content) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    if (!!content.user_media_is_setup) return [3 /*break*/, 2];
+                    if (!(!content.user_media_is_setup && content.language && content.APIKey)) return [3 /*break*/, 2];
                     return [4 /*yield*/, setupRecording(content.language, content.APIKey)];
                 case 1:
                     result = _a.sent();
