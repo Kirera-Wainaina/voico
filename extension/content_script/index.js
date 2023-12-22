@@ -37,61 +37,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+import handleContentScriptMessages from "./handleContentScriptMessages";
 var mediaRecorder = null;
 chrome.runtime.onMessage.addListener(handleContentScriptMessages);
-function handleContentScriptMessages(message) {
-    return __awaiter(this, void 0, void 0, function () {
-        var _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _a = message.name;
-                    switch (_a) {
-                        case "record_click": return [3 /*break*/, 1];
-                        case "wifi_check": return [3 /*break*/, 3];
-                    }
-                    return [3 /*break*/, 4];
-                case 1: return [4 /*yield*/, handleRecording(message.content)];
-                case 2:
-                    _b.sent();
-                    return [3 /*break*/, 5];
-                case 3:
-                    checkForWifi();
-                    return [3 /*break*/, 5];
-                case 4: return [3 /*break*/, 5];
-                case 5: return [2 /*return*/];
-            }
-        });
-    });
-}
-function handleRecording(content) {
-    return __awaiter(this, void 0, void 0, function () {
-        var result;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    if (!(!content.user_media_is_setup || content.user_media_is_setup == "no")) return [3 /*break*/, 2];
-                    return [4 /*yield*/, setupRecording(content.language, content.APIKey)];
-                case 1:
-                    result = _a.sent();
-                    if (result) {
-                        mediaRecorder = result;
-                        mediaRecorder.start();
-                    }
-                    return [3 /*break*/, 3];
-                case 2:
-                    if (content.recording === "off") {
-                        mediaRecorder === null || mediaRecorder === void 0 ? void 0 : mediaRecorder.start();
-                    }
-                    else {
-                        mediaRecorder === null || mediaRecorder === void 0 ? void 0 : mediaRecorder.stop();
-                    }
-                    _a.label = 3;
-                case 3: return [2 /*return*/];
-            }
-        });
-    });
-}
 function setupRecording(language, APIKey) {
     return __awaiter(this, void 0, void 0, function () {
         var stream, audioData_1, mediaRecorder_1, error_1;
@@ -177,14 +125,5 @@ function inputTextIntoActiveElement(text) {
                 activeElement.innerText += "\n".concat(text);
             }
         }
-    }
-}
-function checkForWifi() {
-    // let the popup know if there is wifi
-    if (navigator.onLine) {
-        chrome.runtime.sendMessage({ name: "is_online", content: true });
-    }
-    else {
-        chrome.runtime.sendMessage({ name: "is_online", content: false });
     }
 }

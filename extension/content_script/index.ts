@@ -2,45 +2,15 @@
  * this is where audio is recorded and transmitted to the server
 */
 
+import handleContentScriptMessages from "./handleContentScriptMessages";
+
 var mediaRecorder: MediaRecorder | null = null;
 
 chrome.runtime.onMessage.addListener(handleContentScriptMessages);
 
-async function handleContentScriptMessages(message: ChromeMessage) {
-  
-  switch (message.name) {
-    case "record_click":
-      await handleRecording(message.content);
-      break;
 
-    case "wifi_check":
-      checkForWifi();
-      break;
-  
-    default:
-      break;
-  }
-}
 
-async function handleRecording(content: ISessionState & ILocalState) {
-  
-  // set up user media if it doesn't exist
-  // this is the case for every first click on extension
-  if (!content.user_media_is_setup) {
-    if (content.language && content.APIKey) {
-      const result = await setupRecording(content.language, content.APIKey);
-      if (result) {
-        mediaRecorder = result;
-        mediaRecorder.start()
-      }
-    }
-  } else if (content.recording) {
-    mediaRecorder?.start();
-  } else {
-    mediaRecorder?.stop();
-  }
 
-}
 
 async function setupRecording(language: string, APIKey: string) {
   try {
@@ -119,14 +89,5 @@ function inputTextIntoActiveElement(text:string) {
       activeElement.innerText += `\n${text}`;
       }
     }
-  }
-}
-
-function checkForWifi() {
-  // let the popup know if there is wifi
-  if (navigator.onLine) {
-    chrome.runtime.sendMessage({ name: "is_online", content: true });
-  } else {
-    chrome.runtime.sendMessage({ name: "is_online", content: false });
   }
 }
