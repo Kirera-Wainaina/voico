@@ -105,5 +105,5 @@ function showSavedAnimation() {
     slider === null || slider === void 0 ? void 0 : slider.classList.toggle("hide");
     slider === null || slider === void 0 ? void 0 : slider.addEventListener("animationend", function () {
         slider.classList.toggle("hide");
-    });
+    }, { once: true });
 }

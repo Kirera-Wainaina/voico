@@ -61,5 +61,5 @@ function showSavedAnimation() {
 
   slider?.addEventListener("animationend", () => {
     slider.classList.toggle("hide");
-  })
+  }, { once: true })
 }
