@@ -16,12 +16,18 @@
 const freeVersionToggleButton = document.querySelector("#version-toggle button:first-child");
 const premiumVersionToggleButton = document.querySelector("#version-toggle button:last-child");
 
-freeVersionToggleButton?.addEventListener('click', toggleVersion);
-premiumVersionToggleButton?.addEventListener('click', toggleVersion);
+freeVersionToggleButton?.addEventListener('click', toggleSettings);
+premiumVersionToggleButton?.addEventListener('click', toggleSettings);
 
-function toggleVersion() {
+function toggleSettings() {
   freeVersionToggleButton?.classList.toggle('activate-version');
   premiumVersionToggleButton?.classList.toggle('activate-version');
+
+  const freeVersionSettingsContainer = document.querySelector('#free-version-settings');
+  const premiumVersionSettingsContainer = document.querySelector('#premium-version-settings');
+
+  freeVersionSettingsContainer?.classList.toggle('hide');
+  premiumVersionSettingsContainer?.classList.toggle('hide');
 }
 
 const form = document.querySelector("form");

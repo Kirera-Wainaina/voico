@@ -52,8 +52,12 @@ h1 {
   color: white;
 }
 
-form {
+#free-version-settings,
+#premium-version-settings {
   grid-column: 5 / 9;
+}
+
+form {
   margin-top: 1em;
   font-size: 1.5em;
 }

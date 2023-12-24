@@ -59,11 +59,15 @@ var _this = this;
 }); })();
 var freeVersionToggleButton = document.querySelector("#version-toggle button:first-child");
 var premiumVersionToggleButton = document.querySelector("#version-toggle button:last-child");
-freeVersionToggleButton === null || freeVersionToggleButton === void 0 ? void 0 : freeVersionToggleButton.addEventListener('click', toggleVersion);
-premiumVersionToggleButton === null || premiumVersionToggleButton === void 0 ? void 0 : premiumVersionToggleButton.addEventListener('click', toggleVersion);
-function toggleVersion() {
+freeVersionToggleButton === null || freeVersionToggleButton === void 0 ? void 0 : freeVersionToggleButton.addEventListener('click', toggleSettings);
+premiumVersionToggleButton === null || premiumVersionToggleButton === void 0 ? void 0 : premiumVersionToggleButton.addEventListener('click', toggleSettings);
+function toggleSettings() {
     freeVersionToggleButton === null || freeVersionToggleButton === void 0 ? void 0 : freeVersionToggleButton.classList.toggle('activate-version');
     premiumVersionToggleButton === null || premiumVersionToggleButton === void 0 ? void 0 : premiumVersionToggleButton.classList.toggle('activate-version');
+    var freeVersionSettingsContainer = document.querySelector('#free-version-settings');
+    var premiumVersionSettingsContainer = document.querySelector('#premium-version-settings');
+    freeVersionSettingsContainer === null || freeVersionSettingsContainer === void 0 ? void 0 : freeVersionSettingsContainer.classList.toggle('hide');
+    premiumVersionSettingsContainer === null || premiumVersionSettingsContainer === void 0 ? void 0 : premiumVersionSettingsContainer.classList.toggle('hide');
 }
 var form = document.querySelector("form");
 form === null || form === void 0 ? void 0 : form.addEventListener("submit", saveSettings);
