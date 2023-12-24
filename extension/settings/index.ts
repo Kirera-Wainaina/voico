@@ -11,7 +11,18 @@
     const APIKeyInput = document.querySelector("input[type='password']");
     if (APIKeyInput instanceof HTMLInputElement) APIKeyInput.value = APIKey;
   }
-})()
+})();
+
+const freeVersionToggleButton = document.querySelector("#version-toggle button:first-child");
+const premiumVersionToggleButton = document.querySelector("#version-toggle button:last-child");
+
+freeVersionToggleButton?.addEventListener('click', toggleVersion);
+premiumVersionToggleButton?.addEventListener('click', toggleVersion);
+
+function toggleVersion() {
+  freeVersionToggleButton?.classList.toggle('activate-version');
+  premiumVersionToggleButton?.classList.toggle('activate-version');
+}
 
 const form = document.querySelector("form");
 form?.addEventListener("submit", saveSettings);

@@ -57,6 +57,14 @@ var _this = this;
         }
     });
 }); })();
+var freeVersionToggleButton = document.querySelector("#version-toggle button:first-child");
+var premiumVersionToggleButton = document.querySelector("#version-toggle button:last-child");
+freeVersionToggleButton === null || freeVersionToggleButton === void 0 ? void 0 : freeVersionToggleButton.addEventListener('click', toggleVersion);
+premiumVersionToggleButton === null || premiumVersionToggleButton === void 0 ? void 0 : premiumVersionToggleButton.addEventListener('click', toggleVersion);
+function toggleVersion() {
+    freeVersionToggleButton === null || freeVersionToggleButton === void 0 ? void 0 : freeVersionToggleButton.classList.toggle('activate-version');
+    premiumVersionToggleButton === null || premiumVersionToggleButton === void 0 ? void 0 : premiumVersionToggleButton.classList.toggle('activate-version');
+}
 var form = document.querySelector("form");
 form === null || form === void 0 ? void 0 : form.addEventListener("submit", saveSettings);
 function saveSettings(event) {

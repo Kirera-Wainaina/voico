@@ -28,11 +28,8 @@ h1 {
 }
 
 #version-toggle button:first-child {
-  background-color: var(--primary-color);
   flex: 1;
-  color: white;
   height: 100%;
-  font-size: 1.5em;
 }
 
 #version-toggle button:last-child {
@@ -47,6 +44,12 @@ h1 {
   padding-right: 8px;
   border-radius: 10px;
   margin-left: 5px;
+}
+
+.activate-version {
+  font-size: 1.5em;
+  background-color: var(--primary-color);
+  color: white;
 }
 
 form {
