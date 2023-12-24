@@ -98,7 +98,7 @@ input[type="submit"]:active {
   margin-left: 49.5%;
 }
 
-#info {
+.info {
   background-color: var(--hover-color);
   font-size: 1.2em;
   padding: 1em;
