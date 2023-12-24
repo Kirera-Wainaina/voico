@@ -16,6 +16,39 @@ h1 {
   margin-top: 1em;
 }
 
+#version-toggle {
+  grid-column: 3 / 11;
+  display: flex;
+  align-items: center;
+  /* justify-content: space-around; */
+  border: 1px solid lightgrey;
+  height: 6vh;
+  margin-top: 3vh;
+  /* font-size: 2em; */
+}
+
+#version-toggle button:first-child {
+  background-color: var(--primary-color);
+  flex: 1;
+  color: white;
+  height: 100%;
+  font-size: 1.5em;
+}
+
+#version-toggle button:last-child {
+  flex: 1;
+  height: 100%;
+}
+
+#version-toggle span {
+  background-color: lightgreen;
+  padding: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 10px;
+  margin-left: 5px;
+}
+
 form {
   grid-column: 5 / 9;
   margin-top: 1em;
