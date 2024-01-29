@@ -1,0 +1,71 @@
+@import url("./base.css");
+
+:root {
+  --pulser-bg-color: #090a0a;
+}
+
+#pulser{
+  border-radius: 50%;
+  position: absolute;
+  top: calc(50% - 10vw);
+  right: 40vw;
+  width: 20vw;
+  height: 20vw;
+
+  background-color: var(--pulser-bg-color);
+
+  animation-name: pulse;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+  animation-duration: 2s;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    background-color: var(--pulser-bg-color);
+  }
+
+
+  100% {
+    transform: scale(2, 2);
+    background-color: #b0d6e8;
+    opacity: 0;
+  }
+  
+}
+
+#mic {
+  border-radius: 50%;
+  width: 30vw;
+  position: absolute;
+  top: calc(50% - 15vw);
+  right: 35vw;
+  z-index: 2;
+}
+
+#banner {
+  grid-column: 1 / 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 99vh;
+  text-align: center;
+}
+
+#proclamation {
+  font-family: 'Caprasimo', cursive;
+  color: var(--primary-color);
+  font-size: 4em;
+}
+
+#slogan {
+  font-size: 2em;
+}
+
+@media (orientation: portrait) {
+  #banner {
+    grid-column: 1 / 6;
+    justify-content: space-around;
+  }
+}
