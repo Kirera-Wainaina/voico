@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -9,6 +10,8 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+
+import utils.MIMEHandler;
 
 public class App {
 
@@ -32,7 +35,6 @@ class RequestHandler implements HttpHandler {
 
   public void handle(HttpExchange exchange) throws IOException {
     String requestMethod = exchange.getRequestMethod();
-    // URI requestURI = exchange.getRequestURI();
 
     if (requestMethod.equalsIgnoreCase("GET")) {
       this.handleGETRequests(exchange);
@@ -42,7 +44,7 @@ class RequestHandler implements HttpHandler {
 
   }
 
-  public void handleGETRequests(HttpExchange exchange) throws IOException {
+  public void handleGETRequests_(HttpExchange exchange) throws IOException {
     Path homePagePath = Path.of(System.getProperty("user.dir"), "frontend/html/home.html")
       .normalize();
     File homepage = homePagePath.toFile();
@@ -58,7 +60,30 @@ class RequestHandler implements HttpHandler {
     }
   }
 
+  public void handleGETRequests(HttpExchange exchange) throws IOException {
+    URI uri = exchange.getRequestURI();
+
+    if (this.isBrowserPath(uri)) {
+    } else {
+    }
+
+  }
+
   public void handlePOSTRequests() {
     
   }
+
+  // private void createFilePath() {
+
+  // }
+
+  private boolean isBrowserPath(URI uri) {
+    
+    if (MIMEHandler.hasExtension(uri.toString())) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
 }
