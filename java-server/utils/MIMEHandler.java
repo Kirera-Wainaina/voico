@@ -3,7 +3,7 @@ package utils;
 import java.util.Hashtable;
 import java.util.Map.Entry;
 
-class MIMEHandler {
+public class MIMEHandler {
 
   private Hashtable<String, String> extensionToMIMEtypeHashtable = new Hashtable<>();
 
@@ -42,8 +42,7 @@ class MIMEHandler {
   }
 
   public static String getExtensionFromMIMEType(String MIMEType) {
-    MIMEHandler mimeHandler = new MIMEHandler();
-    Hashtable<String, String> table = mimeHandler.extensionToMIMEtypeHashtable;
+    Hashtable<String, String> table = new MIMEHandler().extensionToMIMEtypeHashtable;
     String extension = null;
 
     if (table.containsValue(MIMEType)) {
@@ -56,6 +55,17 @@ class MIMEHandler {
     } else {
       throw new Error("MIMEType " + MIMEType + " not recognized");
     }
+  }
+
+  public static boolean hasExtension(String pathString) {
+    Hashtable<String, String> table = new MIMEHandler().extensionToMIMEtypeHashtable;
+
+    for (Entry<String, String> entry: table.entrySet()) {
+      if (pathString.endsWith(entry.getKey())) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }
