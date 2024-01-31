@@ -62,20 +62,27 @@ class RequestHandler implements HttpHandler {
 
   public void handleGETRequests(HttpExchange exchange) throws IOException {
     URI uri = exchange.getRequestURI();
+    Path filePath = null;
 
     if (this.isBrowserPath(uri)) {
+      filePath = this.createHTMLFilePath(uri);
     } else {
     }
 
+    System.out.println(filePath);
   }
 
   public void handlePOSTRequests() {
     
   }
 
-  // private void createFilePath() {
-
-  // }
+  private Path createHTMLFilePath(URI uri) {
+    if (uri.toString().equalsIgnoreCase("/")) {
+      return Path.of(System.getProperty("user.dir"), "frontend/html/home.html");
+    } else {
+      return Path.of(System.getProperty("user.dir"), "frontend/html/", uri + ".html");
+    }
+  }
 
   private boolean isBrowserPath(URI uri) {
     
