@@ -67,6 +67,13 @@ class RequestHandler implements HttpHandler {
     if (this.isBrowserPath(uri)) {
       filePath = this.createHTMLFilePath(uri);
     } else {
+      filePath = this.createOtherFilePath(uri);
+    }
+
+    File file = filePath.toFile();
+
+    if (file.canRead()) {
+      this.respondWithFile(file, exchange);
     }
 
     System.out.println(filePath);
@@ -80,8 +87,21 @@ class RequestHandler implements HttpHandler {
     if (uri.toString().equalsIgnoreCase("/")) {
       return Path.of(System.getProperty("user.dir"), "frontend/html/home.html");
     } else {
-      return Path.of(System.getProperty("user.dir"), "frontend/html/", uri + ".html");
+      return Path.of(System.getProperty("user.dir"), "frontend/html/", uri.toString() + ".html");
     }
+  }
+
+  private Path createOtherFilePath(URI uri) {
+    return Path.of(System.getProperty("user.dir"), uri.toString());
+  }
+
+  private void respondWithFile(File file, HttpExchange exchange) {
+    // OutputStream responseBody = exchange.getResponseBody();
+    // Headers headers = exchange.getResponseHeaders();
+
+    // next is to set the content-type headers
+    // to do that, I need to get the mimetype
+    // to get mimetype, I need to get extension
   }
 
   private boolean isBrowserPath(URI uri) {
