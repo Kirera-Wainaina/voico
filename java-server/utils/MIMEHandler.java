@@ -68,4 +68,9 @@ public class MIMEHandler {
     return false;
   }
 
+  public static String getExtension(String pathString) {
+    // use regex to get the extension from the path
+    return pathString.replaceAll(".*(?=\\.)", "");
+  }
+
 }
