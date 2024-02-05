@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.nio.file.Path;
+
 import org.junit.jupiter.api.Test;
 
 // /**
@@ -16,28 +18,38 @@ public class MIMEHandlerTest {
   @Test
   public void testGetMIMETypeFromExtension() throws Exception {
 
-    assertEquals(MIMEHandler.getMIMETypeFromExtension(".gif"), "image/gif");
+    assertEquals("image/gif", MIMEHandler.getMIMETypeFromExtension(".gif"));
 
     String extension = ".pdf";
     Exception exception = assertThrows(
       Exception.class, 
       () -> MIMEHandler.getMIMETypeFromExtension(extension));
-      assertEquals(exception.getMessage(), "Extension " + extension + " value not recognized");
+      assertEquals("Extension " + extension + " value not recognized", exception.getMessage());
   }
 
   @Test
   public void testGetExtensionFromMIMEType() throws Exception {
 
-    assertEquals(MIMEHandler.getExtensionFromMIMEType("text/html"), ".html");
+    assertEquals(".html", MIMEHandler.getExtensionFromMIMEType("text/html"));
 
     String mimetype = "application/pdf";
     Exception exception = assertThrows(Exception.class, () -> MIMEHandler.getExtensionFromMIMEType(mimetype));
-    assertEquals(exception.getMessage(), "MIMEType " + mimetype + " not recognized");
+    assertEquals("MIMEType " + mimetype + " not recognized", exception.getMessage());
   }
 
   @Test
   public void testHasRecognizedExtension() {
      assertTrue(MIMEHandler.hasRecognizedExtension("/app/test.html"));
      assertFalse(MIMEHandler.hasRecognizedExtension("/app/test.java"));
+  }
+
+  @Test
+  public void testGetExtension() {
+    assertEquals(".html", MIMEHandler.getExtension("/app/test.html"));
+    assertEquals("", MIMEHandler.getExtension("/app/test"));
+    assertEquals("", MIMEHandler.getExtension("/app/test."));
+
+    Path path = Path.of("/app/test.html");
+    assertEquals(".html", MIMEHandler.getExtension(path)); 
   }
 }
