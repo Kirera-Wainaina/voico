@@ -1,3 +1,5 @@
+package online.voico.app;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -11,7 +13,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
-import utils.MIMEHandler;
+import online.voico.app.utils.MIMEHandler;
 
 public class App {
 

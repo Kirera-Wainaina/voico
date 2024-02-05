@@ -1,4 +1,4 @@
-package utils;
+package online.voico.app.utils;
 
 import java.util.Hashtable;
 import java.util.Map.Entry;
