@@ -1,5 +1,6 @@
 package online.voico.app.utils;
 
+import java.nio.file.Path;
 import java.util.Hashtable;
 import java.util.Map.Entry;
 
@@ -79,6 +80,10 @@ public class MIMEHandler {
       return pathString.replaceAll(".*(?=\\.)", "");
     }
     return "";
+  }
+
+  public static String getExtension(Path path) {
+    return MIMEHandler.getExtension(path.toString());
   }
 
 }
