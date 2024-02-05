@@ -53,22 +53,6 @@ class RequestHandler implements HttpHandler {
 
   }
 
-  public void handleGETRequests_(HttpExchange exchange) throws IOException {
-    Path homePagePath = Path.of(System.getProperty("user.dir"), "frontend/html/home.html")
-      .normalize();
-    File homepage = homePagePath.toFile();
-    if (homepage.canRead()) {
-      System.out.println("Called");
-      OutputStream responseBody = exchange.getResponseBody();
-      Headers headers = exchange.getResponseHeaders();
-      byte[] fileBody = Files.readAllBytes(homePagePath);
-      headers.set("content-type", "text/html");
-      exchange.sendResponseHeaders(200, fileBody.length);
-      responseBody.write(fileBody);
-      responseBody.close();
-    }
-  }
-
   public void handleGETRequests(HttpExchange exchange) throws IOException, Exception {
     URI uri = exchange.getRequestURI();
     Path filePath = null;
@@ -96,7 +80,7 @@ class RequestHandler implements HttpHandler {
     if (uri.toString().equalsIgnoreCase("/")) {
       return Path.of(System.getProperty("user.dir"), "../frontend/html/home.html").normalize();
     } else {
-      return Path.of(System.getProperty("user.dir"), "../frontend/html/", uri.toString() + ".html");
+      return Path.of(System.getProperty("user.dir"), "../frontend/html/", uri.toString() + ".html").normalize();
     }
   }
 
@@ -119,6 +103,7 @@ class RequestHandler implements HttpHandler {
   }
 
   private void respondWithError() {
+    // todo: respond to clients in case breaking errors
 
   }
 
