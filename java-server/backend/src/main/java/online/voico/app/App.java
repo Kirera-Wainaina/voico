@@ -94,14 +94,14 @@ class RequestHandler implements HttpHandler {
 
   private Path createHTMLFilePath(URI uri) {
     if (uri.toString().equalsIgnoreCase("/")) {
-      return Path.of(System.getProperty("user.dir"), "frontend/html/home.html");
+      return Path.of(System.getProperty("user.dir"), "../frontend/html/home.html").normalize();
     } else {
-      return Path.of(System.getProperty("user.dir"), "frontend/html/", uri.toString() + ".html");
+      return Path.of(System.getProperty("user.dir"), "../frontend/html/", uri.toString() + ".html");
     }
   }
 
   private Path createOtherFilePath(URI uri) {
-    return Path.of(System.getProperty("user.dir"), uri.toString());
+    return Path.of(System.getProperty("user.dir"), "../" + uri.toString()).normalize();
   }
 
   private void respondWithFile(File file, HttpExchange exchange) {
@@ -116,6 +116,10 @@ class RequestHandler implements HttpHandler {
     } catch (Exception e) {
       System.err.println(e);
     }
+  }
+
+  private void respondWithError() {
+
   }
 
   private boolean isBrowserPath(URI uri) {
