@@ -41,6 +41,11 @@ public class MIMEHandler {
     }
   }
 
+  public static String getMIMETypeFromPath(String pathString) throws Exception {
+    String extension = MIMEHandler.getExtension(pathString);
+    return MIMEHandler.getMIMETypeFromExtension(extension);
+  }
+
   public static String getExtensionFromMIMEType(String MIMEType) throws Exception {
     Hashtable<String, String> table = new MIMEHandler().extensionToMIMEtypeHashtable;
     String extension = null;
@@ -70,7 +75,10 @@ public class MIMEHandler {
 
   public static String getExtension(String pathString) {
     // use regex to get the extension from the path
-    return pathString.replaceAll(".*(?=\\.)", "");
+    if (pathString.matches(".*\\.\\w+")) {
+      return pathString.replaceAll(".*(?=\\.)", "");
+    }
+    return "";
   }
 
 }
