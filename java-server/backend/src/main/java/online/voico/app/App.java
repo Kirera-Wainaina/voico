@@ -67,6 +67,8 @@ class RequestHandler implements HttpHandler {
 
     if (file.canRead()) {
       this.respondWithFile(file, exchange);
+    } else {
+      this.respondWithError("File was not found", 404, exchange);
     }
 
     System.out.println(filePath);
@@ -102,9 +104,19 @@ class RequestHandler implements HttpHandler {
     }
   }
 
-  private void respondWithError() {
+  private void respondWithError(String msg, int errorCode, HttpExchange exchange) {
     // todo: respond to clients in case breaking errors
 
+    try (OutputStream responseBody = exchange.getResponseBody()) {
+      Headers headers = exchange.getResponseHeaders();
+      byte[] msgBytes = msg.getBytes(); 
+
+      headers.set("content-type", "text/html");
+      exchange.sendResponseHeaders(errorCode, msgBytes.length);;
+      responseBody.write(msgBytes);
+    } catch (Exception e) {
+      System.err.println(e);
+    }
   }
 
   private boolean isBrowserPath(URI uri) {
