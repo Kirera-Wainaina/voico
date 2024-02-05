@@ -23,4 +23,13 @@ public class MIMEHandlerTest {
     assertEquals(exception.getMessage(), "Extension " + extension + " value not recognized");
    }
 
+   @Test
+   public void testGetExtensionFromMIMEType() throws Exception {
+
+    assertEquals(MIMEHandler.getExtensionFromMIMEType("text/html"), ".html");
+
+    String mimetype = "application/pdf";
+    Exception exception = assertThrows(Exception.class, () -> MIMEHandler.getExtensionFromMIMEType(mimetype));
+    assertEquals(exception.getMessage(), "MIMEType " + mimetype + " not recognized");
+   }
 }
