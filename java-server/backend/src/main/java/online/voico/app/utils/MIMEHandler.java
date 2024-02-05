@@ -57,7 +57,7 @@ public class MIMEHandler {
     }
   }
 
-  public static boolean hasExtension(String pathString) {
+  public static boolean hasRecognizedExtension(String pathString) {
     Hashtable<String, String> table = new MIMEHandler().extensionToMIMEtypeHashtable;
 
     for (Entry<String, String> entry: table.entrySet()) {

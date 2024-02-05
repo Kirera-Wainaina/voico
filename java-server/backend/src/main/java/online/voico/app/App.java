@@ -108,7 +108,7 @@ class RequestHandler implements HttpHandler {
 
   private boolean isBrowserPath(URI uri) {
     
-    if (MIMEHandler.hasExtension(uri.toString())) {
+    if (MIMEHandler.hasRecognizedExtension(uri.toString())) {
       return false;
     } else {
       return true;
