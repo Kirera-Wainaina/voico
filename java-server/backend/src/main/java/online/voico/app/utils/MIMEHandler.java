@@ -31,17 +31,17 @@ public class MIMEHandler {
     extensionToMIMEtypeHashtable.put(".xml", "text/xml");
   }
 
-  public static String getMIMETypeFromExtension(String extension) {
+  public static String getMIMETypeFromExtension(String extension) throws Exception {
     MIMEHandler mimeHandler = new MIMEHandler();
 
     if (mimeHandler.extensionToMIMEtypeHashtable.containsKey(extension)) {
       return mimeHandler.extensionToMIMEtypeHashtable.get(extension);
     } else {
-      throw new Error("Extension " + extension + " value not recognized");
+      throw new Exception("Extension " + extension + " value not recognized");
     }
   }
 
-  public static String getExtensionFromMIMEType(String MIMEType) {
+  public static String getExtensionFromMIMEType(String MIMEType) throws Exception {
     Hashtable<String, String> table = new MIMEHandler().extensionToMIMEtypeHashtable;
     String extension = null;
 
@@ -53,7 +53,7 @@ public class MIMEHandler {
       }
       return extension;
     } else {
-      throw new Error("MIMEType " + MIMEType + " not recognized");
+      throw new Exception("MIMEType " + MIMEType + " not recognized");
     }
   }
 
