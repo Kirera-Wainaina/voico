@@ -52,4 +52,16 @@ public class MIMEHandlerTest {
     Path path = Path.of("/app/test.html");
     assertEquals(".html", MIMEHandler.getExtension(path)); 
   }
+
+  @Test
+  public void testGetMIMETypeFromPath() throws Exception {
+    assertEquals("text/html", MIMEHandler.getMIMETypeFromPath("/app/test.html"));
+    assertEquals("", MIMEHandler.getMIMETypeFromPath("/app/test"));
+  }
+
+  @Test
+  public void testHasExtension() {
+    assertTrue(MIMEHandler.hasExtension("/app/test.pdf"));
+    assertFalse(MIMEHandler.hasExtension("app."));
+  }
 }
