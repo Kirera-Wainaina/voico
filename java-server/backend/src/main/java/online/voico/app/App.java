@@ -29,19 +29,26 @@ public class App {
       System.out.println("Started server on port 3000");
     } catch (IOException e) {
       System.out.println("IO Exception occurred: " + e.getMessage());
+    } catch (Exception e) {
+      System.out.println("An uncaught error occured: " + e.getMessage());
     }
   }
 }
 
 class RequestHandler implements HttpHandler {
 
-  public void handle(HttpExchange exchange) throws IOException {
-    String requestMethod = exchange.getRequestMethod();
+  public void handle(HttpExchange exchange) {
+    try {
+      String requestMethod = exchange.getRequestMethod();
 
-    if (requestMethod.equalsIgnoreCase("GET")) {
-      this.handleGETRequests(exchange);
-    } else if (requestMethod == "POST") {
-      
+      if (requestMethod.equalsIgnoreCase("GET")) {
+        this.handleGETRequests(exchange);
+      } else if (requestMethod == "POST") {
+        
+      }
+        
+    } catch (Exception e) {
+      System.err.println(e);
     }
 
   }
@@ -62,7 +69,7 @@ class RequestHandler implements HttpHandler {
     }
   }
 
-  public void handleGETRequests(HttpExchange exchange) throws IOException {
+  public void handleGETRequests(HttpExchange exchange) throws IOException, Exception {
     URI uri = exchange.getRequestURI();
     Path filePath = null;
 
@@ -98,12 +105,17 @@ class RequestHandler implements HttpHandler {
   }
 
   private void respondWithFile(File file, HttpExchange exchange) {
-    // OutputStream responseBody = exchange.getResponseBody();
-    // Headers headers = exchange.getResponseHeaders();
+    try (OutputStream responseBody = exchange.getResponseBody()) {
+      Headers headers = exchange.getResponseHeaders();
+      byte[] filebody = Files.readAllBytes(Path.of(file.getAbsolutePath()));
 
-    // next is to set the content-type headers
-    // to do that, I need to get the mimetype
-    // to get mimetype, I need to get extension
+      headers.set("content-type", MIMEHandler.getMIMETypeFromPath(file.getAbsolutePath()));
+      exchange.sendResponseHeaders(200, filebody.length);
+      responseBody.write(filebody);
+  
+    } catch (Exception e) {
+      System.err.println(e);
+    }
   }
 
   private boolean isBrowserPath(URI uri) {
