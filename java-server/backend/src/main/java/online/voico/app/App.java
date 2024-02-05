@@ -49,6 +49,7 @@ class RequestHandler implements HttpHandler {
         
     } catch (Exception e) {
       System.err.println(e);
+      this.respondWithError("An error occurred on the server", 500, exchange);
     }
 
   }
@@ -109,7 +110,8 @@ class RequestHandler implements HttpHandler {
 
     try (OutputStream responseBody = exchange.getResponseBody()) {
       Headers headers = exchange.getResponseHeaders();
-      byte[] msgBytes = msg.getBytes(); 
+      String htmlString = "<h1>" + msg + "</h1>";
+      byte[] msgBytes = htmlString.getBytes(); 
 
       headers.set("content-type", "text/html");
       exchange.sendResponseHeaders(errorCode, msgBytes.length);;
