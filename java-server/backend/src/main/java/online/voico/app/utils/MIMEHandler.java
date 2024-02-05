@@ -43,8 +43,15 @@ public class MIMEHandler {
   }
 
   public static String getMIMETypeFromPath(String pathString) throws Exception {
-    String extension = MIMEHandler.getExtension(pathString);
-    return MIMEHandler.getMIMETypeFromExtension(extension);
+    if (MIMEHandler.hasExtension(pathString)) {
+      String extension = MIMEHandler.getExtension(pathString);
+      return MIMEHandler.getMIMETypeFromExtension(extension);
+    }
+    return "";
+  }
+
+  public static String getMIMETypeFromPath(Path path) throws Exception {
+    return MIMEHandler.getMIMETypeFromPath(path.toString());
   }
 
   public static String getExtensionFromMIMEType(String MIMEType) throws Exception {
@@ -74,9 +81,16 @@ public class MIMEHandler {
     return false;
   }
 
+  public static boolean hasExtension(String pathString) {
+    if (pathString.matches(".*\\.\\w+")) {
+      return true;
+    }
+    return false;
+  }
+
   public static String getExtension(String pathString) {
     // use regex to get the extension from the path
-    if (pathString.matches(".*\\.\\w+")) {
+    if (MIMEHandler.hasExtension(pathString)) {
       return pathString.replaceAll(".*(?=\\.)", "");
     }
     return "";
