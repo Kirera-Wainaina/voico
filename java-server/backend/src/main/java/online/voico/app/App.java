@@ -38,7 +38,7 @@ class Handler implements HttpHandler {
       if (requestMethod.equalsIgnoreCase("GET")) {
         GETRequestHandler getRequestHandler = new GETRequestHandler(exchange);
         getRequestHandler.handleGETRequests();
-      } else if (requestMethod == "POST") {
+      } else if (requestMethod.equalsIgnoreCase("POST")) {
         POSTRequestHandler postRequestHandler = new POSTRequestHandler(exchange);
         postRequestHandler.handlePOSTRequests();
       }
