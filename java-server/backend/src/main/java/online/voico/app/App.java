@@ -1,8 +1,10 @@
 package online.voico.app;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -42,10 +44,24 @@ class Handler implements HttpHandler {
         
     } catch (Exception e) {
       System.err.println(e);
-
-      // send an error message in the off chance this ever happened
+      respondWithError(exchange);
     }
 
+  }
+
+  private void respondWithError(HttpExchange exchange) {
+
+    try (OutputStream responseBody = exchange.getResponseBody()) {
+      Headers headers = exchange.getResponseHeaders();
+      String htmlString = "<h1>Internal Server Error</h1><p>Try again later!</p>";
+      byte[] msgBytes = htmlString.getBytes(); 
+
+      headers.set("content-type", "text/html");
+      exchange.sendResponseHeaders(500, msgBytes.length);;
+      responseBody.write(msgBytes);
+    } catch (Exception e) {
+      System.err.println(e);
+    }
   }
 
 }
