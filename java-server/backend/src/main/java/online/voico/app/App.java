@@ -24,7 +24,7 @@ public class App {
 
     try {
       HttpServer server = HttpServer.create(new InetSocketAddress("127.0.0.1", 3000), 0);
-      server.createContext("/", new RequestHandler());
+      server.createContext("/", new Handler());
       server.start();
       System.out.println("Started server on port 3000");
     } catch (IOException e) {
@@ -35,7 +35,7 @@ public class App {
   }
 }
 
-class RequestHandler implements HttpHandler {
+class Handler implements HttpHandler {
 
   public void handle(HttpExchange exchange) {
     try {
@@ -57,12 +57,38 @@ class RequestHandler implements HttpHandler {
 
 }
 
-class GETRequestHandler {
+/**
+ * RequestHandler
+ */
+class RequestHandler {
 
   public HttpExchange exchange;
 
-  public GETRequestHandler(HttpExchange exchange) {
+  public RequestHandler(HttpExchange exchange) {
     this.exchange = exchange;
+  }
+
+  public void respondWithError(String msg, int errorCode) {
+
+    try (OutputStream responseBody = exchange.getResponseBody()) {
+      Headers headers = exchange.getResponseHeaders();
+      String htmlString = "<h1>" + msg + "</h1>";
+      byte[] msgBytes = htmlString.getBytes(); 
+
+      headers.set("content-type", "text/html");
+      exchange.sendResponseHeaders(errorCode, msgBytes.length);;
+      responseBody.write(msgBytes);
+    } catch (Exception e) {
+      System.err.println(e);
+    }
+  }
+
+}
+
+class GETRequestHandler extends RequestHandler{
+
+  public GETRequestHandler(HttpExchange exchange) {
+    super(exchange);
   }
 
   public void handleGETRequests() throws IOException, Exception {
@@ -80,7 +106,7 @@ class GETRequestHandler {
     if (file.canRead()) {
       this.respondWithFile(file);
     } else {
-      this.respondWithError("File was not found", 404);
+      super.respondWithError("File was not found", 404);
     }
 
     System.out.println(filePath);
@@ -116,22 +142,6 @@ class GETRequestHandler {
       exchange.sendResponseHeaders(200, filebody.length);
       responseBody.write(filebody);
   
-    } catch (Exception e) {
-      System.err.println(e);
-    }
-  }
-
-  private void respondWithError(String msg, int errorCode) {
-    // todo: respond to clients in case breaking errors
-
-    try (OutputStream responseBody = exchange.getResponseBody()) {
-      Headers headers = exchange.getResponseHeaders();
-      String htmlString = "<h1>" + msg + "</h1>";
-      byte[] msgBytes = htmlString.getBytes(); 
-
-      headers.set("content-type", "text/html");
-      exchange.sendResponseHeaders(errorCode, msgBytes.length);;
-      responseBody.write(msgBytes);
     } catch (Exception e) {
       System.err.println(e);
     }
