@@ -42,20 +42,31 @@ class RequestHandler implements HttpHandler {
       String requestMethod = exchange.getRequestMethod();
 
       if (requestMethod.equalsIgnoreCase("GET")) {
-        this.handleGETRequests(exchange);
+        GETRequestHandler getRequestHandler = new GETRequestHandler(exchange);
+        getRequestHandler.handleGETRequests();
       } else if (requestMethod == "POST") {
         
       }
         
     } catch (Exception e) {
       System.err.println(e);
-      this.respondWithError("An error occurred on the server", 500, exchange);
+      // this.respondWithError("An error occurred on the server", 500, exchange);
     }
 
   }
 
-  public void handleGETRequests(HttpExchange exchange) throws IOException, Exception {
-    URI uri = exchange.getRequestURI();
+}
+
+class GETRequestHandler {
+
+  public HttpExchange exchange;
+
+  public GETRequestHandler(HttpExchange exchange) {
+    this.exchange = exchange;
+  }
+
+  public void handleGETRequests() throws IOException, Exception {
+    URI uri = this.exchange.getRequestURI();
     Path filePath = null;
 
     if (this.isBrowserPath(uri)) {
@@ -67,16 +78,21 @@ class RequestHandler implements HttpHandler {
     File file = filePath.toFile();
 
     if (file.canRead()) {
-      this.respondWithFile(file, exchange);
+      this.respondWithFile(file);
     } else {
-      this.respondWithError("File was not found", 404, exchange);
+      this.respondWithError("File was not found", 404);
     }
 
     System.out.println(filePath);
   }
 
-  public void handlePOSTRequests() {
+  private boolean isBrowserPath(URI uri) {
     
+    if (MIMEHandler.hasRecognizedExtension(uri.toString())) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   private Path createHTMLFilePath(URI uri) {
@@ -91,7 +107,7 @@ class RequestHandler implements HttpHandler {
     return Path.of(System.getProperty("user.dir"), "../" + uri.toString()).normalize();
   }
 
-  private void respondWithFile(File file, HttpExchange exchange) {
+  private void respondWithFile(File file) {
     try (OutputStream responseBody = exchange.getResponseBody()) {
       Headers headers = exchange.getResponseHeaders();
       byte[] filebody = Files.readAllBytes(Path.of(file.getAbsolutePath()));
@@ -105,7 +121,7 @@ class RequestHandler implements HttpHandler {
     }
   }
 
-  private void respondWithError(String msg, int errorCode, HttpExchange exchange) {
+  private void respondWithError(String msg, int errorCode) {
     // todo: respond to clients in case breaking errors
 
     try (OutputStream responseBody = exchange.getResponseBody()) {
@@ -120,14 +136,5 @@ class RequestHandler implements HttpHandler {
       System.err.println(e);
     }
   }
-
-  private boolean isBrowserPath(URI uri) {
-    
-    if (MIMEHandler.hasRecognizedExtension(uri.toString())) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
+  
 }
