@@ -103,3 +103,25 @@ class GETRequestHandler extends RequestHandler{
   }
   
 }
+
+/**
+ * POSTRequestHandler
+ */
+class POSTRequestHandler extends RequestHandler {
+
+  public POSTRequestHandler(HttpExchange exchange) {
+    super(exchange);
+  }
+
+  public void handlePOSTRequests() {
+    URI uri = exchange.getRequestURI();
+
+    System.out.println(uri.toString());
+
+    Path classPath = Path.of(System.getProperty("user.dir"));
+  }
+
+  private boolean isAPIRequest(String pathString) {
+    return pathString.matches("/api/.+");
+  }
+}
