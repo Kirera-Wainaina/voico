@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -133,7 +132,7 @@ class POSTRequestHandler extends RequestHandler {
         Object argList[] = new Object[1];
         argList[0] = exchange;
         Object newInstance = apiConstructor.newInstance(argList);
-        Transcribe instance = (Transcribe)newInstance;
+        ApiInterface instance = (ApiInterface)newInstance;
         instance.run();
       } catch (Exception e) {
         System.err.print(e);
