@@ -35,7 +35,9 @@ chrome.runtime.onMessage.addListener(handlePopupMessages);
 })();
 
 const input = document.querySelector("input");
-input?.addEventListener("click", handleRecordingClick)
+input?.addEventListener("click", handleRecordingClick);
+input?.addEventListener("pointerover", () => Toggle.hint());
+input?.addEventListener("pointerleave", () => Toggle.hint());
 
 const expandMore = document.getElementById("expand-more");
 const expandLess = document.getElementById("expand-less");

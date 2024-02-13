@@ -92,6 +92,8 @@ chrome.runtime.onMessage.addListener(handlePopupMessages);
 }); })();
 var input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", handleRecordingClick);
+input === null || input === void 0 ? void 0 : input.addEventListener("pointerover", function () { return Toggle.hint(); });
+input === null || input === void 0 ? void 0 : input.addEventListener("pointerleave", function () { return Toggle.hint(); });
 var expandMore = document.getElementById("expand-more");
 var expandLess = document.getElementById("expand-less");
 expandMore === null || expandMore === void 0 ? void 0 : expandMore.addEventListener("click", function () {
