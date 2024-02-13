@@ -10,3 +10,6 @@ node_modules/
 # everything other than x in uploaded
 uploaded/*
 !uploaded/x
+
+# ignore the saved mp3
+*.mp3
