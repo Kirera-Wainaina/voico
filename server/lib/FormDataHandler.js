@@ -9,6 +9,11 @@ const busboy = require("busboy");
 const { generateRandomName, log } = require("./utils");
 const mimes = require("./MIMEHandler");
 module.exports = class {
+    request;
+    fields;
+    thereIsFile;
+    fileNumber;
+    uploadedFiles;
     constructor(request) {
         this.request = request;
         this.fields = {};
