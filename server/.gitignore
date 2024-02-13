@@ -13,3 +13,6 @@ uploaded/*
 
 # ignore the saved mp3
 *.mp3
+
+# domain certificates
+*.pem
