@@ -48,9 +48,21 @@ input[type="image"]:active,
   background-color: var(--active-color);
 }
 
-p {
-  grid-column: 1 / 6;
-  text-align: center;
+.hover-info {
+  position: absolute;
+  top: 0;
+  right: -10px;
+  background-color: var(--hover-color);
+  color: darkslategray;
+  border-radius: 5px;
+  padding: 3px;
+
+}
+
+#hint {
+  width: 30vw;
+  top: 40vh;
+  right: 5vw;
 }
 
 #recording-animation {
