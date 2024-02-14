@@ -1,6 +1,3 @@
-/*
- * this is where audio is recorded and transmitted to the server
-*/
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -37,6 +34,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+import env from "../env";
+/*
+ * this is where audio is recorded and transmitted to the server
+*/
 var mediaRecorder = null;
 chrome.runtime.onMessage.addListener(handleContentScriptMessages);
 function handleContentScriptMessages(message) {
@@ -136,7 +137,8 @@ function transmitAudio(audioData, language, APIKey) {
     formdata.append("APIKey", APIKey);
     // use 'cors' because the request isn't going to same origin
     // the server has allowed access through "access-control-allow-origin" header
-    fetch("https://voico.online/api/transcribe", {
+    // fetch("https://voico.online/api/transcribe", {
+    fetch("".concat(env.domain, "/api/transcribe"), {
         method: "POST",
         body: formdata,
         mode: "cors"
