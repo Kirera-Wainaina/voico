@@ -23,5 +23,11 @@
       "js": ["content_script/index.js"]
     }
   ],
-  "options_page": "settings/index.html"
+  "options_page": "settings/index.html",
+  "web_accessible_resources": [
+    {
+      "resources": ["env.js"],
+      "matches": ["*://*/*"]
+    }
+  ]
 }

@@ -1,4 +1,3 @@
-import env from "../env";
 /*
  * this is where audio is recorded and transmitted to the server
 */
@@ -67,7 +66,7 @@ function combineAudioData(event:BlobEvent, audioDataArray:Array<Blob>) {
   audioDataArray.push(event.data);
 }
 
-function transmitAudio(audioData:Blob[], language: string, APIKey: string) {
+async function transmitAudio(audioData:Blob[], language: string, APIKey: string) {
   const blob = new Blob(audioData, { type: "audio/webm;codecs=opus"});
   const formdata = new FormData();
   formdata.append("audio", blob);
@@ -75,10 +74,13 @@ function transmitAudio(audioData:Blob[], language: string, APIKey: string) {
   formdata.append("language", language);
   formdata.append("APIKey", APIKey);
 
+  // import env dynamically
+  const envUrl = chrome.runtime.getURL("/env.js");
+  const env = await import(envUrl);
+
   // use 'cors' because the request isn't going to same origin
   // the server has allowed access through "access-control-allow-origin" header
-  // fetch("https://voico.online/api/transcribe", {
-  fetch(`${env.domain}/api/transcribe`, {
+  fetch(`${env.default.domain}/api/transcribe`, {
     method: "POST",
     body: formdata,
     mode: "cors"

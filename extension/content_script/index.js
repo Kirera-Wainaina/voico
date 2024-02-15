@@ -1,3 +1,6 @@
+/*
+ * this is where audio is recorded and transmitted to the server
+*/
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,10 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import env from "../env";
-/*
- * this is where audio is recorded and transmitted to the server
-*/
 var mediaRecorder = null;
 chrome.runtime.onMessage.addListener(handleContentScriptMessages);
 function handleContentScriptMessages(message) {
@@ -129,32 +128,44 @@ function combineAudioData(event, audioDataArray) {
     audioDataArray.push(event.data);
 }
 function transmitAudio(audioData, language, APIKey) {
-    var blob = new Blob(audioData, { type: "audio/webm;codecs=opus" });
-    var formdata = new FormData();
-    formdata.append("audio", blob);
-    formdata.append("fileNumber", "1");
-    formdata.append("language", language);
-    formdata.append("APIKey", APIKey);
-    // use 'cors' because the request isn't going to same origin
-    // the server has allowed access through "access-control-allow-origin" header
-    // fetch("https://voico.online/api/transcribe", {
-    fetch("".concat(env.domain, "/api/transcribe"), {
-        method: "POST",
-        body: formdata,
-        mode: "cors"
-    })
-        .then(function (response) {
-        if (response.status == 500)
-            throw new Error("server error");
-        return response.text();
-    })
-        .then(function (text) {
-        chrome.runtime.sendMessage({ name: "transcript_received", content: text });
-        inputTextIntoActiveElement(text);
-    })
-        .catch(function (error) {
-        // let the user know there is an error through the popup
-        chrome.runtime.sendMessage({ name: "server_error" });
+    return __awaiter(this, void 0, void 0, function () {
+        var blob, formdata, envUrl, env;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    blob = new Blob(audioData, { type: "audio/webm;codecs=opus" });
+                    formdata = new FormData();
+                    formdata.append("audio", blob);
+                    formdata.append("fileNumber", "1");
+                    formdata.append("language", language);
+                    formdata.append("APIKey", APIKey);
+                    envUrl = chrome.runtime.getURL("/env.js");
+                    return [4 /*yield*/, import(envUrl)];
+                case 1:
+                    env = _a.sent();
+                    // use 'cors' because the request isn't going to same origin
+                    // the server has allowed access through "access-control-allow-origin" header
+                    fetch("".concat(env.default.domain, "/api/transcribe"), {
+                        method: "POST",
+                        body: formdata,
+                        mode: "cors"
+                    })
+                        .then(function (response) {
+                        if (response.status == 500)
+                            throw new Error("server error");
+                        return response.text();
+                    })
+                        .then(function (text) {
+                        chrome.runtime.sendMessage({ name: "transcript_received", content: text });
+                        inputTextIntoActiveElement(text);
+                    })
+                        .catch(function (error) {
+                        // let the user know there is an error through the popup
+                        chrome.runtime.sendMessage({ name: "server_error" });
+                    });
+                    return [2 /*return*/];
+            }
+        });
     });
 }
 function inputTextIntoActiveElement(text) {
