@@ -239,3 +239,56 @@ audio {
   grid-column: 3 / 4;
   width: 100%;
 }
+
+#sign-in-prompt-container {
+  grid-column: 1 / 6;
+  width: 90%;
+  height: 15vh;
+  margin-top: 10vh;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  position: relative;
+}
+
+#sign-in-prompt {
+  height: 100%;
+  width: 100%;
+  background-color: lightgreen;
+  border: none;
+  font-size: 1.2em;
+  border-radius: 5px;
+}
+
+#sign-in-prompt:hover {
+  background-color: greenyellow;
+}
+
+#sign-in-prompt:active {
+  background-color: green;
+}
+
+#sign-in-prompt-pulser {
+  width: 100%;
+  height: 15vh;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 0;
+  z-index: -1;
+
+  animation-name: pulse;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1, 1);
+    background-color: lightgreen;
+  }
+
+  to {
+    transform: scale(1.05, 1.3);
+    background-color: #e9fce9;
+  }
+}
