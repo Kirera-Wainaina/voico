@@ -40,14 +40,13 @@
       </div>
     </div>
 
-    
-
     <p id="permission-note" class="hide">
       Please grant Voico permission to record on this website 
       or record on a website where Voico has permission.
     </p>
     <p id="server-error" class="hide">An error occurred. Please refresh the page</p>
-    <input 
+
+    <!-- <input 
       id="expand-more" 
       type="image" 
       src="../images/expand-more.svg" 
@@ -59,8 +58,27 @@
       src="../images/expand-less.svg" 
       alt="expand less"
       class="hide"
-    >
+    > -->
     
+    <div id="nav-bar">
+      <input
+        type="image"
+        src="../images/account.svg"
+        alt="manage account"
+      />
+      <input
+        type="image"
+        src="../images/notes.svg"
+        alt="transcripts"
+      />
+      <input
+        type="image" 
+        src="../images/settings-icon.svg"
+        alt="Voico settings" 
+        id="settings-icon"
+      >
+    </div>
+
     <p id="transcript" class="hide"></p>
 
     <div id="transcript-controls" class="hide">
@@ -84,13 +102,7 @@
         id="next-icon"
       >
     </div>
-    <input
-      type="image" 
-      src="../images/settings-icon.svg"
-      alt="Voico settings" 
-      id="settings-icon"
-      class="hide"
-    >
+    
     <p id="copied-notification" class="hide">Copied to clipboard</p>
     <script src="index.js" type="module"></script>
   </body>
