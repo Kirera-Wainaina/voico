@@ -36,7 +36,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import Toggle from "./Toggle.js";
 import copyTranscriptToClipboard from "./copyTranscriptToClipboard.js";
-import enterTranscriptIntoTranscriptElement from "./enterTranscriptIntoTranscriptElement.js";
 import getCurrentTabId from "./getCurrentTabId.js";
 import handlePopupMessages from "./handlePopupMessages.js";
 import handleRecordingClick from "./handleRecordingClick.js";
@@ -94,19 +93,19 @@ var input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", handleRecordingClick);
 input === null || input === void 0 ? void 0 : input.addEventListener("pointerover", function () { return Toggle.hint(); });
 input === null || input === void 0 ? void 0 : input.addEventListener("pointerleave", function () { return Toggle.hint(); });
-var expandMore = document.getElementById("expand-more");
-var expandLess = document.getElementById("expand-less");
-expandMore === null || expandMore === void 0 ? void 0 : expandMore.addEventListener("click", function () {
-    expandMore.classList.toggle("hide");
-    expandLess === null || expandLess === void 0 ? void 0 : expandLess.classList.toggle("hide");
-    enterTranscriptIntoTranscriptElement();
-    Toggle.transcript();
-});
-expandLess === null || expandLess === void 0 ? void 0 : expandLess.addEventListener("click", function () {
-    expandMore === null || expandMore === void 0 ? void 0 : expandMore.classList.toggle("hide");
-    expandLess === null || expandLess === void 0 ? void 0 : expandLess.classList.toggle("hide");
-    Toggle.transcript();
-});
+// const expandMore = document.getElementById("expand-more");
+// const expandLess = document.getElementById("expand-less");
+// expandMore?.addEventListener("click", () => {
+//   expandMore.classList.toggle("hide");
+//   expandLess?.classList.toggle("hide");
+//   enterTranscriptIntoTranscriptElement();
+//   Toggle.transcript();
+// })
+// expandLess?.addEventListener("click", () => {
+//   expandMore?.classList.toggle("hide");
+//   expandLess?.classList.toggle("hide");
+//   Toggle.transcript();
+// })
 var copyIcon = document.getElementById("copy-icon");
 copyIcon === null || copyIcon === void 0 ? void 0 : copyIcon.addEventListener("click", copyTranscriptToClipboard);
 var nextIcon = document.getElementById("next-icon");
