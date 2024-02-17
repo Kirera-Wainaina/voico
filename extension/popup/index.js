@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import Toggle from "./Toggle.js";
 import copyTranscriptToClipboard from "./copyTranscriptToClipboard.js";
+import enterTranscriptIntoTranscriptElement from "./enterTranscriptIntoTranscriptElement.js";
 import getCurrentTabId from "./getCurrentTabId.js";
 import handlePopupMessages from "./handlePopupMessages.js";
 import handleRecordingClick from "./handleRecordingClick.js";
@@ -147,6 +148,10 @@ navBarInputs.forEach(function (input) {
         if (input instanceof HTMLElement && input.dataset.id) {
             var page = document.getElementById(input.dataset.id);
             page === null || page === void 0 ? void 0 : page.classList.remove("hide");
+            // enter transcript information if its transcript button
+            if (input.dataset.id == "transcript-page") {
+                enterTranscriptIntoTranscriptElement();
+            }
         }
     });
 });

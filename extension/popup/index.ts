@@ -94,6 +94,11 @@ navBarInputs.forEach(input => {
     if (input instanceof HTMLElement && input.dataset.id) {
       const page = document.getElementById(input.dataset.id);
       page?.classList.remove("hide");
+
+      // enter transcript information if its transcript button
+      if (input.dataset.id == "transcript-page") {
+        enterTranscriptIntoTranscriptElement()
+      }
     }
   })
 })
