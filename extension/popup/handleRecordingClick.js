@@ -70,7 +70,6 @@ export default function () {
                     if (!sessionState.permission_granted) return [3 /*break*/, 6];
                     // only applicable if user has granted permission
                     Toggle.recordingAnimation();
-                    Toggle.hint();
                     return [4 /*yield*/, changeRecordingState()];
                 case 5:
                     _a.sent();

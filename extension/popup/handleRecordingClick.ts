@@ -17,7 +17,6 @@ export default async function () {
   if (sessionState.permission_granted) {
     // only applicable if user has granted permission
     Toggle.recordingAnimation();
-    Toggle.hint();  
     await changeRecordingState()
   }
   handleLoadingIcon(sessionState.recording);

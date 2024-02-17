@@ -28,28 +28,30 @@ h1 {
   font-size: 2.2em;
   color: var(--primary-color);
   text-align: center;
-  margin-top: 5vh;
+  margin-top: 5vw;
+}
+
+#record-page {
+  grid-column: 1 / 6;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 #mic {
-  grid-column: 3 / 4;
   border-radius: 50%;
   box-shadow: var(--shadow);
-  padding: 1em;
-  margin-top: 10vh;
+  padding: 3vw;
+  margin-top: 10vw;
+  height: 20vw;
+  width: 20vw;
 }
 
-input[type="image"]:hover
-/* #expand-more:hover,
-#expand-less:hover  */
-{
+input[type="image"]:hover {
   background-color: var(--hover-color);
 }
 
-input[type="image"]:active
-/* #expand-more:active,
-#expand-less:active  */
-{
+input[type="image"]:active {
   background-color: var(--active-color);
 }
 
@@ -66,12 +68,11 @@ input[type="image"]:active
 
 #hint {
   width: 30vw;
-  top: 40vh;
+  top: 40vw;
   right: 5vw;
 }
 
 #recording-animation {
-  grid-column: 1 / 6;
   display: flex;
   justify-content: center;
   gap: 3px;
@@ -80,13 +81,13 @@ input[type="image"]:active
 
 .recording-bar:nth-child(1),
 .recording-bar:nth-child(3) {
-  height: 10px;
+  height: 10vw;
   animation-name: stretch1;
 }
 
 .recording-bar:nth-child(2),
 .recording-bar:nth-child(4) {
-  height: 8px;
+  height: 8vw;
   animation-name: stretch2;
 }
 
@@ -95,6 +96,8 @@ input[type="image"]:active
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-duration: 1s;
+  background-color: var(--active-color);
+  width: 2vw;
 }
 
 audio {
@@ -135,11 +138,10 @@ audio {
   border-width: 5px;
   border-style: solid;
   border-radius: 50%;
-  grid-column: 3 / 4;
-  height: 30px;
-  width: 30px;
-  padding: 1em;
-  margin-bottom: 1em;
+  height: 15vw;
+  width: 15vw;
+  padding: 4vw;
+  margin-top: 10vw;
 
   animation-name: spinning;
   animation-duration: .5s;
@@ -158,20 +160,8 @@ audio {
 }
 
 #permission-note {
-  grid-column: 2 / 5;
+  width: 80%;
 }
-
-/* #expand-more,
-#expand-less {
-  grid-column: 1 / 6;
-  display: flex;
-  justify-self: center;
-  margin-top: 1em;
-  background-color: var(--primary-color);
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-} */
 
 #transcript {
   grid-column: 1 / 6;
@@ -228,12 +218,6 @@ audio {
   margin-right: 3px;
 }
 
-/* #settings-icon {
-  grid-column: 5 / 6;
-  margin-top: .2em;
-  height: 80%;
-} */
-
 #server-error {
   background-color: pink;
   color: red;
@@ -241,15 +225,13 @@ audio {
 }
 
 #no-wifi-icon {
-  grid-column: 3 / 4;
-  width: 100%;
+  width: 20vw;
 }
 
 #sign-in-prompt-container {
-  grid-column: 1 / 6;
-  width: 90%;
-  height: 15vh;
-  margin-top: 10vh;
+  width: 90vw;
+  height: 15vw;
+  margin-top: 10vw;
   margin-left: 5vw;
   margin-right: 5vw;
   position: relative;
@@ -274,7 +256,7 @@ audio {
 
 #sign-in-prompt-pulser {
   width: 100%;
-  height: 15vh;
+  height: 15vw;
   border-radius: 5px;
   position: absolute;
   bottom: 0;
@@ -300,19 +282,19 @@ audio {
 
 #nav-bar {
   grid-column: 1 / 6;
-  height: 10vh;
-  margin-top: 10vh;
+  height: 15vw;
+  margin-top: 10vw;
   border-radius: 5px;
   display: flex;
   gap: 15px;
   justify-content: space-evenly;
+  align-items: center;
   border-top: 1px solid var(--hover-color);
   border-right: 1px solid var(--hover-color);
-  padding: 5px;
 }
 
 #nav-bar input {
-  height: 100%;
+  height: 60%;
   border-radius: 5px;
   padding: 3px;
   padding-left: 5%;

@@ -6,59 +6,48 @@
   </head>
   <body>
     <h1>Voico</h1>
-    <input 
-      id="mic" 
-      type="image" 
-      src="../images/48.png" 
-      alt="Voico icon logo"
-    >
-    <p id="hint" class="hover-info hide">Click to start recording</p>
-
-    <img
-      src="../images/wifi-off.svg"
-      alt="no wifi" 
-      id="no-wifi-icon"
-      class="hide"
-    />
     
-    <div id="recording-animation" class="hide">
-      <div class="recording-bar"></div>
-      <div class="recording-bar"></div>
-      <div class="recording-bar"></div>
-      <div class="recording-bar"></div>
-    </div>
-    <div id="spinner" class="hide"></div>
-
-    <div id="sign-in-prompt-container">
+    <div id="record-page">
       <input 
-        type="button"
-        id="sign-in-prompt"
-        value="Try Free Instant Transcription! &#127881"
+        id="mic" 
+        type="image" 
+        src="../images/128.png" 
+        alt="Voico icon logo"
+      >
+      <p id="hint" class="hover-info hide">Click to start recording</p>
+
+      <img
+        src="../images/wifi-off.svg"
+        alt="no wifi" 
+        id="no-wifi-icon"
+        class="hide"
       />
-
-      <div id="sign-in-prompt-pulser">
+    
+      <div id="recording-animation" class="hide">
+        <div class="recording-bar"></div>
+        <div class="recording-bar"></div>
+        <div class="recording-bar"></div>
+        <div class="recording-bar"></div>
       </div>
+      <div id="spinner" class="hide"></div>
+
+      <div id="sign-in-prompt-container">
+        <input 
+          type="button"
+          id="sign-in-prompt"
+          value="Try Free Instant Transcription! &#127881"
+        />
+
+        <div id="sign-in-prompt-pulser">
+        </div>
+      </div>
+
+      <p id="permission-note" class="hide">
+        Please grant Voico permission to record on this website 
+        or record on a website where Voico has permission.
+      </p>
+      <p id="server-error" class="hide">An error occurred. Please refresh the page</p>
     </div>
-
-    <p id="permission-note" class="hide">
-      Please grant Voico permission to record on this website 
-      or record on a website where Voico has permission.
-    </p>
-    <p id="server-error" class="hide">An error occurred. Please refresh the page</p>
-
-    <!-- <input 
-      id="expand-more" 
-      type="image" 
-      src="../images/expand-more.svg" 
-      alt="expand more"
-    >
-    <input 
-      id="expand-less"
-      type="image" 
-      src="../images/expand-less.svg" 
-      alt="expand less"
-      class="hide"
-    > -->
     
     <div id="nav-bar">
       <input 
