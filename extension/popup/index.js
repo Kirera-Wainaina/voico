@@ -126,3 +126,27 @@ function navigateToOptionsPage() {
         });
     });
 }
+// add a data attribute to the input element with the ids of other pages
+// a listener to each that removes an existing page and puts a new one
+var navBarInputs = document.querySelectorAll("#nav-bar input");
+navBarInputs.forEach(function (input) {
+    // skip the process for the settings icon
+    if (input instanceof HTMLElement && input.id == "settings-icon") {
+        return;
+    }
+    // set click event listener for each input
+    input.addEventListener("click", function () {
+        // hide page associated with each button
+        navBarInputs.forEach(function (button) {
+            if (button instanceof HTMLElement && button.dataset.id) {
+                var page = document.getElementById(button.dataset.id);
+                page === null || page === void 0 ? void 0 : page.classList.add("hide");
+            }
+        });
+        // display the page associated with the input clicked
+        if (input instanceof HTMLElement && input.dataset.id) {
+            var page = document.getElementById(input.dataset.id);
+            page === null || page === void 0 ? void 0 : page.classList.remove("hide");
+        }
+    });
+});

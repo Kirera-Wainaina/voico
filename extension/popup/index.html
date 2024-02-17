@@ -48,21 +48,33 @@
       </p>
       <p id="server-error" class="hide">An error occurred. Please refresh the page</p>
     </div>
+
+    <div id="transcript-page" class="hide">
+      <p>Transcripts</p>
+    </div>
+
+    <div id="account-page" class="hide">
+      <p>Accounts</p>
+    </div>
     
     <div id="nav-bar">
       <input 
         type="image"
         src="../images/128.png"
+        alt="switch to record page"
+        data-id="record-page"
       />
       <input
         type="image"
         src="../images/account.svg"
         alt="manage account"
+        data-id="account-page"
       />
       <input
         type="image"
         src="../images/notes.svg"
         alt="transcripts"
+        data-id="transcript-page"
       />
       <input
         type="image" 
@@ -72,9 +84,9 @@
       >
     </div>
 
-    <p id="transcript" class="hide"></p>
+    <!-- <p id="transcript" class="hide"></p> -->
 
-    <div id="transcript-controls" class="hide">
+    <!-- <div id="transcript-controls" class="hide">
       <input 
         type="image" 
         src="../images/content-copy.svg" 
@@ -94,7 +106,7 @@
         alt="next transcript" 
         id="next-icon"
       >
-    </div>
+    </div> -->
     
     <p id="copied-notification" class="hide">Copied to clipboard</p>
     <script src="index.js" type="module"></script>
