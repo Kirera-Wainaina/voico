@@ -228,8 +228,11 @@ audio {
 }
 
 #copy-icon {
-  height: 60%;
-  margin-right: 5px;
+  height: 70%;
+  border-radius: 5px;
+  margin-left: 49%;
+  padding: 2px;
+
 }
 
 #transcript-number {
