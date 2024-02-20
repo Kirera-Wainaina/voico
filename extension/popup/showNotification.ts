@@ -7,5 +7,5 @@ export default function (element: HTMLElement) {
   element?.addEventListener("animationend", () => {
     element?.classList.toggle("hide");
     element?.classList.toggle("notify");
-  })
+  }, { once: true })
 }
