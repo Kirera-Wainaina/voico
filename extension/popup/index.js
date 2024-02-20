@@ -94,19 +94,6 @@ var input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", handleRecordingClick);
 input === null || input === void 0 ? void 0 : input.addEventListener("pointerover", function () { return Toggle.hint(); });
 input === null || input === void 0 ? void 0 : input.addEventListener("pointerleave", function () { return Toggle.hint(); });
-// const expandMore = document.getElementById("expand-more");
-// const expandLess = document.getElementById("expand-less");
-// expandMore?.addEventListener("click", () => {
-//   expandMore.classList.toggle("hide");
-//   expandLess?.classList.toggle("hide");
-//   enterTranscriptIntoTranscriptElement();
-//   Toggle.transcript();
-// })
-// expandLess?.addEventListener("click", () => {
-//   expandMore?.classList.toggle("hide");
-//   expandLess?.classList.toggle("hide");
-//   Toggle.transcript();
-// })
 var copyIcon = document.getElementById("copy-icon");
 copyIcon === null || copyIcon === void 0 ? void 0 : copyIcon.addEventListener("click", copyTranscriptToClipboard);
 var nextIcon = document.getElementById("next-icon");

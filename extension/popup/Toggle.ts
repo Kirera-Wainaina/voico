@@ -31,10 +31,4 @@ export default class Toggle {
   static recordingAnimation() {
     Toggle.elementDisplay("recording-animation");
   }
-
-  static transcript() {
-    Toggle.elementDisplay("transcript");
-    Toggle.elementDisplay("transcript-controls")
-    Toggle.elementDisplay("settings-icon");
-  }
 }

@@ -39,24 +39,6 @@ input?.addEventListener("click", handleRecordingClick);
 input?.addEventListener("pointerover", () => Toggle.hint());
 input?.addEventListener("pointerleave", () => Toggle.hint());
 
-// const expandMore = document.getElementById("expand-more");
-// const expandLess = document.getElementById("expand-less");
-
-// expandMore?.addEventListener("click", () => {
-//   expandMore.classList.toggle("hide");
-//   expandLess?.classList.toggle("hide");
-
-//   enterTranscriptIntoTranscriptElement();
-//   Toggle.transcript();
-// })
-
-// expandLess?.addEventListener("click", () => {
-//   expandMore?.classList.toggle("hide");
-//   expandLess?.classList.toggle("hide");
-
-//   Toggle.transcript();
-// })
-
 const copyIcon = document.getElementById("copy-icon");
 copyIcon?.addEventListener("click", copyTranscriptToClipboard);
 

@@ -32,11 +32,6 @@ var Toggle = /** @class */ (function () {
     Toggle.recordingAnimation = function () {
         Toggle.elementDisplay("recording-animation");
     };
-    Toggle.transcript = function () {
-        Toggle.elementDisplay("transcript");
-        Toggle.elementDisplay("transcript-controls");
-        Toggle.elementDisplay("settings-icon");
-    };
     return Toggle;
 }());
 export default Toggle;
