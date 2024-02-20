@@ -189,10 +189,16 @@ audio {
 }
 
 #transcript-controls {
-  grid-column: 1 / 5;
-
   display: flex;
   align-items: center;
+  height: 15vh;
+  margin-top: 5vh;
+
+}
+
+.transcript-control-icons {
+  height: 80%;
+  border-radius: 5px;
 }
 
 #copied-notification {
@@ -230,6 +236,7 @@ audio {
   display: inline;
   margin-left: 3px;
   margin-right: 3px;
+  font-size: 1.3em;
 }
 
 #server-error {
