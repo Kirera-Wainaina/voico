@@ -193,6 +193,7 @@ audio {
   align-items: center;
   height: 15vh;
   margin-top: 1vh;
+  position: relative;
 }
 
 .transcript-control-icons {
@@ -232,9 +233,10 @@ audio {
 #copy-icon {
   height: 70%;
   border-radius: 5px;
-  margin-left: 49%;
   padding: 2px;
-
+  position: absolute;
+  top: 5px;
+  right: 0;
 }
 
 #transcript-number {
