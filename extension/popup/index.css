@@ -35,15 +35,23 @@ h1 {
   width: 100%;
 }
 
-#record-page {
+.page {
   grid-column: 1 / 6;
+  margin-top: var(--page-margin-top);
+}
+
+#record-page {
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: flex-start;
-  margin-top: var(--page-margin-top);
   padding-top: 5vh;
   gap: 5vh;
+}
+
+#transcript-page {
+  padding: 2vh;
+  padding-top: 5vh;
 }
 
 #mic {
@@ -170,14 +178,14 @@ audio {
 }
 
 #transcript {
-  grid-column: 1 / 6;
-  height: 60px;
+  height: 30vh;
   border: 1px solid lightgrey;
   display: flex;
   justify-content: flex-start;
   padding: 5px;
   font-size: 1.1em;
   overflow-y: scroll;
+  border-radius: 5px;
 }
 
 #transcript-controls {
