@@ -13,7 +13,7 @@
   "author": {
     "email": "richardwainainak@gmail.com"
   },
-  "permissions": ["activeTab", "storage"],
+  "permissions": ["activeTab", "storage", "identity"],
   "action": {
     "default_title": "Start writing using your voice",
     "default_popup": "popup/index.html"
@@ -33,6 +33,6 @@
   ],
   "oauth2": {
     "client_id": "488099150528-200fkrnmodrru32u1bd1li404jo9acud.apps.googleusercontent.com",
-    "scopes": []
+    "scopes": ["profile"]
   }
 }
