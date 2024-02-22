@@ -2,6 +2,7 @@
   "manifest_version": 3,
   "name": "Voico Chrome Extension",
   "version": "0.0.2",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwYGj/AN+amoHhbnC0LyMJvm0v8JGNir4iTPlzFSAhN72gWTl0ugICNgMnZ2XT0UWAtAA81fcmr/IzjaqKGpVvepIUCnh/UQhGsg8XKuHaTnc8ygHrcG+y6XhEoYl4VF8lP1NQLcxoTxJNzNIFRfBqmRJD7P+2OcTqbrbIrZ2rRAnAYKuOjWPEYWYa/Z3Ss309PZtACAqPluYpbj5nIdeD8+4EGJZfgNtLMiI6SkWq1N+CnOuny/dv09dBrxdTwNrP5vT5p5AQqFQk2chmB117M0r3TZ2AGM3nwFjim97aHeV6ppXqMqG90yq+zMOqTBPXbIhM4BgStF9G1ubWBlulQIDAQAB",
   "description": "A Chrome extension that allows you to use your voice to type on any input in any website: A speech-to-text chrome extension.",
   "icons": {
     "16": "images/16.png",
@@ -29,5 +30,9 @@
       "resources": ["env.js"],
       "matches": ["*://*/*"]
     }
-  ]
+  ],
+  "oauth2": {
+    "client_id": "488099150528-200fkrnmodrru32u1bd1li404jo9acud.apps.googleusercontent.com",
+    "scopes": []
+  }
 }
