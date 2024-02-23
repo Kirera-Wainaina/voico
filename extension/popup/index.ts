@@ -3,6 +3,7 @@ import copyTranscriptToClipboard from "./copyTranscriptToClipboard.js";
 import enterTranscriptIntoTranscriptElement from "./enterTranscriptIntoTranscriptElement.js";
 import getCurrentTabId from "./getCurrentTabId.js";
 import handlePopupMessages from "./handlePopupMessages.js";
+import handlePopupPageChange from "./handlePopupPageChange.js";
 import handleRecordingClick from "./handleRecordingClick.js";
 import showNextTranscript from "./showNextTranscript.js";
 import showPreviousTranscript from "./showPreviousTranscript.js";
@@ -51,36 +52,17 @@ previousIcon?.addEventListener("click", showPreviousTranscript);
 const settingsIcon = document.getElementById("settings-icon");
 settingsIcon?.addEventListener("click", navigateToOptionsPage);
 
+const signinButton = document.getElementById("sign-in");
+signinButton?.addEventListener("click", handleSignin);
+
 async function navigateToOptionsPage() {
   await chrome.runtime.openOptionsPage()
 }
 
-// add a data attribute to the input element with the ids of other pages
-// a listener to each that removes an existing page and puts a new one
-const navBarInputs = document.querySelectorAll("#nav-bar input");
-navBarInputs.forEach(input => {
-  // skip the process for the settings icon
-  if (input instanceof HTMLElement && input.id == "settings-icon") {
-    return
-  }
-  // set click event listener for each input
-  input.addEventListener("click", () => {
-    // hide page associated with each button
-    navBarInputs.forEach(button => {
-      if (button instanceof HTMLElement && button.dataset.id) {
-        const page = document.getElementById(button.dataset.id);
-        page?.classList.add("hide")
-      }
-    })
-    // display the page associated with the input clicked
-    if (input instanceof HTMLElement && input.dataset.id) {
-      const page = document.getElementById(input.dataset.id);
-      page?.classList.remove("hide");
+function handleSignin() {
+  console.log(chrome.identity)
+}
 
-      // enter transcript information if its transcript button
-      if (input.dataset.id == "transcript-page") {
-        enterTranscriptIntoTranscriptElement()
-      }
-    }
-  })
-})
+// a listener to each that removes an existing page and puts a new one
+const navBarInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll("#nav-bar input");
+navBarInputs.forEach(input => handlePopupPageChange(input))

@@ -36,9 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import Toggle from "./Toggle.js";
 import copyTranscriptToClipboard from "./copyTranscriptToClipboard.js";
-import enterTranscriptIntoTranscriptElement from "./enterTranscriptIntoTranscriptElement.js";
 import getCurrentTabId from "./getCurrentTabId.js";
 import handlePopupMessages from "./handlePopupMessages.js";
+import handlePopupPageChange from "./handlePopupPageChange.js";
 import handleRecordingClick from "./handleRecordingClick.js";
 import showNextTranscript from "./showNextTranscript.js";
 import showPreviousTranscript from "./showPreviousTranscript.js";
@@ -102,6 +102,8 @@ var previousIcon = document.getElementById("previous-icon");
 previousIcon === null || previousIcon === void 0 ? void 0 : previousIcon.addEventListener("click", showPreviousTranscript);
 var settingsIcon = document.getElementById("settings-icon");
 settingsIcon === null || settingsIcon === void 0 ? void 0 : settingsIcon.addEventListener("click", navigateToOptionsPage);
+var signinButton = document.getElementById("sign-in");
+signinButton === null || signinButton === void 0 ? void 0 : signinButton.addEventListener("click", handleSignin);
 function navigateToOptionsPage() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -114,31 +116,9 @@ function navigateToOptionsPage() {
         });
     });
 }
-// add a data attribute to the input element with the ids of other pages
+function handleSignin() {
+    console.log(chrome.identity);
+}
 // a listener to each that removes an existing page and puts a new one
 var navBarInputs = document.querySelectorAll("#nav-bar input");
-navBarInputs.forEach(function (input) {
-    // skip the process for the settings icon
-    if (input instanceof HTMLElement && input.id == "settings-icon") {
-        return;
-    }
-    // set click event listener for each input
-    input.addEventListener("click", function () {
-        // hide page associated with each button
-        navBarInputs.forEach(function (button) {
-            if (button instanceof HTMLElement && button.dataset.id) {
-                var page = document.getElementById(button.dataset.id);
-                page === null || page === void 0 ? void 0 : page.classList.add("hide");
-            }
-        });
-        // display the page associated with the input clicked
-        if (input instanceof HTMLElement && input.dataset.id) {
-            var page = document.getElementById(input.dataset.id);
-            page === null || page === void 0 ? void 0 : page.classList.remove("hide");
-            // enter transcript information if its transcript button
-            if (input.dataset.id == "transcript-page") {
-                enterTranscriptIntoTranscriptElement();
-            }
-        }
-    });
-});
+navBarInputs.forEach(function (input) { return handlePopupPageChange(input); });
