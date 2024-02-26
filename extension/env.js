@@ -1,8 +1,10 @@
 var dev = {
-    domain: "https://voico.online"
+    domain: "https://voico.online",
+    api_key: "AIzaSyAzmuopVV6gW68bdFxh2P1N3E_xHafb3qA"
 };
 var production = {
-    domain: "https://localhost"
+    domain: "https://localhost",
+    api_key: "AIzaSyAzmuopVV6gW68bdFxh2P1N3E_xHafb3qA"
 };
 // Change the development environment from here
 // uncomment 2nd line if env is production and vice versa

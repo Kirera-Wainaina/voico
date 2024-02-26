@@ -2,17 +2,19 @@
 // Change from here and every other variable changes as well
 interface IEnvironment {
   domain: string,
-
+  api_key: string
 }
 
 type ENV = "DEV" | "PRODUCTION";
 
 const dev: IEnvironment = {
-  domain: "https://voico.online"
+  domain: "https://voico.online",
+  api_key: "AIzaSyAzmuopVV6gW68bdFxh2P1N3E_xHafb3qA"
 }
 
 const production: IEnvironment = {
-  domain: "https://localhost"
+  domain: "https://localhost",
+  api_key: "AIzaSyAzmuopVV6gW68bdFxh2P1N3E_xHafb3qA"
 }
 
 // Change the development environment from here
