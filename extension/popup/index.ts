@@ -1,6 +1,6 @@
+import env from "../env.js";
 import Toggle from "./Toggle.js";
 import copyTranscriptToClipboard from "./copyTranscriptToClipboard.js";
-import enterTranscriptIntoTranscriptElement from "./enterTranscriptIntoTranscriptElement.js";
 import getCurrentTabId from "./getCurrentTabId.js";
 import handlePopupMessages from "./handlePopupMessages.js";
 import handlePopupPageChange from "./handlePopupPageChange.js";
@@ -53,14 +53,23 @@ const settingsIcon = document.getElementById("settings-icon");
 settingsIcon?.addEventListener("click", navigateToOptionsPage);
 
 const signinButton = document.getElementById("sign-in");
-signinButton?.addEventListener("click", handleSignin);
+signinButton?.addEventListener("click", async () => {
+
+  const tokenResult = await chrome.identity.getAuthToken({interactive: true});
+  let result = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo?key=${env.api_key}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${tokenResult.token}`,
+      'content-type': 'application/json '
+    }
+  })
+  result = await result.json();
+  console.log(result)
+  
+});
 
 async function navigateToOptionsPage() {
   await chrome.runtime.openOptionsPage()
-}
-
-function handleSignin() {
-  console.log(chrome.identity)
 }
 
 // a listener to each that removes an existing page and puts a new one

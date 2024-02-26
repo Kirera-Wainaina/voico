@@ -34,6 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+import env from "../env.js";
 import Toggle from "./Toggle.js";
 import copyTranscriptToClipboard from "./copyTranscriptToClipboard.js";
 import getCurrentTabId from "./getCurrentTabId.js";
@@ -103,7 +104,30 @@ previousIcon === null || previousIcon === void 0 ? void 0 : previousIcon.addEven
 var settingsIcon = document.getElementById("settings-icon");
 settingsIcon === null || settingsIcon === void 0 ? void 0 : settingsIcon.addEventListener("click", navigateToOptionsPage);
 var signinButton = document.getElementById("sign-in");
-signinButton === null || signinButton === void 0 ? void 0 : signinButton.addEventListener("click", handleSignin);
+signinButton === null || signinButton === void 0 ? void 0 : signinButton.addEventListener("click", function () { return __awaiter(void 0, void 0, void 0, function () {
+    var tokenResult, result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, chrome.identity.getAuthToken({ interactive: true })];
+            case 1:
+                tokenResult = _a.sent();
+                return [4 /*yield*/, fetch("https://www.googleapis.com/oauth2/v2/userinfo?key=".concat(env.api_key), {
+                        method: 'GET',
+                        headers: {
+                            Authorization: "Bearer ".concat(tokenResult.token),
+                            'content-type': 'application/json '
+                        }
+                    })];
+            case 2:
+                result = _a.sent();
+                return [4 /*yield*/, result.json()];
+            case 3:
+                result = _a.sent();
+                console.log(result);
+                return [2 /*return*/];
+        }
+    });
+}); });
 function navigateToOptionsPage() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -115,9 +139,6 @@ function navigateToOptionsPage() {
             }
         });
     });
-}
-function handleSignin() {
-    console.log(chrome.identity);
 }
 // a listener to each that removes an existing page and puts a new one
 var navBarInputs = document.querySelectorAll("#nav-bar input");
