@@ -54,6 +54,14 @@ h1 {
   padding-top: 5vh;
 }
 
+#account-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 15vh;
+}
+
 #mic {
   border-radius: 50%;
   box-shadow: var(--shadow);
@@ -330,4 +338,9 @@ audio {
   padding: 3px;
   padding-left: 5%;
   padding-right: 5%;
+}
+
+#sign-in {
+  border-radius: 5px;
+  border: 1px solid var(--active-color);
 }
