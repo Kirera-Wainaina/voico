@@ -56,7 +56,7 @@ const signinButton = document.getElementById("sign-in");
 signinButton?.addEventListener("click", async () => {
 
   const tokenResult = await chrome.identity.getAuthToken({interactive: true});
-  let result = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo?key=${env.api_key}`, {
+  let result = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${tokenResult.token}`,

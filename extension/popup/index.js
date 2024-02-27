@@ -34,7 +34,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import env from "../env.js";
 import Toggle from "./Toggle.js";
 import copyTranscriptToClipboard from "./copyTranscriptToClipboard.js";
 import getCurrentTabId from "./getCurrentTabId.js";
@@ -111,7 +110,7 @@ signinButton === null || signinButton === void 0 ? void 0 : signinButton.addEven
             case 0: return [4 /*yield*/, chrome.identity.getAuthToken({ interactive: true })];
             case 1:
                 tokenResult = _a.sent();
-                return [4 /*yield*/, fetch("https://www.googleapis.com/oauth2/v2/userinfo?key=".concat(env.api_key), {
+                return [4 /*yield*/, fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
                         method: 'GET',
                         headers: {
                             Authorization: "Bearer ".concat(tokenResult.token),
