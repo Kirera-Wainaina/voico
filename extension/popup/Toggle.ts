@@ -31,4 +31,21 @@ export default class Toggle {
   static recordingAnimation() {
     Toggle.elementDisplay("recording-animation");
   }
+
+  /**
+   * Toggle the display of child elements
+   * @param elementId element whose children you want to toggle
+   */
+  static children(elementId: string) {
+    const element: HTMLElement | null = document.getElementById(elementId);
+
+    if (element instanceof HTMLElement) {
+      const children = Array.from(element.children);
+      if (children) {
+        for (const child of children) {
+          child.classList.toggle("hide")
+        }
+      }
+    }
+  }
 }

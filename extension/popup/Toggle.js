@@ -32,6 +32,22 @@ var Toggle = /** @class */ (function () {
     Toggle.recordingAnimation = function () {
         Toggle.elementDisplay("recording-animation");
     };
+    /**
+     * Toggle the display of child elements
+     * @param elementId element whose children you want to toggle
+     */
+    Toggle.children = function (elementId) {
+        var element = document.getElementById(elementId);
+        if (element instanceof HTMLElement) {
+            var children = Array.from(element.children);
+            if (children) {
+                for (var _i = 0, children_1 = children; _i < children_1.length; _i++) {
+                    var child = children_1[_i];
+                    child.classList.toggle("hide");
+                }
+            }
+        }
+    };
     return Toggle;
 }());
 export default Toggle;
