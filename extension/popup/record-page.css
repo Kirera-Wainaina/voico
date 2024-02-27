@@ -1,0 +1,170 @@
+#record-page {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 5vh;
+  gap: 5vh;
+}
+
+#mic {
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+  padding: 3vw;
+  height: 20vw;
+  width: 20vw;
+}
+
+#hint {
+  width: 30vw;
+  top: 40vw;
+  right: 5vw;
+}
+
+#recording-animation {
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+  margin-top: 2em;
+}
+
+.recording-bar:nth-child(1),
+.recording-bar:nth-child(3) {
+  height: 8vw;
+  animation-name: stretch1;
+}
+
+.recording-bar:nth-child(2),
+.recording-bar:nth-child(4) {
+  height: 6vw;
+  animation-name: stretch2;
+}
+
+.recording-bar {
+  border: 3px solid var(--active-color);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: 1s;
+  background-color: var(--active-color);
+  width: 2vw;
+}
+
+@keyframes stretch1 {
+  0% {
+    transform: scaleY(.5);
+  }
+
+  50% {
+    transform: scaleY(1.5);
+  }
+
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes stretch2 {
+  0% {
+    transform: scaleY(1);
+  }
+
+  50% {
+    transform: scaleY(1.5);
+  }
+
+  100% {
+    transform: scaleY(.5);
+  }
+}
+
+#spinner {
+  border-color: var(--primary-color);
+  border-top-color: var(--hover-color);
+  border-width: 5px;
+  border-style: solid;
+  border-radius: 50%;
+  height: 15vw;
+  width: 15vw;
+  padding: 4vw;
+
+  animation-name: spinning;
+  animation-duration: .5s;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes spinning {
+  from {
+    transform: rotateZ(0);
+  }
+
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+
+#permission-note {
+  width: 80%;
+}
+
+#no-wifi-icon {
+  width: 20vw;
+}
+
+#server-error {
+  background-color: pink;
+  color: red;
+  padding: 5px;
+}
+
+#sign-in-prompt-container {
+  width: 90vw;
+  height: 10vw;
+  margin-top: 5vw;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  position: relative;
+}
+
+#sign-in-prompt {
+  height: 100%;
+  width: 100%;
+  background-color: lightgreen;
+  border: none;
+  font-size: 1.2em;
+  border-radius: 5px;
+}
+
+#sign-in-prompt:hover {
+  background-color: greenyellow;
+}
+
+#sign-in-prompt:active {
+  background-color: green;
+}
+
+#sign-in-prompt-pulser {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 0;
+  z-index: -1;
+
+  animation-name: pulse;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1, 1);
+    background-color: lightgreen;
+  }
+
+  to {
+    transform: scale(1.05, 1.3);
+    background-color: #e9fce9;
+  }
+}
