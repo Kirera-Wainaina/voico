@@ -1,5 +1,5 @@
-export default async function () {
-  const tokenResult = await chrome.identity.getAuthToken({interactive: true});
+export default async function (interactive=false) {
+  const tokenResult = await chrome.identity.getAuthToken({ interactive });
   const result = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo`, {
     method: 'GET',
     headers: {

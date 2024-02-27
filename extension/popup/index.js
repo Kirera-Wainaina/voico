@@ -120,7 +120,7 @@ previousIcon === null || previousIcon === void 0 ? void 0 : previousIcon.addEven
 var settingsIcon = document.getElementById("settings-icon");
 settingsIcon === null || settingsIcon === void 0 ? void 0 : settingsIcon.addEventListener("click", navigateToOptionsPage);
 var signinButton = document.getElementById("sign-in");
-signinButton === null || signinButton === void 0 ? void 0 : signinButton.addEventListener("click", getGoogleUserDetails);
+signinButton === null || signinButton === void 0 ? void 0 : signinButton.addEventListener("click", function () { return getGoogleUserDetails(true); });
 function navigateToOptionsPage() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {

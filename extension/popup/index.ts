@@ -62,7 +62,7 @@ const settingsIcon = document.getElementById("settings-icon");
 settingsIcon?.addEventListener("click", navigateToOptionsPage);
 
 const signinButton = document.getElementById("sign-in");
-signinButton?.addEventListener("click", getGoogleUserDetails);
+signinButton?.addEventListener("click", () => getGoogleUserDetails(true));
 
 async function navigateToOptionsPage() {
   await chrome.runtime.openOptionsPage()
