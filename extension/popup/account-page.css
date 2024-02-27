@@ -22,3 +22,17 @@
   font-size: 1.3em;
   font-weight: 700;
 }
+
+#streaming-instruction {
+  text-align: center;
+}
+
+#sign-out {
+  padding-left: 40%;
+  padding-right: 40%;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  margin-top: 4vh;
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+}
