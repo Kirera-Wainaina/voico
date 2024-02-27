@@ -1,0 +1,52 @@
+#transcript-page {
+  padding: 2vh;
+  padding-top: 5vh;
+}
+
+#transcript {
+  height: 30vh;
+  border: 1px solid lightgrey;
+  display: flex;
+  justify-content: flex-start;
+  padding: 5px;
+  font-size: 1.1em;
+  overflow-y: scroll;
+  border-radius: 5px;
+}
+
+#transcript-controls {
+  display: flex;
+  align-items: center;
+  height: 15vh;
+  margin-top: 1vh;
+  position: relative;
+}
+
+.transcript-control-icons {
+  height: 80%;
+  border-radius: 5px;
+}
+
+#copied-notification {
+  background-color: lightgreen;
+  padding: 3px;
+  padding-left: 10px;
+  border-radius: 5px;
+  font-size: 1.2em;
+}
+
+#copy-icon {
+  height: 70%;
+  border-radius: 5px;
+  padding: 2px;
+  position: absolute;
+  top: 5px;
+  right: 0;
+}
+
+#transcript-number {
+  display: inline;
+  margin-left: 3px;
+  margin-right: 3px;
+  font-size: 1.3em;
+}

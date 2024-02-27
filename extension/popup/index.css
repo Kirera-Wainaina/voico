@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Caprasimo&family=Inter&display=swap');
 @import url(./record-page.css);
+@import url(./transcript-page.css);
 
 :root {
   --primary-color: #5841b9;
@@ -41,11 +42,6 @@ h1 {
   margin-top: var(--page-margin-top);
 }
 
-#transcript-page {
-  padding: 2vh;
-  padding-top: 5vh;
-}
-
 #account-page {
   display: flex;
   flex-direction: column;
@@ -72,39 +68,6 @@ input[type="image"]:active {
   padding: 3px;
 }
 
-
-#transcript {
-  height: 30vh;
-  border: 1px solid lightgrey;
-  display: flex;
-  justify-content: flex-start;
-  padding: 5px;
-  font-size: 1.1em;
-  overflow-y: scroll;
-  border-radius: 5px;
-}
-
-#transcript-controls {
-  display: flex;
-  align-items: center;
-  height: 15vh;
-  margin-top: 1vh;
-  position: relative;
-}
-
-.transcript-control-icons {
-  height: 80%;
-  border-radius: 5px;
-}
-
-#copied-notification {
-  background-color: lightgreen;
-  padding: 3px;
-  padding-left: 10px;
-  border-radius: 5px;
-  font-size: 1.2em;
-}
-
 .notify {
   animation-name: notify;
   animation-duration: 4s;
@@ -124,22 +87,6 @@ input[type="image"]:active {
   100% {
     opacity: 0;
   }
-}
-
-#copy-icon {
-  height: 70%;
-  border-radius: 5px;
-  padding: 2px;
-  position: absolute;
-  top: 5px;
-  right: 0;
-}
-
-#transcript-number {
-  display: inline;
-  margin-left: 3px;
-  margin-right: 3px;
-  font-size: 1.3em;
 }
 
 #nav-bar {
