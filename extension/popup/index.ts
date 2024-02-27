@@ -35,6 +35,15 @@ chrome.runtime.onMessage.addListener(handlePopupMessages);
   await chrome.tabs.sendMessage(tabId, { name: "wifi_check" })
 })();
 
+// display the sign in prompt if user is not signed in
+(async () => {
+  const tokenResult = await chrome.identity.getAuthToken({ interactive: false });
+  if (!tokenResult.token) {
+    const signinPrompt = document.getElementById("sign-in-prompt-container");
+    signinPrompt?.classList.remove("hide");
+  }
+})()
+
 const input = document.querySelector("input");
 input?.addEventListener("click", handleRecordingClick);
 input?.addEventListener("pointerover", () => Toggle.hint());

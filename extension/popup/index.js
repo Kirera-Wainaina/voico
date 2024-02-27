@@ -91,6 +91,22 @@ chrome.runtime.onMessage.addListener(handlePopupMessages);
         }
     });
 }); })();
+// display the sign in prompt if user is not signed in
+(function () { return __awaiter(void 0, void 0, void 0, function () {
+    var tokenResult, signinPrompt;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, chrome.identity.getAuthToken({ interactive: false })];
+            case 1:
+                tokenResult = _a.sent();
+                if (!tokenResult.token) {
+                    signinPrompt = document.getElementById("sign-in-prompt-container");
+                    signinPrompt === null || signinPrompt === void 0 ? void 0 : signinPrompt.classList.remove("hide");
+                }
+                return [2 /*return*/];
+        }
+    });
+}); })();
 var input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", handleRecordingClick);
 input === null || input === void 0 ? void 0 : input.addEventListener("pointerover", function () { return Toggle.hint(); });
