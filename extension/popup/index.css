@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Caprasimo&family=Inter&display=swap');
 @import url(./record-page.css);
 @import url(./transcript-page.css);
+@import url(./account-page.css);
 
 :root {
   --primary-color: #5841b9;
@@ -40,14 +41,6 @@ h1 {
 .page {
   grid-column: 1 / 6;
   margin-top: var(--page-margin-top);
-}
-
-#account-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  padding-top: 15vh;
 }
 
 input[type="image"]:hover {
@@ -116,9 +109,4 @@ input[type="image"]:active {
 #nav-bar input:nth-child(2) {
   border-radius: 50%;
   padding: 5px;
-}
-
-#sign-in {
-  border-radius: 5px;
-  border: 1px solid var(--active-color);
 }

@@ -1,0 +1,12 @@
+#account-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 15vh;
+}
+
+#google-sign-in {
+  border-radius: 5px;
+  border: 1px solid var(--active-color);
+}
