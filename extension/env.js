@@ -1,7 +1,7 @@
-var dev = {
+var production = {
     domain: "https://voico.online",
 };
-var production = {
+var dev = {
     domain: "https://localhost",
 };
 // Change the development environment from here

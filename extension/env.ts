@@ -6,11 +6,11 @@ interface IEnvironment {
 
 type ENV = "DEV" | "PRODUCTION";
 
-const dev: IEnvironment = {
+const production: IEnvironment = {
   domain: "https://voico.online",
 }
 
-const production: IEnvironment = {
+const dev: IEnvironment = {
   domain: "https://localhost",
 }
 
