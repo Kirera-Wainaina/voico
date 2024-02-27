@@ -51,11 +51,7 @@ export default function () {
                         })];
                 case 2:
                     result = _a.sent();
-                    return [4 /*yield*/, result.json()];
-                case 3:
-                    result = _a.sent();
-                    console.log(result);
-                    return [2 /*return*/];
+                    return [2 /*return*/, result.json()];
             }
         });
     });
