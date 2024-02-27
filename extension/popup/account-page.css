@@ -3,10 +3,22 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding-top: 15vh;
 }
 
 #google-sign-in {
+  margin-top: 15vh;
   border-radius: 5px;
   border: 1px solid var(--active-color);
+}
+
+#account-page img[alt='profile image'] {
+  border-radius: 50%;
+  margin-top: 5vh;
+  height: 25vh;
+}
+
+#greeting {
+  margin-top: 3vh;
+  font-size: 1.3em;
+  font-weight: 700;
 }

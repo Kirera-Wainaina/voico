@@ -44,7 +44,7 @@ export default function (navBarInput) {
         return;
     // set click event listener for each input
     navBarInput.addEventListener("click", function () { return __awaiter(_this, void 0, void 0, function () {
-        var popupPages, page, page, imgElement, userData;
+        var popupPages, page;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -60,21 +60,39 @@ export default function (navBarInput) {
                         enterTranscriptIntoTranscriptElement();
                     }
                     if (!(navBarInput.dataset.id == "account-page")) return [3 /*break*/, 2];
-                    page = document.getElementById(navBarInput === null || navBarInput === void 0 ? void 0 : navBarInput.dataset.id);
-                    imgElement = page === null || page === void 0 ? void 0 : page.querySelector("img");
-                    return [4 /*yield*/, getGoogleUserDetails()];
+                    return [4 /*yield*/, populateAccountPage(navBarInput.dataset.id)];
                 case 1:
-                    userData = _a.sent();
-                    if (userData.picture) { // user has signed in
-                        if (imgElement)
-                            imgElement.src = userData.picture;
-                    }
-                    else { // give user sign in button
-                        Toggle.children("account-page");
-                    }
+                    _a.sent();
                     _a.label = 2;
                 case 2: return [2 /*return*/];
             }
         });
     }); });
+}
+function populateAccountPage(pageId) {
+    return __awaiter(this, void 0, void 0, function () {
+        var page, imgElement, greetingElement, userData;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    page = document.getElementById(pageId);
+                    imgElement = page === null || page === void 0 ? void 0 : page.querySelector("img");
+                    greetingElement = page === null || page === void 0 ? void 0 : page.querySelector("#greeting");
+                    return [4 /*yield*/, getGoogleUserDetails()];
+                case 1:
+                    userData = _a.sent();
+                    console.log(userData);
+                    if (userData.picture) { // user has signed in
+                        if (imgElement)
+                            imgElement.src = userData.picture;
+                        if (greetingElement)
+                            greetingElement.textContent = "Hello ".concat(userData.given_name);
+                    }
+                    else { // give user sign in button
+                        Toggle.children("account-page");
+                    }
+                    return [2 /*return*/];
+            }
+        });
+    });
 }

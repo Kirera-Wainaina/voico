@@ -25,15 +25,22 @@ export default function (navBarInput:HTMLInputElement) {
 
     // display sign in button or streaming advice
     if (navBarInput.dataset.id == "account-page") {
-      const page = document.getElementById(navBarInput?.dataset.id);
-      const imgElement = page?.querySelector("img");
-      const userData = await getGoogleUserDetails();
-
-      if (userData.picture) { // user has signed in
-        if (imgElement) imgElement.src = userData.picture;
-      } else { // give user sign in button
-        Toggle.children("account-page");
-      }
+      await populateAccountPage(navBarInput.dataset.id)
     }
   })
+}
+
+async function populateAccountPage(pageId: string) {
+  const page = document.getElementById(pageId);
+  const imgElement = page?.querySelector("img");
+  const greetingElement = page?.querySelector("#greeting");
+  const userData = await getGoogleUserDetails();
+  console.log(userData)
+
+  if (userData.picture) { // user has signed in
+    if (imgElement) imgElement.src = userData.picture;
+    if (greetingElement) greetingElement.textContent = `Hello ${userData.given_name}`;
+  } else { // give user sign in button
+    Toggle.children("account-page");
+  }  
 }
