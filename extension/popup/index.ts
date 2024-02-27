@@ -1,10 +1,10 @@
 import Toggle from "./Toggle.js";
 import copyTranscriptToClipboard from "./copyTranscriptToClipboard.js";
 import getCurrentTabId from "./getCurrentTabId.js";
+import getGoogleUserDetails from "./getGoogleUserDetails.js";
 import handlePopupMessages from "./handlePopupMessages.js";
 import handlePopupPageChange from "./handlePopupPageChange.js";
 import handleRecordingClick from "./handleRecordingClick.js";
-import handleSignin from "./handleSignin.js";
 import showNextTranscript from "./showNextTranscript.js";
 import showPreviousTranscript from "./showPreviousTranscript.js";
 
@@ -62,7 +62,7 @@ const settingsIcon = document.getElementById("settings-icon");
 settingsIcon?.addEventListener("click", navigateToOptionsPage);
 
 const signinButton = document.getElementById("sign-in");
-signinButton?.addEventListener("click", handleSignin);
+signinButton?.addEventListener("click", getGoogleUserDetails);
 
 async function navigateToOptionsPage() {
   await chrome.runtime.openOptionsPage()

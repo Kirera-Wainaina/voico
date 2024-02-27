@@ -37,10 +37,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 import Toggle from "./Toggle.js";
 import copyTranscriptToClipboard from "./copyTranscriptToClipboard.js";
 import getCurrentTabId from "./getCurrentTabId.js";
+import getGoogleUserDetails from "./getGoogleUserDetails.js";
 import handlePopupMessages from "./handlePopupMessages.js";
 import handlePopupPageChange from "./handlePopupPageChange.js";
 import handleRecordingClick from "./handleRecordingClick.js";
-import handleSignin from "./handleSignin.js";
 import showNextTranscript from "./showNextTranscript.js";
 import showPreviousTranscript from "./showPreviousTranscript.js";
 // listen to messages
@@ -120,7 +120,7 @@ previousIcon === null || previousIcon === void 0 ? void 0 : previousIcon.addEven
 var settingsIcon = document.getElementById("settings-icon");
 settingsIcon === null || settingsIcon === void 0 ? void 0 : settingsIcon.addEventListener("click", navigateToOptionsPage);
 var signinButton = document.getElementById("sign-in");
-signinButton === null || signinButton === void 0 ? void 0 : signinButton.addEventListener("click", handleSignin);
+signinButton === null || signinButton === void 0 ? void 0 : signinButton.addEventListener("click", getGoogleUserDetails);
 function navigateToOptionsPage() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
