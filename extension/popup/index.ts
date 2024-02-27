@@ -71,7 +71,7 @@ previousIcon?.addEventListener("click", showPreviousTranscript);
 const settingsIcon = document.getElementById("settings-icon");
 settingsIcon?.addEventListener("click", navigateToOptionsPage);
 
-const signinButton = document.getElementById("sign-in");
+const signinButton = document.getElementById("google-sign-in");
 signinButton?.addEventListener("click", () => getGoogleUserDetails(true));
 
 async function navigateToOptionsPage() {

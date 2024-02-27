@@ -136,7 +136,7 @@ var previousIcon = document.getElementById("previous-icon");
 previousIcon === null || previousIcon === void 0 ? void 0 : previousIcon.addEventListener("click", showPreviousTranscript);
 var settingsIcon = document.getElementById("settings-icon");
 settingsIcon === null || settingsIcon === void 0 ? void 0 : settingsIcon.addEventListener("click", navigateToOptionsPage);
-var signinButton = document.getElementById("sign-in");
+var signinButton = document.getElementById("google-sign-in");
 signinButton === null || signinButton === void 0 ? void 0 : signinButton.addEventListener("click", function () { return getGoogleUserDetails(true); });
 function navigateToOptionsPage() {
     return __awaiter(this, void 0, void 0, function () {
