@@ -40,6 +40,7 @@ import getCurrentTabId from "./getCurrentTabId.js";
 import handlePopupMessages from "./handlePopupMessages.js";
 import handlePopupPageChange from "./handlePopupPageChange.js";
 import handleRecordingClick from "./handleRecordingClick.js";
+import handleSignin from "./handleSignin.js";
 import showNextTranscript from "./showNextTranscript.js";
 import showPreviousTranscript from "./showPreviousTranscript.js";
 // listen to messages
@@ -103,30 +104,7 @@ previousIcon === null || previousIcon === void 0 ? void 0 : previousIcon.addEven
 var settingsIcon = document.getElementById("settings-icon");
 settingsIcon === null || settingsIcon === void 0 ? void 0 : settingsIcon.addEventListener("click", navigateToOptionsPage);
 var signinButton = document.getElementById("sign-in");
-signinButton === null || signinButton === void 0 ? void 0 : signinButton.addEventListener("click", function () { return __awaiter(void 0, void 0, void 0, function () {
-    var tokenResult, result;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, chrome.identity.getAuthToken({ interactive: true })];
-            case 1:
-                tokenResult = _a.sent();
-                return [4 /*yield*/, fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
-                        method: 'GET',
-                        headers: {
-                            Authorization: "Bearer ".concat(tokenResult.token),
-                            'content-type': 'application/json '
-                        }
-                    })];
-            case 2:
-                result = _a.sent();
-                return [4 /*yield*/, result.json()];
-            case 3:
-                result = _a.sent();
-                console.log(result);
-                return [2 /*return*/];
-        }
-    });
-}); });
+signinButton === null || signinButton === void 0 ? void 0 : signinButton.addEventListener("click", handleSignin);
 function navigateToOptionsPage() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {

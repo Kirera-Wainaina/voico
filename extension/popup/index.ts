@@ -1,10 +1,10 @@
-import env from "../env.js";
 import Toggle from "./Toggle.js";
 import copyTranscriptToClipboard from "./copyTranscriptToClipboard.js";
 import getCurrentTabId from "./getCurrentTabId.js";
 import handlePopupMessages from "./handlePopupMessages.js";
 import handlePopupPageChange from "./handlePopupPageChange.js";
 import handleRecordingClick from "./handleRecordingClick.js";
+import handleSignin from "./handleSignin.js";
 import showNextTranscript from "./showNextTranscript.js";
 import showPreviousTranscript from "./showPreviousTranscript.js";
 
@@ -53,20 +53,7 @@ const settingsIcon = document.getElementById("settings-icon");
 settingsIcon?.addEventListener("click", navigateToOptionsPage);
 
 const signinButton = document.getElementById("sign-in");
-signinButton?.addEventListener("click", async () => {
-
-  const tokenResult = await chrome.identity.getAuthToken({interactive: true});
-  let result = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${tokenResult.token}`,
-      'content-type': 'application/json '
-    }
-  })
-  result = await result.json();
-  console.log(result)
-  
-});
+signinButton?.addEventListener("click", handleSignin);
 
 async function navigateToOptionsPage() {
   await chrome.runtime.openOptionsPage()
