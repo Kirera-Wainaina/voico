@@ -42,6 +42,16 @@ chrome.runtime.onMessage.addListener(handlePopupMessages);
     const signinPrompt = document.getElementById("sign-in-prompt-container");
     signinPrompt?.classList.remove("hide");
   }
+})();
+
+// get user details if user is signed in
+(async () => {
+  const userDetails = await getGoogleUserDetails();
+
+  if (userDetails.picture) {
+    const profileIcon: HTMLImageElement | null = document.querySelector("#nav-bar input:nth-child(2)");
+    if (profileIcon) profileIcon.src = userDetails.picture;
+  }
 })()
 
 const input = document.querySelector("input");

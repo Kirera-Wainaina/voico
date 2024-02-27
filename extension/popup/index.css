@@ -340,6 +340,11 @@ audio {
   padding-right: 5%;
 }
 
+#nav-bar input:nth-child(2) {
+  border-radius: 50%;
+  padding: 5px;
+}
+
 #sign-in {
   border-radius: 5px;
   border: 1px solid var(--active-color);

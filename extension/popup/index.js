@@ -107,6 +107,23 @@ chrome.runtime.onMessage.addListener(handlePopupMessages);
         }
     });
 }); })();
+// get user details if user is signed in
+(function () { return __awaiter(void 0, void 0, void 0, function () {
+    var userDetails, profileIcon;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, getGoogleUserDetails()];
+            case 1:
+                userDetails = _a.sent();
+                if (userDetails.picture) {
+                    profileIcon = document.querySelector("#nav-bar input:nth-child(2)");
+                    if (profileIcon)
+                        profileIcon.src = userDetails.picture;
+                }
+                return [2 /*return*/];
+        }
+    });
+}); })();
 var input = document.querySelector("input");
 input === null || input === void 0 ? void 0 : input.addEventListener("click", handleRecordingClick);
 input === null || input === void 0 ? void 0 : input.addEventListener("pointerover", function () { return Toggle.hint(); });
