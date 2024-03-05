@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Caprasimo&family=Inter:wght@100..900&display=swap');
-@import url(./record-page.css);
-@import url(./transcript-page.css);
-@import url(./account-page.css);
+@import url(./css/record-page.css);
+@import url(./css/transcript-page.css);
+@import url(./css/account-page.css);
 
 :root {
   --primary-color: #5841b9;
