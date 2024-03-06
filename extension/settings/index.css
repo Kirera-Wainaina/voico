@@ -17,7 +17,7 @@ h1 {
   position: static;
 }
 
-#version-toggle {
+/* #version-toggle {
   grid-column: 3 / 11;
   display: flex;
   align-items: center;
@@ -43,13 +43,13 @@ h1 {
   padding-right: 8px;
   border-radius: 10px;
   margin-left: 5px;
-}
+} */
 
-.activate-version {
+/* .activate-version {
   font-size: 1.5em;
   background-color: var(--primary-color);
   color: white;
-}
+} */
 
 #free-version-settings,
 #premium-version-settings {
@@ -89,6 +89,11 @@ input[type="submit"]:hover {
 
 input[type="submit"]:active {
   background-color: var(--active-color);
+}
+
+input[type="range"] {
+  width: 5%;
+  display: block;
 }
 
 #spinner {
