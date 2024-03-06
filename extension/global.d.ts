@@ -12,4 +12,5 @@ interface ISessionState {
 interface ILocalState {
   language?: string;
   APIKey?: string;
+  enabledStreaming?: boolean
 }
