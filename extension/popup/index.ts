@@ -72,7 +72,12 @@ const settingsIcon = document.getElementById("settings-icon");
 settingsIcon?.addEventListener("click", navigateToOptionsPage);
 
 const signinButton = document.getElementById("google-sign-in");
-signinButton?.addEventListener("click", () => getGoogleUserDetails(true));
+signinButton?.addEventListener("click", async () => {
+  const response = await getGoogleUserDetails(true)
+  if (response.email) { // enable streaming when user signs in
+    await chrome.storage.local.set({ enabledStreaming: true })
+  }
+});
 
 async function navigateToOptionsPage() {
   await chrome.runtime.openOptionsPage()

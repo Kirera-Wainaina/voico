@@ -137,7 +137,22 @@ previousIcon === null || previousIcon === void 0 ? void 0 : previousIcon.addEven
 var settingsIcon = document.getElementById("settings-icon");
 settingsIcon === null || settingsIcon === void 0 ? void 0 : settingsIcon.addEventListener("click", navigateToOptionsPage);
 var signinButton = document.getElementById("google-sign-in");
-signinButton === null || signinButton === void 0 ? void 0 : signinButton.addEventListener("click", function () { return getGoogleUserDetails(true); });
+signinButton === null || signinButton === void 0 ? void 0 : signinButton.addEventListener("click", function () { return __awaiter(void 0, void 0, void 0, function () {
+    var response;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, getGoogleUserDetails(true)];
+            case 1:
+                response = _a.sent();
+                if (!response.email) return [3 /*break*/, 3];
+                return [4 /*yield*/, chrome.storage.local.set({ enabledStreaming: true })];
+            case 2:
+                _a.sent();
+                _a.label = 3;
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
 function navigateToOptionsPage() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
