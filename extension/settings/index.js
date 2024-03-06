@@ -96,13 +96,14 @@ function saveSettings(event) {
     });
 }
 function retrieveFormValues() {
-    var languageSelect = form === null || form === void 0 ? void 0 : form.querySelector("select");
-    var APIKeyInput = form === null || form === void 0 ? void 0 : form.querySelector("input[type='password']");
-    if (languageSelect instanceof HTMLSelectElement
-        && APIKeyInput instanceof HTMLInputElement) {
+    var languageSelect = document.querySelector("select");
+    var APIKeyInput = document.querySelector("input[type='password']");
+    var enableStreamingInput = document.querySelector("input[type='range']");
+    if (languageSelect && APIKeyInput && enableStreamingInput) {
         return {
             language: languageSelect.value,
-            APIKey: APIKeyInput.value
+            APIKey: APIKeyInput.value,
+            enabledStreaming: Boolean(Number(enableStreamingInput.value))
         };
     }
 }

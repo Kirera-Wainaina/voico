@@ -49,16 +49,15 @@ async function saveSettings(event: Event) {
 }
 
 function retrieveFormValues(): ILocalState | undefined  {
-  const languageSelect = form?.querySelector("select");
-  let APIKeyInput = form?.querySelector("input[type='password']");
+  const languageSelect: HTMLSelectElement | null = document.querySelector("select");
+  const APIKeyInput: HTMLInputElement | null = document.querySelector("input[type='password']");
+  const enableStreamingInput: HTMLInputElement | null = document.querySelector("input[type='range']");
 
-  if (
-    languageSelect instanceof HTMLSelectElement 
-    && APIKeyInput instanceof HTMLInputElement
-  ) {
+  if (languageSelect && APIKeyInput && enableStreamingInput) {
     return {
       language: languageSelect.value,
-      APIKey: APIKeyInput.value
+      APIKey: APIKeyInput.value,
+      enabledStreaming: Boolean(Number(enableStreamingInput.value))
     }  
   }
 
