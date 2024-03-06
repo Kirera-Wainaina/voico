@@ -13,18 +13,18 @@
     </div> -->
 
     <div id="free-version-settings">
-      <p class="info">
+      <!-- <p class="info">
         Please choose the language you intend to record in and enter your OpenAI API key.
         If you don't have an API key, you can begin by 
         <a href="https://openai.com/">logging in</a> 
         or <a href="https://openai.com/">signing up</a> up to OpenAI.
         Without any of these, the chrome extension won't work. Note: We do not store your API Key in our servers.
-      </p>
+      </p> -->
       <form>
         <label>
           Audio Language
           <p class="tooltip">
-            <img src="../images/info-icon.svg" alt="more on language" class="info-icon"/>
+            <img src="../images/info-icon.svg" alt="more on language"/>
             <span >The language you intend to record in</span>
           </p>
           <select name="language">
@@ -90,7 +90,13 @@
 
         <label>
           Enable Instant Transcription
-          <img src="../images/info-icon.svg" alt="more on instant Transcription" class="info-icon"/>
+          <p class="tooltip">
+            <img src="../images/info-icon.svg" alt="more on instant Transcription"/>
+            <span>
+              Enable to get instant transcriptions as you speak. 
+              Sign in through Google on the extension page to get started.
+            </span>
+          </p>
           <input 
             type="range"
             min="0"
@@ -101,7 +107,15 @@
 
         <label>
           OpenAI API Key
-          <img src="../images/info-icon.svg" alt="more on API key" class="info-icon"/>
+          <p class="tooltip">
+            <img src="../images/info-icon.svg" alt="more on API key"/>
+            <span>
+              We use your OpenAI API key to deliver our free service. 
+              You can get your API key by going to the OpenAI website.
+              If its too much of a hustle, try our instant transcription 
+              for a fast simple service.
+            </span>
+          </p>
           <input type="password" name="APIKey" required />
         </label>
 
