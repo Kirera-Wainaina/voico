@@ -140,3 +140,24 @@ input[type="range"] {
     transform: translateY(-1vh);
   }
 }
+
+.tooltip {
+  display: inline;
+  font-size: 0.6em;
+  position: relative;
+}
+
+.tooltip span {
+  background-color: var(--hover-color);
+  padding: 5px;
+  border-radius: 5px;
+  position: absolute;
+  width: 20vw;
+  margin-left: 5px;
+
+  visibility: hidden;
+}
+
+.tooltip:hover span {
+  visibility: visible;
+}

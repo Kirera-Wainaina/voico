@@ -23,6 +23,10 @@
       <form>
         <label>
           Audio Language
+          <p class="tooltip">
+            <img src="../images/info-icon.svg" alt="more on language" class="info-icon"/>
+            <span >The language you intend to record in</span>
+          </p>
           <select name="language">
             <option value="af">Afrikaans</option>
             <option value="ar">Arabic</option>
@@ -86,6 +90,7 @@
 
         <label>
           Enable Instant Transcription
+          <img src="../images/info-icon.svg" alt="more on instant Transcription" class="info-icon"/>
           <input 
             type="range"
             min="0"
@@ -96,6 +101,7 @@
 
         <label>
           OpenAI API Key
+          <img src="../images/info-icon.svg" alt="more on API key" class="info-icon"/>
           <input type="password" name="APIKey" required />
         </label>
 
@@ -104,7 +110,7 @@
       </form>
     </div>
 
-    <div id="premium-version-settings" class="hide">
+    <!-- <div id="premium-version-settings" class="hide">
       <div class="info">
         <ul>
           <li>Get instant speech-to-text conversion with our new service.</li>
@@ -112,7 +118,7 @@
           <li>Once the trial period is over, we will only charge you when you decide to go ahead.</li>
         </ul>
       </div>
-    </div>
+    </div> -->
     
     <p id="saved-slider" class="hide">Saved your new settings!</p>
   </body>
