@@ -80,3 +80,11 @@ function showSavedAnimation() {
     slider.classList.toggle("hide");
   }, { once: true })
 }
+
+const enableStreamingInput: HTMLInputElement | null = document.querySelector("input[type='range']");
+enableStreamingInput?.addEventListener("change", () => {
+  const APIKeyInput = document.querySelector("input[name='APIKey']");
+  enableStreamingInput.value == "1" 
+    ? APIKeyInput?.setAttribute("disabled", "") 
+    : APIKeyInput?.removeAttribute("disabled")
+})

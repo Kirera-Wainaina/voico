@@ -119,3 +119,10 @@ function showSavedAnimation() {
         slider.classList.toggle("hide");
     }, { once: true });
 }
+var enableStreamingInput = document.querySelector("input[type='range']");
+enableStreamingInput === null || enableStreamingInput === void 0 ? void 0 : enableStreamingInput.addEventListener("change", function () {
+    var APIKeyInput = document.querySelector("input[name='APIKey']");
+    enableStreamingInput.value == "1"
+        ? APIKeyInput === null || APIKeyInput === void 0 ? void 0 : APIKeyInput.setAttribute("disabled", "")
+        : APIKeyInput === null || APIKeyInput === void 0 ? void 0 : APIKeyInput.removeAttribute("disabled");
+});
