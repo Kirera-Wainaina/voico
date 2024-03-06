@@ -102,12 +102,12 @@ input[type="range"] {
   margin-left: 49.5%;
 }
 
-.info {
+/* .info {
   background-color: var(--hover-color);
   font-size: 1.2em;
   padding: 1em;
   margin: 2em; 
-}
+} */
 
 #saved-slider {
   font-size: 1.2em;
