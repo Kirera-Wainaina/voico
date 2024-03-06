@@ -1,6 +1,6 @@
 // retrieve current API Key and language
 (async () => {
-  const {language, APIKey} = await chrome.storage.local.get(null);
+  const {language, APIKey, enabledStreaming}: ILocalState = await chrome.storage.local.get(null);
 
   if (language) {
     const chosenOption = document.querySelector(`option[value=${language}]`);
@@ -9,7 +9,13 @@
 
   if (APIKey) {
     const APIKeyInput = document.querySelector("input[type='password']");
+    enabledStreaming ? APIKeyInput?.setAttribute("disabled", "") : APIKeyInput?.removeAttribute("disabled")
     if (APIKeyInput instanceof HTMLInputElement) APIKeyInput.value = APIKey;
+  }
+
+  const enableStreamingInput: HTMLInputElement | null = document.querySelector("input[type='range']");
+  if (enableStreamingInput) {
+    enabledStreaming ? enableStreamingInput.value = "1" : enableStreamingInput.value = "0";
   }
 })();
 

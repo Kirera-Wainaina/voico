@@ -37,12 +37,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var _this = this;
 // retrieve current API Key and language
 (function () { return __awaiter(_this, void 0, void 0, function () {
-    var _a, language, APIKey, chosenOption, APIKeyInput;
+    var _a, language, APIKey, enabledStreaming, chosenOption, APIKeyInput, enableStreamingInput;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, chrome.storage.local.get(null)];
             case 1:
-                _a = _b.sent(), language = _a.language, APIKey = _a.APIKey;
+                _a = _b.sent(), language = _a.language, APIKey = _a.APIKey, enabledStreaming = _a.enabledStreaming;
                 if (language) {
                     chosenOption = document.querySelector("option[value=".concat(language, "]"));
                     if (chosenOption)
@@ -50,8 +50,13 @@ var _this = this;
                 }
                 if (APIKey) {
                     APIKeyInput = document.querySelector("input[type='password']");
+                    enabledStreaming ? APIKeyInput === null || APIKeyInput === void 0 ? void 0 : APIKeyInput.setAttribute("disabled", "") : APIKeyInput === null || APIKeyInput === void 0 ? void 0 : APIKeyInput.removeAttribute("disabled");
                     if (APIKeyInput instanceof HTMLInputElement)
                         APIKeyInput.value = APIKey;
+                }
+                enableStreamingInput = document.querySelector("input[type='range']");
+                if (enableStreamingInput) {
+                    enabledStreaming ? enableStreamingInput.value = "1" : enableStreamingInput.value = "0";
                 }
                 return [2 /*return*/];
         }
