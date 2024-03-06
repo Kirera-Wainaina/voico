@@ -48,9 +48,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 import Toggle from "./Toggle.js";
 import changeRecordingState from "./changeRecordingState.js";
 import getCurrentTabId from "./getCurrentTabId.js";
+import showNotification from "./showNotification.js";
 export default function () {
     return __awaiter(this, void 0, void 0, function () {
-        var tabId, sessionState, localState;
+        var tabId, sessionState, localState, token, errorElement;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, getCurrentTabId()];
@@ -61,20 +62,31 @@ export default function () {
                     return [4 /*yield*/, chrome.storage.session.get(null)];
                 case 2:
                     sessionState = _a.sent();
-                    return [4 /*yield*/, chrome.storage.local.get(["APIKey", "language"])];
+                    return [4 /*yield*/, chrome.storage.local.get(["APIKey", "language", "enabledStreaming"])];
                 case 3:
                     localState = _a.sent();
-                    return [4 /*yield*/, chrome.tabs.sendMessage(tabId, { name: "record_click", content: __assign(__assign({}, sessionState), localState) })];
+                    if (!localState.enabledStreaming) return [3 /*break*/, 5];
+                    return [4 /*yield*/, chrome.identity.getAuthToken({ interactive: false })];
                 case 4:
+                    token = (_a.sent()).token;
+                    if (!token) { // user isn't signed in
+                        errorElement = document.getElementById("not-signed-in-error");
+                        if (errorElement)
+                            showNotification(errorElement);
+                        return [2 /*return*/];
+                    }
+                    _a.label = 5;
+                case 5: return [4 /*yield*/, chrome.tabs.sendMessage(tabId, { name: "record_click", content: __assign(__assign({}, sessionState), localState) })];
+                case 6:
                     _a.sent();
-                    if (!sessionState.permission_granted) return [3 /*break*/, 6];
+                    if (!sessionState.permission_granted) return [3 /*break*/, 8];
                     // only applicable if user has granted permission
                     Toggle.recordingAnimation();
                     return [4 /*yield*/, changeRecordingState()];
-                case 5:
+                case 7:
                     _a.sent();
-                    _a.label = 6;
-                case 6:
+                    _a.label = 8;
+                case 8:
                     handleLoadingIcon(sessionState.recording);
                     return [2 /*return*/];
             }

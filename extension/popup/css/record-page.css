@@ -111,7 +111,8 @@
   width: 20vw;
 }
 
-#server-error {
+#server-error,
+#not-signed-in-error {
   background-color: pink;
   color: red;
   padding: 5px;
