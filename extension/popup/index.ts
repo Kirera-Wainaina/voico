@@ -54,10 +54,10 @@ chrome.runtime.onMessage.addListener(handlePopupMessages);
   }
 })()
 
-const input = document.querySelector("input");
-input?.addEventListener("click", handleRecordingClick);
-input?.addEventListener("pointerover", () => Toggle.hint());
-input?.addEventListener("pointerleave", () => Toggle.hint());
+const recordInput = document.getElementById("mic");
+recordInput?.addEventListener("click", handleRecordingClick);
+recordInput?.addEventListener("pointerover", () => Toggle.hint());
+recordInput?.addEventListener("pointerleave", () => Toggle.hint());
 
 const copyIcon = document.getElementById("copy-icon");
 copyIcon?.addEventListener("click", copyTranscriptToClipboard);

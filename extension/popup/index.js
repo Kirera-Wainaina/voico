@@ -124,10 +124,10 @@ chrome.runtime.onMessage.addListener(handlePopupMessages);
         }
     });
 }); })();
-var input = document.querySelector("input");
-input === null || input === void 0 ? void 0 : input.addEventListener("click", handleRecordingClick);
-input === null || input === void 0 ? void 0 : input.addEventListener("pointerover", function () { return Toggle.hint(); });
-input === null || input === void 0 ? void 0 : input.addEventListener("pointerleave", function () { return Toggle.hint(); });
+var recordInput = document.getElementById("mic");
+recordInput === null || recordInput === void 0 ? void 0 : recordInput.addEventListener("click", handleRecordingClick);
+recordInput === null || recordInput === void 0 ? void 0 : recordInput.addEventListener("pointerover", function () { return Toggle.hint(); });
+recordInput === null || recordInput === void 0 ? void 0 : recordInput.addEventListener("pointerleave", function () { return Toggle.hint(); });
 var copyIcon = document.getElementById("copy-icon");
 copyIcon === null || copyIcon === void 0 ? void 0 : copyIcon.addEventListener("click", copyTranscriptToClipboard);
 var nextIcon = document.getElementById("next-icon");
