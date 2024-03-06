@@ -17,40 +17,6 @@ h1 {
   position: static;
 }
 
-/* #version-toggle {
-  grid-column: 3 / 11;
-  display: flex;
-  align-items: center;
-  border: 1px solid lightgrey;
-  height: 6vh;
-  margin-top: 3vh;
-}
-
-#version-toggle button:first-child {
-  flex: 1;
-  height: 100%;
-}
-
-#version-toggle button:last-child {
-  flex: 1;
-  height: 100%;
-}
-
-#version-toggle span {
-  background-color: lightgreen;
-  padding: 4px;
-  padding-left: 8px;
-  padding-right: 8px;
-  border-radius: 10px;
-  margin-left: 5px;
-} */
-
-/* .activate-version {
-  font-size: 1.5em;
-  background-color: var(--primary-color);
-  color: white;
-} */
-
 #free-version-settings,
 #premium-version-settings {
   grid-column: 4 / 10;
@@ -101,13 +67,6 @@ input[type="range"] {
   height: 1%;
   margin-left: 49.5%;
 }
-
-/* .info {
-  background-color: var(--hover-color);
-  font-size: 1.2em;
-  padding: 1em;
-  margin: 2em; 
-} */
 
 #saved-slider {
   font-size: 1.2em;
