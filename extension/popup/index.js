@@ -115,9 +115,6 @@ chrome.runtime.onMessage.addListener(handlePopupMessages);
             case 0: return [4 /*yield*/, getGoogleUserDetails()];
             case 1:
                 userDetails = _a.sent();
-                return [4 /*yield*/, registerUser(userDetails)];
-            case 2:
-                _a.sent();
                 if (userDetails.picture) {
                     profileIcon = document.querySelector("#nav-bar input:nth-child(2)");
                     if (profileIcon)
@@ -147,14 +144,15 @@ signinButton === null || signinButton === void 0 ? void 0 : signinButton.addEven
             case 0: return [4 /*yield*/, getGoogleUserDetails(true)];
             case 1:
                 response = _a.sent();
-                if (!response.email) return [3 /*break*/, 3];
-                return [4 /*yield*/, chrome.storage.local.set({ enabledStreaming: true })
-                    // call registerUser function
-                ];
+                if (!response.email) return [3 /*break*/, 4];
+                return [4 /*yield*/, chrome.storage.local.set({ enabledStreaming: true })];
             case 2:
                 _a.sent();
-                _a.label = 3;
-            case 3: return [2 /*return*/];
+                return [4 /*yield*/, registerUser(response)];
+            case 3:
+                _a.sent();
+                _a.label = 4;
+            case 4: return [2 /*return*/];
         }
     });
 }); });

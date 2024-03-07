@@ -47,7 +47,6 @@ chrome.runtime.onMessage.addListener(handlePopupMessages);
 // get user details if user is signed in
 (async () => {
   const userDetails = await getGoogleUserDetails();
-  await registerUser(userDetails);
 
   if (userDetails.picture) {
     const profileIcon: HTMLImageElement | null = document.querySelector("#nav-bar input:nth-child(2)");
@@ -77,7 +76,7 @@ signinButton?.addEventListener("click", async () => {
   const response = await getGoogleUserDetails(true)
   if (response.email) { // enable streaming when user signs in
     await chrome.storage.local.set({ enabledStreaming: true })
-    // call registerUser function
+    await registerUser(response)
   }
 });
 
