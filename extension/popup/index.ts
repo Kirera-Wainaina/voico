@@ -47,6 +47,7 @@ chrome.runtime.onMessage.addListener(handlePopupMessages);
 // get user details if user is signed in
 (async () => {
   const userDetails = await getGoogleUserDetails();
+  await registerUser(userDetails);
 
   if (userDetails.picture) {
     const profileIcon: HTMLImageElement | null = document.querySelector("#nav-bar input:nth-child(2)");
@@ -76,6 +77,7 @@ signinButton?.addEventListener("click", async () => {
   const response = await getGoogleUserDetails(true)
   if (response.email) { // enable streaming when user signs in
     await chrome.storage.local.set({ enabledStreaming: true })
+    // call registerUser function
   }
 });
 
@@ -86,3 +88,18 @@ async function navigateToOptionsPage() {
 // a listener to each that removes an existing page and puts a new one
 const navBarInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll("#nav-bar input");
 navBarInputs.forEach(input => handlePopupPageChange(input))
+
+async function registerUser(userDetails: Record<string, string>) {
+// send fetch request with data
+  // import env dynamically
+  const envUrl = chrome.runtime.getURL("/env.js");
+  const env = await import(envUrl);
+  return fetch(`${env.default.domain}/api/registerUser`, {
+    method: "POST",
+    body: JSON.stringify(userDetails),
+    mode: "cors",
+    headers: {
+      "content-type": "application/json"
+    }
+  }).then(response => response.text())
+}

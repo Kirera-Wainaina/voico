@@ -115,6 +115,9 @@ chrome.runtime.onMessage.addListener(handlePopupMessages);
             case 0: return [4 /*yield*/, getGoogleUserDetails()];
             case 1:
                 userDetails = _a.sent();
+                return [4 /*yield*/, registerUser(userDetails)];
+            case 2:
+                _a.sent();
                 if (userDetails.picture) {
                     profileIcon = document.querySelector("#nav-bar input:nth-child(2)");
                     if (profileIcon)
@@ -145,7 +148,9 @@ signinButton === null || signinButton === void 0 ? void 0 : signinButton.addEven
             case 1:
                 response = _a.sent();
                 if (!response.email) return [3 /*break*/, 3];
-                return [4 /*yield*/, chrome.storage.local.set({ enabledStreaming: true })];
+                return [4 /*yield*/, chrome.storage.local.set({ enabledStreaming: true })
+                    // call registerUser function
+                ];
             case 2:
                 _a.sent();
                 _a.label = 3;
@@ -168,3 +173,25 @@ function navigateToOptionsPage() {
 // a listener to each that removes an existing page and puts a new one
 var navBarInputs = document.querySelectorAll("#nav-bar input");
 navBarInputs.forEach(function (input) { return handlePopupPageChange(input); });
+function registerUser(userDetails) {
+    return __awaiter(this, void 0, void 0, function () {
+        var envUrl, env;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    envUrl = chrome.runtime.getURL("/env.js");
+                    return [4 /*yield*/, import(envUrl)];
+                case 1:
+                    env = _a.sent();
+                    return [2 /*return*/, fetch("".concat(env.default.domain, "/api/registerUser"), {
+                            method: "POST",
+                            body: JSON.stringify(userDetails),
+                            mode: "cors",
+                            headers: {
+                                "content-type": "application/json"
+                            }
+                        }).then(function (response) { return response.text(); })];
+            }
+        });
+    });
+}
