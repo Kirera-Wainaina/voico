@@ -16,3 +16,6 @@ uploaded/*
 
 # domain certificates
 *.pem
+
+# ignore the service account
+dev-service-account.json
