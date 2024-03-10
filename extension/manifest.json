@@ -21,7 +21,7 @@
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["content_script/index.js"]
+      "js": ["content_script/handleAudioRecording.js", "content_script/handleStreamingAudio.js"]
     }
   ],
   "options_page": "settings/index.html",
