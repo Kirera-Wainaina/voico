@@ -45,6 +45,9 @@ function handleContentScriptMessages(message) {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
+                    // don't run this script if streaming is enabled
+                    if (message.content.enabledStreaming)
+                        return [2 /*return*/];
                     _a = message.name;
                     switch (_a) {
                         case "record_click": return [3 /*break*/, 1];

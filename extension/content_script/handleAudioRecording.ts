@@ -7,6 +7,9 @@ var mediaRecorder: MediaRecorder | null = null;
 chrome.runtime.onMessage.addListener(handleContentScriptMessages);
 
 async function handleContentScriptMessages(message: ChromeMessage) {
+
+  // don't run this script if streaming is enabled
+  if (message.content.enabledStreaming) return;
   
   switch (message.name) {
     case "record_click":
