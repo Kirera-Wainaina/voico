@@ -21,7 +21,11 @@
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["content_script/handleAudioRecording.js", "content_script/handleAudioStreaming.js"]
+      "js": [
+        "content_script/handleAudioRecording.js", 
+        "content_script/handleAudioStreaming.js", 
+        "content_script/checkWifi.js"
+      ]
     }
   ],
   "options_page": "settings/index.html",
