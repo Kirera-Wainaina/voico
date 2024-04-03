@@ -38,31 +38,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var mediaRecorder = null;
-chrome.runtime.onMessage.addListener(handleContentScriptMessages);
-function handleContentScriptMessages(message) {
+chrome.runtime.onMessage.addListener(handleMessagesOnRecording);
+function handleMessagesOnRecording(message) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0:
                     // don't run this script if streaming is enabled
-                    if (message.content.enabledStreaming)
+                    if (message.content && message.content.enabledStreaming)
                         return [2 /*return*/];
-                    _a = message.name;
-                    switch (_a) {
-                        case "record_click": return [3 /*break*/, 1];
-                        case "wifi_check": return [3 /*break*/, 3];
-                    }
-                    return [3 /*break*/, 4];
-                case 1: return [4 /*yield*/, handleRecording(message.content)];
-                case 2:
-                    _b.sent();
-                    return [3 /*break*/, 5];
-                case 3:
-                    checkForWifi();
-                    return [3 /*break*/, 5];
-                case 4: return [3 /*break*/, 5];
-                case 5: return [2 /*return*/];
+                    if (!(message.name == "record_click")) return [3 /*break*/, 2];
+                    return [4 /*yield*/, handleRecording(message.content)];
+                case 1:
+                    _a.sent();
+                    _a.label = 2;
+                case 2: return [2 /*return*/];
             }
         });
     });
@@ -193,14 +183,5 @@ function inputTextIntoActiveElement(text) {
                 activeElement.innerText += "\n".concat(text);
             }
         }
-    }
-}
-function checkForWifi() {
-    // let the popup know if there is wifi
-    if (navigator.onLine) {
-        chrome.runtime.sendMessage({ name: "is_online", content: true });
-    }
-    else {
-        chrome.runtime.sendMessage({ name: "is_online", content: false });
     }
 }

@@ -4,25 +4,16 @@
 
 var mediaRecorder: MediaRecorder | null = null;
 
-chrome.runtime.onMessage.addListener(handleContentScriptMessages);
+chrome.runtime.onMessage.addListener(handleMessagesOnRecording);
 
-async function handleContentScriptMessages(message: ChromeMessage) {
-
+async function handleMessagesOnRecording(message: ChromeMessage) {
   // don't run this script if streaming is enabled
-  if (message.content.enabledStreaming) return;
-  
-  switch (message.name) {
-    case "record_click":
-      await handleRecording(message.content);
-      break;
+  if (message.content && message.content.enabledStreaming) return;
 
-    case "wifi_check":
-      checkForWifi();
-      break;
-  
-    default:
-      break;
+  if (message.name == "record_click") {
+    await handleRecording(message.content);
   }
+  
 }
 
 async function handleRecording(content: ISessionState & ILocalState) {
@@ -124,14 +115,5 @@ function inputTextIntoActiveElement(text:string) {
       activeElement.innerText += `\n${text}`;
       }
     }
-  }
-}
-
-function checkForWifi() {
-  // let the popup know if there is wifi
-  if (navigator.onLine) {
-    chrome.runtime.sendMessage({ name: "is_online", content: true });
-  } else {
-    chrome.runtime.sendMessage({ name: "is_online", content: false });
   }
 }
