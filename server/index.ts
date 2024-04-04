@@ -10,6 +10,7 @@ const mimes = require("./lib/MIMEHandler");
 import path from "path";
 import fs from "node:fs";
 import zlib from "node:zlib";
+import net from "node:net";
 
 const HTTP_PORT = 80;
 const HTTP2_PORT = 443;
@@ -17,16 +18,17 @@ const HTTP2_PORT = 443;
 dotenv.config()
 
 ///////////////////////// REDIRECT HTTP REQUESTS /////////////////////////////////
-const httpServer = http.createServer();
 
-httpServer.listen(HTTP_PORT, () => console.log(`Listening on port ${HTTP_PORT}`));
+// const httpServer = http.createServer();
 
-httpServer.on("request", (request: IncomingMessage, response: ServerResponse) => {
-  response.writeHead(301, {
-    "location": `${process.env.DOMAIN}${request.url}`
-  })
-  response.end()
-})
+// httpServer.listen(HTTP_PORT, () => console.log(`Listening on port ${HTTP_PORT}`));
+
+// httpServer.on("request", (request: IncomingMessage, response: ServerResponse) => {
+//   response.writeHead(301, {
+//     "location": `${process.env.DOMAIN}${request.url}`
+//   })
+//   response.end()
+// })
 
 //////////////////////// HANDLE HTTPS REQUESTS ///////////////////////////////////
 let options;
@@ -136,5 +138,23 @@ function isExistingFile(filePath:string){
 
 process.on("uncaughtException", error => {
   // log the error and prevent crashing
-  console.log("error");
+  console.log(error);
+})
+
+////////////// Streaming Server /////////////////////
+
+const streamingServer = net.createServer();
+
+streamingServer.listen({host: 'localhost', 'port': 80}, () => console.log("Listening for socket connections"))
+
+streamingServer.on('connection', socket => {
+  console.log('A connection was attempted');
+
+  socket.on('connectionAttempt', (ip, port, family) => {
+    console.log(`Connection on ${ip}:${port}, ${family}`)
+  })
+
+  socket.on('connect', () => console.log('A connection was made'))
+
+  socket.on('data', data => console.log(String(data)));
 })
