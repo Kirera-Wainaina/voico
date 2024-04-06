@@ -35,17 +35,16 @@ if (process.env.CERT_KEY_PATH
         cert: node_fs_1.default.readFileSync(process.env.CERT_CERTIFICATE_PATH)
     };
 }
-const http2Server = http2.createSecureServer(options);
-http2Server.listen(HTTP2_PORT, () => console.log(`Listening on port ${HTTP2_PORT}`));
-http2Server.on("request", (request, response) => {
-    if (request.headers[":method"] == "GET") {
-        handleGETRequests(request, response);
-    }
-    else if (request.headers[":method"] == "POST") {
-        handlePOSTRequests(request, response);
-    }
-});
-http2Server.on("request", (request) => log(`Path: ${request.url}`));
+// const http2Server = http2.createSecureServer(options);
+// http2Server.listen(HTTP2_PORT, () => console.log(`Listening on port ${HTTP2_PORT}`))
+// http2Server.on("request", (request: Http2ServerRequest, response: Http2ServerResponse) => {
+//   if (request.headers[":method"] == "GET") {
+//     handleGETRequests(request, response);
+//   } else if (request.headers[":method"] == "POST") {
+//     handlePOSTRequests(request, response);
+//   }
+// })
+// http2Server.on("request", (request: Http2ServerRequest) => log(`Path: ${request.url}`))
 function handleGETRequests(request, response) {
     const filePath = createFilePath(request.headers[":path"]);
     if (!filePath) {
@@ -122,12 +121,21 @@ process.on("uncaughtException", error => {
 });
 ////////////// Streaming Server /////////////////////
 const streamingServer = node_net_1.default.createServer();
-streamingServer.listen({ host: 'localhost', 'port': 80 }, () => console.log("Listening for socket connections"));
+streamingServer.listen(8080, () => console.log("Listening for socket connections"));
 streamingServer.on('connection', socket => {
     console.log('A connection was attempted');
-    socket.on('connectionAttempt', (ip, port, family) => {
-        console.log(`Connection on ${ip}:${port}, ${family}`);
+    socket.on('data', data => {
+        console.log('\nData was received \n');
+        console.log(String(data));
+        // socket.write("hello world")
     });
-    socket.on('connect', () => console.log('A connection was made'));
-    socket.on('data', data => console.log(String(data)));
+    socket.on('end', () => {
+        socket.write('hello', (error) => {
+            if (error)
+                console.log(error);
+            console.log('finished sending');
+        });
+    });
+    socket.write('hello');
+    console.log(socket.readyState);
 });

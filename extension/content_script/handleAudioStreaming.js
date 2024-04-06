@@ -35,94 +35,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var mediaRecorder = null;
+var webSocket = null;
 chrome.runtime.onMessage.addListener(handleMessagesOnStreaming);
 function handleMessagesOnStreaming(message) {
     // don't run anything if streaming is off
     if (message.content && !message.content.enabledStreaming)
         return;
-    if (message.name == "record_click") {
+    if (message.name == "record_click") { // user clicked to start/stop recording
         handleStreaming(message.content);
     }
 }
 function handleStreaming(content) {
     return __awaiter(this, void 0, void 0, function () {
-        var stream, error_1;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 4, , 5]);
-                    if (!!content.user_media_is_setup) return [3 /*break*/, 2];
-                    return [4 /*yield*/, navigator.mediaDevices.getUserMedia({ audio: true })];
-                case 1:
-                    stream = _a.sent();
-                    if (stream) {
-                        chrome.runtime.sendMessage({ name: "permission_granted" });
-                        mediaRecorder = new MediaRecorder(stream);
-                        mediaRecorder.addEventListener('dataavailable', sendAudioChunks);
-                        mediaRecorder.start(4000);
-                    }
-                    return [3 /*break*/, 3];
-                case 2:
-                    if (!content.recording) {
-                        mediaRecorder === null || mediaRecorder === void 0 ? void 0 : mediaRecorder.start(4000);
-                    }
-                    else {
-                        mediaRecorder === null || mediaRecorder === void 0 ? void 0 : mediaRecorder.stop();
-                    }
-                    _a.label = 3;
-                case 3: return [3 /*break*/, 5];
-                case 4:
-                    error_1 = _a.sent();
-                    console.log(error_1);
-                    // user denied permission
-                    chrome.runtime.sendMessage({ name: "permission_denied" });
-                    return [3 /*break*/, 5];
-                case 5: return [2 /*return*/];
-            }
-        });
-    });
-}
-function sendAudioChunks(chunk) {
-    var websocket = new WebSocket('ws://127.0.0.1');
-    websocket.send(chunk.data);
-}
-function handleStreaming_(content) {
-    return __awaiter(this, void 0, void 0, function () {
-        var stream_1, peerConnection_1, sessionDescription, error_2;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 6, , 7]);
-                    if (!!content.user_media_is_setup) return [3 /*break*/, 5];
-                    return [4 /*yield*/, navigator.mediaDevices.getUserMedia({ audio: true })];
-                case 1:
-                    stream_1 = _a.sent();
-                    if (!stream_1) return [3 /*break*/, 4];
-                    // console.log(content)
-                    chrome.runtime.sendMessage({ name: "permission_granted" });
-                    peerConnection_1 = new RTCPeerConnection();
-                    // const rtcSender = peerConnection.addTrack(stream.getAudioTracks()[0]);
-                    stream_1.getAudioTracks().forEach(function (track) { return peerConnection_1.addTrack(track, stream_1); });
-                    return [4 /*yield*/, peerConnection_1.createOffer()];
-                case 2:
-                    sessionDescription = _a.sent();
-                    console.log(sessionDescription);
-                    return [4 /*yield*/, peerConnection_1.setLocalDescription(sessionDescription)];
-                case 3:
-                    _a.sent();
-                    // peerConnection.createDataChannel('food')
-                    console.log("ran up to this point");
-                    _a.label = 4;
-                case 4: return [3 /*break*/, 5];
-                case 5: return [3 /*break*/, 7];
-                case 6:
-                    error_2 = _a.sent();
-                    console.log(error_2);
-                    // user denied permission
-                    chrome.runtime.sendMessage({ name: "permission_denied" });
-                    return [3 /*break*/, 7];
-                case 7: return [2 /*return*/];
-            }
+            return [2 /*return*/];
         });
     });
 }
