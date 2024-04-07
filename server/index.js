@@ -5,26 +5,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const http = require("http");
 const http2 = require("http2");
-// const fs = require('node:fs')
 const dotenv = require("dotenv");
+const WebSocketServer = require("websocket").server;
 const { log } = require("./lib/utils");
 const mimes = require("./lib/MIMEHandler");
 const path_1 = __importDefault(require("path"));
 const node_fs_1 = __importDefault(require("node:fs"));
 const node_zlib_1 = __importDefault(require("node:zlib"));
-const node_net_1 = __importDefault(require("node:net"));
 const HTTP_PORT = 80;
 const HTTP2_PORT = 443;
 dotenv.config();
 ///////////////////////// REDIRECT HTTP REQUESTS /////////////////////////////////
-// const httpServer = http.createServer();
-// httpServer.listen(HTTP_PORT, () => console.log(`Listening on port ${HTTP_PORT}`));
-// httpServer.on("request", (request: IncomingMessage, response: ServerResponse) => {
-//   response.writeHead(301, {
-//     "location": `${process.env.DOMAIN}${request.url}`
-//   })
-//   response.end()
-// })
+const httpServer = http.createServer();
+httpServer.listen(HTTP_PORT, () => console.log(`Listening on port ${HTTP_PORT}`));
+httpServer.on("request", (request, response) => {
+    // response.writeHead(301, {
+    //   "location": `${process.env.DOMAIN}${request.url}`
+    // })
+    response.writeHead(404);
+    response.end();
+});
 //////////////////////// HANDLE HTTPS REQUESTS ///////////////////////////////////
 let options;
 if (process.env.CERT_KEY_PATH
@@ -35,16 +35,17 @@ if (process.env.CERT_KEY_PATH
         cert: node_fs_1.default.readFileSync(process.env.CERT_CERTIFICATE_PATH)
     };
 }
-// const http2Server = http2.createSecureServer(options);
-// http2Server.listen(HTTP2_PORT, () => console.log(`Listening on port ${HTTP2_PORT}`))
-// http2Server.on("request", (request: Http2ServerRequest, response: Http2ServerResponse) => {
-//   if (request.headers[":method"] == "GET") {
-//     handleGETRequests(request, response);
-//   } else if (request.headers[":method"] == "POST") {
-//     handlePOSTRequests(request, response);
-//   }
-// })
-// http2Server.on("request", (request: Http2ServerRequest) => log(`Path: ${request.url}`))
+const http2Server = http2.createSecureServer(options);
+http2Server.listen(HTTP2_PORT, () => console.log(`Listening on port ${HTTP2_PORT}`));
+http2Server.on("request", (request, response) => {
+    if (request.headers[":method"] == "GET") {
+        handleGETRequests(request, response);
+    }
+    else if (request.headers[":method"] == "POST") {
+        handlePOSTRequests(request, response);
+    }
+});
+http2Server.on("request", (request) => log(`Path: ${request.url}`));
 function handleGETRequests(request, response) {
     const filePath = createFilePath(request.headers[":path"]);
     if (!filePath) {
@@ -120,22 +121,11 @@ process.on("uncaughtException", error => {
     console.log(error);
 });
 ////////////// Streaming Server /////////////////////
-const streamingServer = node_net_1.default.createServer();
-streamingServer.listen(8080, () => console.log("Listening for socket connections"));
-streamingServer.on('connection', socket => {
-    console.log('A connection was attempted');
-    socket.on('data', data => {
-        console.log('\nData was received \n');
-        console.log(String(data));
-        // socket.write("hello world")
-    });
-    socket.on('end', () => {
-        socket.write('hello', (error) => {
-            if (error)
-                console.log(error);
-            console.log('finished sending');
-        });
-    });
-    socket.write('hello');
-    console.log(socket.readyState);
+const webSocketServer = new WebSocketServer({
+    httpServer
+});
+webSocketServer.on("request", (request) => {
+    const connection = request.accept('echo-protocol', request.origin);
+    connection.on('message', console.log);
+    connection.on('close', () => console.log('close connection'));
 });

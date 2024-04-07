@@ -14,4 +14,20 @@ function handleMessagesOnStreaming(message: ChromeMessage) {
 }
 
 async function handleStreaming(content:ILocalState & ISessionState) {
+  webSocket = new WebSocket('ws://localhost/', ['echo-protocol']);
+
+  webSocket.onopen = (event) => {
+    console.log('websocket open');
+
+    webSocket?.send('Wish I could see you')
+  };
+
+  webSocket.onmessage = (event) => {
+    console.log(`websocket received message: ${event.data}`);
+  };
+
+  webSocket.onclose = (event) => {
+    console.log('websocket connection closed');
+    webSocket = null;
+  };
 }
