@@ -23,10 +23,9 @@ const httpServer = http.createServer();
 httpServer.listen(HTTP_PORT, () => console.log(`Listening on port ${HTTP_PORT}`));
 
 httpServer.on("request", (request: IncomingMessage, response: ServerResponse) => {
-  // response.writeHead(301, {
-  //   "location": `${process.env.DOMAIN}${request.url}`
-  // })
-  response.writeHead(404);
+  response.writeHead(301, {
+    "location": `${process.env.DOMAIN}${request.url}`
+  })
   response.end()
 })
 
