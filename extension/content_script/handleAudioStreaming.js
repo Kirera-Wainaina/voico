@@ -52,19 +52,32 @@ function handleStreaming(content) {
                 setupWebSocket();
             }
             else if (content.recording) {
+                mediaRecorder === null || mediaRecorder === void 0 ? void 0 : mediaRecorder.stop();
             }
             else {
+                mediaRecorder === null || mediaRecorder === void 0 ? void 0 : mediaRecorder.start(3000);
             }
             return [2 /*return*/];
         });
     });
 }
 function setupWebSocket() {
+    var _this = this;
     webSocket = new WebSocket('ws://localhost/', ['echo-protocol']);
-    webSocket.onopen = function (event) {
-        console.log('websocket open');
-        webSocket === null || webSocket === void 0 ? void 0 : webSocket.send('Wish I could see you');
-    };
+    webSocket.onopen = function (event) { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    console.log('websocket open');
+                    // start recording once web socket is open
+                    return [4 /*yield*/, startRecording()];
+                case 1:
+                    // start recording once web socket is open
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    }); };
     webSocket.onmessage = function (event) {
         console.log("websocket received message: ".concat(event.data));
     };
@@ -72,4 +85,32 @@ function setupWebSocket() {
         console.log('websocket connection closed');
         webSocket = null;
     };
+}
+function startRecording() {
+    return __awaiter(this, void 0, void 0, function () {
+        var stream, error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, navigator.mediaDevices.getUserMedia({ audio: true })];
+                case 1:
+                    stream = _a.sent();
+                    if (stream) {
+                        chrome.runtime.sendMessage({ name: "permission_granted" });
+                        mediaRecorder = new MediaRecorder(stream);
+                        // send data to the server
+                        mediaRecorder.addEventListener('dataavailable', function (event) { return webSocket === null || webSocket === void 0 ? void 0 : webSocket.send(event.data); });
+                        mediaRecorder.start(3000);
+                    }
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_1 = _a.sent();
+                    // user denied permission
+                    chrome.runtime.sendMessage({ name: "permission_denied" });
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
 }

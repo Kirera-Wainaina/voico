@@ -17,19 +17,20 @@ async function handleStreaming(content:ILocalState & ISessionState) {
   if (!content.user_media_is_setup) {
     setupWebSocket()
   } else if (content.recording) {
-
+    mediaRecorder?.stop()
   } else {
-    
+    mediaRecorder?.start(3000);
   }
 }
 
 function setupWebSocket() {
   webSocket = new WebSocket('ws://localhost/', ['echo-protocol']);
 
-  webSocket.onopen = (event) => {
+  webSocket.onopen = async (event) => {
     console.log('websocket open');
 
-    webSocket?.send('Wish I could see you')
+    // start recording once web socket is open
+    await startRecording()
   };
 
   webSocket.onmessage = (event) => {
@@ -40,4 +41,23 @@ function setupWebSocket() {
     console.log('websocket connection closed');
     webSocket = null;
   };
+}
+
+async function startRecording() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    
+    if (stream) {
+      chrome.runtime.sendMessage({ name: "permission_granted" });
+      mediaRecorder = new MediaRecorder(stream);
+
+      // send data to the server
+      mediaRecorder.addEventListener('dataavailable', event => webSocket?.send(event.data));
+
+      mediaRecorder.start(3000);
+    }
+  } catch (error) {
+    // user denied permission
+    chrome.runtime.sendMessage({ name: "permission_denied" })
+  }
 }
