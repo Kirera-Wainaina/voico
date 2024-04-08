@@ -9,7 +9,7 @@ module.exports = function (request:Http2ServerRequest, response: Http2ServerResp
     request.on('data', async data => {
       const userDetails = String(data);
       const db = new Firestore({
-        projectId: "voico-extension",
+        projectId: process.env.PROJECT_ID,
         keyFilename: process.env.SERVICE_ACCOUNT_PATH
       })
       const result = await db.collection('users').add(JSON.parse(userDetails)); 
