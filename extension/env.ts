@@ -2,16 +2,19 @@
 // Change from here and every other variable changes as well
 interface IEnvironment {
   domain: string,
+  webSocketURL: string
 }
 
 type ENV = "DEV" | "PRODUCTION";
 
 const production: IEnvironment = {
   domain: "https://voico.online",
+  webSocketURL: "ws://voico.online"
 }
 
 const dev: IEnvironment = {
   domain: "https://localhost",
+  webSocketURL: "ws://localhost"
 }
 
 // Change the development environment from here

@@ -18,13 +18,15 @@ async function handleStreaming(content:ILocalState & ISessionState) {
     setupWebSocket()
   } else if (content.recording) {
     mediaRecorder?.stop()
-  } else {
-    mediaRecorder?.start(3000);
   }
 }
 
-function setupWebSocket() {
-  webSocket = new WebSocket('ws://localhost/', ['echo-protocol']);
+async function setupWebSocket() {
+  // import env dynamically
+  const envUrl = chrome.runtime.getURL("/env.js");
+  const env = await import(envUrl);
+
+  webSocket = new WebSocket(`${env.default.webSocketURL}`, ['echo-protocol']);
 
   webSocket.onopen = async (event) => {
     console.log('websocket open');

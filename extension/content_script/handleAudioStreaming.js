@@ -54,37 +54,47 @@ function handleStreaming(content) {
             else if (content.recording) {
                 mediaRecorder === null || mediaRecorder === void 0 ? void 0 : mediaRecorder.stop();
             }
-            else {
-                mediaRecorder === null || mediaRecorder === void 0 ? void 0 : mediaRecorder.start(3000);
-            }
             return [2 /*return*/];
         });
     });
 }
 function setupWebSocket() {
-    var _this = this;
-    webSocket = new WebSocket('ws://localhost/', ['echo-protocol']);
-    webSocket.onopen = function (event) { return __awaiter(_this, void 0, void 0, function () {
+    return __awaiter(this, void 0, void 0, function () {
+        var envUrl, env;
+        var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    console.log('websocket open');
-                    // start recording once web socket is open
-                    return [4 /*yield*/, startRecording()];
+                    envUrl = chrome.runtime.getURL("/env.js");
+                    return [4 /*yield*/, import(envUrl)];
                 case 1:
-                    // start recording once web socket is open
-                    _a.sent();
+                    env = _a.sent();
+                    webSocket = new WebSocket("".concat(env.default.webSocketURL), ['echo-protocol']);
+                    webSocket.onopen = function (event) { return __awaiter(_this, void 0, void 0, function () {
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    console.log('websocket open');
+                                    // start recording once web socket is open
+                                    return [4 /*yield*/, startRecording()];
+                                case 1:
+                                    // start recording once web socket is open
+                                    _a.sent();
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); };
+                    webSocket.onmessage = function (event) {
+                        console.log("websocket received message: ".concat(event.data));
+                    };
+                    webSocket.onclose = function (event) {
+                        console.log('websocket connection closed');
+                        webSocket = null;
+                    };
                     return [2 /*return*/];
             }
         });
-    }); };
-    webSocket.onmessage = function (event) {
-        console.log("websocket received message: ".concat(event.data));
-    };
-    webSocket.onclose = function (event) {
-        console.log('websocket connection closed');
-        webSocket = null;
-    };
+    });
 }
 function startRecording() {
     return __awaiter(this, void 0, void 0, function () {
