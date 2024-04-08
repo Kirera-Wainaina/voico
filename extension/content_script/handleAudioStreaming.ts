@@ -14,6 +14,16 @@ function handleMessagesOnStreaming(message: ChromeMessage) {
 }
 
 async function handleStreaming(content:ILocalState & ISessionState) {
+  if (!content.user_media_is_setup) {
+    setupWebSocket()
+  } else if (content.recording) {
+
+  } else {
+    
+  }
+}
+
+function setupWebSocket() {
   webSocket = new WebSocket('ws://localhost/', ['echo-protocol']);
 
   webSocket.onopen = (event) => {

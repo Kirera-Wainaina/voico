@@ -48,19 +48,28 @@ function handleMessagesOnStreaming(message) {
 function handleStreaming(content) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            webSocket = new WebSocket('ws://localhost/', ['echo-protocol']);
-            webSocket.onopen = function (event) {
-                console.log('websocket open');
-                webSocket === null || webSocket === void 0 ? void 0 : webSocket.send('Wish I could see you');
-            };
-            webSocket.onmessage = function (event) {
-                console.log("websocket received message: ".concat(event.data));
-            };
-            webSocket.onclose = function (event) {
-                console.log('websocket connection closed');
-                webSocket = null;
-            };
+            if (!content.user_media_is_setup) {
+                setupWebSocket();
+            }
+            else if (content.recording) {
+            }
+            else {
+            }
             return [2 /*return*/];
         });
     });
+}
+function setupWebSocket() {
+    webSocket = new WebSocket('ws://localhost/', ['echo-protocol']);
+    webSocket.onopen = function (event) {
+        console.log('websocket open');
+        webSocket === null || webSocket === void 0 ? void 0 : webSocket.send('Wish I could see you');
+    };
+    webSocket.onmessage = function (event) {
+        console.log("websocket received message: ".concat(event.data));
+    };
+    webSocket.onclose = function (event) {
+        console.log('websocket connection closed');
+        webSocket = null;
+    };
 }
