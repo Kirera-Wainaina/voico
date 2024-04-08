@@ -69,7 +69,9 @@ function setupWebSocket() {
                     return [4 /*yield*/, import(envUrl)];
                 case 1:
                     env = _a.sent();
-                    webSocket = new WebSocket("".concat(env.default.webSocketURL), ['echo-protocol']);
+                    if (!webSocket) {
+                        webSocket = new WebSocket("".concat(env.default.webSocketURL), ['echo-protocol']);
+                    }
                     webSocket.onopen = function (event) { return __awaiter(_this, void 0, void 0, function () {
                         return __generator(this, function (_a) {
                             switch (_a.label) {

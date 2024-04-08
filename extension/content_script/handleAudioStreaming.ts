@@ -26,8 +26,10 @@ async function setupWebSocket() {
   const envUrl = chrome.runtime.getURL("/env.js");
   const env = await import(envUrl);
 
-  webSocket = new WebSocket(`${env.default.webSocketURL}`, ['echo-protocol']);
-
+  if (!webSocket) {
+    webSocket = new WebSocket(`${env.default.webSocketURL}`, ['echo-protocol']);
+  }
+  
   webSocket.onopen = async (event) => {
     console.log('websocket open');
 
