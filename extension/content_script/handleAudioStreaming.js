@@ -112,8 +112,8 @@ function startRecording() {
                         chrome.runtime.sendMessage({ name: "permission_granted" });
                         mediaRecorder = new MediaRecorder(stream);
                         // send data to the server
-                        mediaRecorder.addEventListener('dataavailable', function (event) { return webSocket === null || webSocket === void 0 ? void 0 : webSocket.send(event.data); });
-                        mediaRecorder.start(3000);
+                        mediaRecorder.addEventListener('dataavailable', function (event) { return webSocket === null || webSocket === void 0 ? void 0 : webSocket.send(new Blob([event.data], { type: "audio/webm;codecs=opus" })); });
+                        mediaRecorder.start(2000);
                     }
                     return [3 /*break*/, 3];
                 case 2:

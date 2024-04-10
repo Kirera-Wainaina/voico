@@ -29,7 +29,7 @@ async function setupWebSocket() {
   if (!webSocket) {
     webSocket = new WebSocket(`${env.default.webSocketURL}`, ['echo-protocol']);
   }
-  
+
   webSocket.onopen = async (event) => {
     console.log('websocket open');
 
@@ -56,9 +56,12 @@ async function startRecording() {
       mediaRecorder = new MediaRecorder(stream);
 
       // send data to the server
-      mediaRecorder.addEventListener('dataavailable', event => webSocket?.send(event.data));
+      mediaRecorder.addEventListener(
+        'dataavailable', 
+        event => webSocket?.send(new Blob([event.data], { type: "audio/webm;codecs=opus"}))
+      );
 
-      mediaRecorder.start(3000);
+      mediaRecorder.start(2000);
     }
   } catch (error) {
     // user denied permission
