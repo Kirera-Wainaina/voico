@@ -157,7 +157,7 @@ webSocketServer.on("request", (request: any) => {
 
   const streamingRequest = {
     config: {
-      encoding: 'LINEAR16',
+      encoding: 'WEBM_OPUS',
       sampleRateHertz: 16000,
       languageCode: 'en-US',
     },
