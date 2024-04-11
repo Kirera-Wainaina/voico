@@ -163,8 +163,8 @@ function transmitAudio(audioData, language, APIKey) {
 }
 function inputTextIntoActiveElement(text) {
     var activeElement = document.activeElement;
-    if (activeElement instanceof HTMLInputElement
-        || activeElement instanceof HTMLTextAreaElement) {
+    if (activeElement instanceof HTMLInputElement ||
+        activeElement instanceof HTMLTextAreaElement) {
         if (!activeElement.value) {
             activeElement.value = text;
         }
@@ -173,15 +173,14 @@ function inputTextIntoActiveElement(text) {
             activeElement.value += "\n".concat(text);
         }
     }
-    else if (activeElement instanceof HTMLDivElement) {
-        if (activeElement.getAttribute("contenteditable")) {
-            if (!activeElement.innerText) {
-                activeElement.innerText = text;
-            }
-            else {
-                // start new paragraph
-                activeElement.innerText += "\n".concat(text);
-            }
+    else if (activeElement instanceof HTMLDivElement &&
+        activeElement.hasAttribute("contenteditable")) {
+        if (!activeElement.innerText) {
+            activeElement.innerText = text;
+        }
+        else {
+            // start new paragraph
+            activeElement.innerText += "\n".concat(text);
         }
     }
 }

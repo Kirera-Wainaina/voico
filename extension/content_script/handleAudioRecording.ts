@@ -97,8 +97,8 @@ async function transmitAudio(audioData:Blob[], language: string, APIKey: string)
 function inputTextIntoActiveElement(text:string) {
   const activeElement = document.activeElement;
   if (
-    activeElement instanceof HTMLInputElement 
-    || activeElement instanceof HTMLTextAreaElement
+    activeElement instanceof HTMLInputElement || 
+    activeElement instanceof HTMLTextAreaElement
   ) {
     if (!activeElement.value) {
       activeElement.value = text;
@@ -106,14 +106,15 @@ function inputTextIntoActiveElement(text:string) {
       // start new paragraph
       activeElement.value += `\n${text}`;
     }
-  } else if (activeElement instanceof HTMLDivElement) {
-    if (activeElement.getAttribute("contenteditable")) {
-      if (!activeElement.innerText) {
-        activeElement.innerText = text;
-      } else {
+  } else if (
+    activeElement instanceof HTMLDivElement && 
+    activeElement.hasAttribute("contenteditable")
+  ) {
+    if (!activeElement.innerText) {
+      activeElement.innerText = text;
+    } else {
       // start new paragraph
       activeElement.innerText += `\n${text}`;
-      }
     }
   }
 }
