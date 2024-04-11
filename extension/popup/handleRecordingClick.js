@@ -87,16 +87,17 @@ export default function () {
                     _a.sent();
                     _a.label = 8;
                 case 8:
-                    handleLoadingIcon(sessionState.recording);
+                    handleLoadingIcon(sessionState.recording, localState.enabledStreaming);
                     return [2 /*return*/];
             }
         });
     });
 }
-function handleLoadingIcon(recordingState) {
-    if (recordingState) {
-        // recording is on, button is pressed to switch it off
+function handleLoadingIcon(isRecording, isStreaming) {
+    if (isRecording && !isStreaming) {
+        // recording is on and button is pressed to switch it off
         // show loading icon because audio is being processed
+        // not in streaming mode
         Toggle.loadingIcon();
     }
 }

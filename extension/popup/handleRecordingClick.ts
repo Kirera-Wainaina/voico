@@ -31,13 +31,15 @@ export default async function () {
     Toggle.recordingAnimation();
     await changeRecordingState()
   }
-  handleLoadingIcon(sessionState.recording);
+  handleLoadingIcon(sessionState.recording, localState.enabledStreaming);
 }
 
-function handleLoadingIcon(recordingState: boolean | undefined) {
-  if (recordingState) {
-    // recording is on, button is pressed to switch it off
+function handleLoadingIcon(isRecording: boolean | undefined, isStreaming: boolean | undefined) {
+
+  if (isRecording && !isStreaming) {
+    // recording is on and button is pressed to switch it off
     // show loading icon because audio is being processed
+    // not in streaming mode
     Toggle.loadingIcon()
   }
 }
