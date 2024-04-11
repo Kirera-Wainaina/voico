@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { Http2ServerRequest, Http2ServerResponse, connect } from "http2";
+import { Http2ServerRequest, Http2ServerResponse } from "http2";
 
 const http = require("http");
 const http2 = require("http2");
@@ -7,9 +7,11 @@ const dotenv = require("dotenv");
 const WebSocketServer = require("websocket").server;
 const { log } = require("./lib/utils");
 const mimes = require("./lib/MIMEHandler");
+const { SpeechClient } = require('@google-cloud/speech');
 import path from "path";
 import fs from "node:fs";
 import zlib from "node:zlib";
+import { Readable } from "stream";
 
 const HTTP_PORT = 80;
 const HTTP2_PORT = 443;
@@ -148,8 +150,34 @@ const webSocketServer = new WebSocketServer({
 
 webSocketServer.on("request", (request: any) => {
   const connection = request.accept('echo-protocol', request.origin);
+  const speechClient = new SpeechClient({
+    projectId: process.env.PROJECT_ID,
+    keyFilename: process.env.SERVICE_ACCOUNT_PATH
+  });
 
-  connection.on('message', console.log)
+  const streamingRequest = {
+    config: {
+      encoding: 'LINEAR16',
+      sampleRateHertz: 16000,
+      languageCode: 'en-US',
+    },
+  };
 
-  connection.on('close', () => console.log('close connection'))
+  const recognizeStream = speechClient.streamingRecognize(streamingRequest)
+     .on('data', (data: any) => {
+      console.log(data.results[0])
+     })
+     .on('error', console.log)
+  
+  connection.on('message', (message: {type: string, binaryData: Buffer}) => {
+    console.log(message.binaryData)
+    Readable.from(message.binaryData).pipe(recognizeStream, {end: false})
+
+  })
+
+  connection.on('close', () => {
+    console.log('close connection')
+    recognizeStream.end()
+  })
+
 })
