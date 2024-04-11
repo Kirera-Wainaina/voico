@@ -87,7 +87,8 @@ function setupWebSocket() {
                         });
                     }); };
                     webSocket.onmessage = function (event) {
-                        console.log("websocket received message: ".concat(event.data));
+                        // console.log(event.data);
+                        inputTextStreamIntoActiveElement(event.data);
                     };
                     webSocket.onclose = function (event) {
                         console.log('websocket connection closed');
@@ -125,4 +126,26 @@ function startRecording() {
             }
         });
     });
+}
+function inputTextStreamIntoActiveElement(text) {
+    var activeElement = document.activeElement;
+    if ( // check for elements that are editable
+    activeElement instanceof HTMLInputElement ||
+        activeElement instanceof HTMLTextAreaElement) {
+        if (!activeElement.value) {
+            activeElement.value = text;
+        }
+        else {
+            activeElement.value += text;
+        }
+    }
+    else if (activeElement instanceof HTMLDivElement &&
+        activeElement.hasAttribute('contenteditable')) {
+        if (!activeElement.innerText) {
+            activeElement.innerText = text;
+        }
+        else {
+            activeElement.innerText += text;
+        }
+    }
 }

@@ -38,7 +38,8 @@ async function setupWebSocket() {
   };
 
   webSocket.onmessage = (event) => {
-    console.log(`websocket received message: ${event.data}`);
+    // console.log(event.data);
+    inputTextStreamIntoActiveElement(event.data)
   };
 
   webSocket.onclose = (event) => {
@@ -66,5 +67,29 @@ async function startRecording() {
   } catch (error) {
     // user denied permission
     chrome.runtime.sendMessage({ name: "permission_denied" })
+  }
+}
+
+function inputTextStreamIntoActiveElement(text: string) {
+  const activeElement = document.activeElement;
+
+  if ( // check for elements that are editable
+    activeElement instanceof HTMLInputElement || 
+    activeElement instanceof HTMLTextAreaElement
+  ) {
+    if (!activeElement.value) {
+      activeElement.value = text;
+    } else {
+      activeElement.value += text;
+    }
+  } else if (
+    activeElement instanceof HTMLDivElement && 
+    activeElement.hasAttribute('contenteditable')
+  ) {
+    if (!activeElement.innerText) {
+      activeElement.innerText = text;
+    } else {
+      activeElement.innerText += text;
+    }
   }
 }
