@@ -9,11 +9,10 @@ const dotenv = require("dotenv");
 const WebSocketServer = require("websocket").server;
 const { log } = require("./lib/utils");
 const mimes = require("./lib/MIMEHandler");
-const { SpeechClient } = require('@google-cloud/speech');
 const path_1 = __importDefault(require("path"));
 const node_fs_1 = __importDefault(require("node:fs"));
 const node_zlib_1 = __importDefault(require("node:zlib"));
-const stream_1 = require("stream");
+const handleStreamingData_1 = __importDefault(require("./api/handleStreamingData"));
 const HTTP_PORT = 80;
 const HTTP2_PORT = 443;
 dotenv.config();
@@ -125,29 +124,4 @@ process.on("uncaughtException", error => {
 const webSocketServer = new WebSocketServer({
     httpServer
 });
-webSocketServer.on("request", (request) => {
-    const connection = request.accept('echo-protocol', request.origin);
-    const speechClient = new SpeechClient({
-        projectId: process.env.PROJECT_ID,
-        keyFilename: process.env.SERVICE_ACCOUNT_PATH
-    });
-    const streamingRequest = {
-        config: {
-            encoding: 'WEBM_OPUS',
-            sampleRateHertz: 16000,
-            languageCode: 'en-US',
-        },
-    };
-    const recognizeStream = speechClient.streamingRecognize(streamingRequest)
-        .on('data', (data) => {
-        connection.sendUTF(data.results[0].alternatives[0].transcript);
-    })
-        .on('error', console.log);
-    connection.on('message', (message) => {
-        stream_1.Readable.from(message.binaryData).pipe(recognizeStream, { end: false });
-    });
-    connection.on('close', () => {
-        console.log('close connection');
-        recognizeStream.end();
-    });
-});
+webSocketServer.on("request", handleStreamingData_1.default);
