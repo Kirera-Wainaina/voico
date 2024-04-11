@@ -140,11 +140,10 @@ webSocketServer.on("request", (request) => {
     };
     const recognizeStream = speechClient.streamingRecognize(streamingRequest)
         .on('data', (data) => {
-        console.log(data.results[0]);
+        connection.sendUTF(data.results[0].alternatives[0].transcript);
     })
         .on('error', console.log);
     connection.on('message', (message) => {
-        console.log(message.binaryData);
         stream_1.Readable.from(message.binaryData).pipe(recognizeStream, { end: false });
     });
     connection.on('close', () => {

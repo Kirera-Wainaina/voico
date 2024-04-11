@@ -165,14 +165,12 @@ webSocketServer.on("request", (request: any) => {
 
   const recognizeStream = speechClient.streamingRecognize(streamingRequest)
      .on('data', (data: any) => {
-      console.log(data.results[0])
+      connection.sendUTF(data.results[0].alternatives[0].transcript)
      })
      .on('error', console.log)
   
   connection.on('message', (message: {type: string, binaryData: Buffer}) => {
-    console.log(message.binaryData)
     Readable.from(message.binaryData).pipe(recognizeStream, {end: false})
-
   })
 
   connection.on('close', () => {
