@@ -14,10 +14,13 @@ function handleMessagesOnStreaming(message: ChromeMessage) {
 }
 
 async function handleStreaming(content:ILocalState & ISessionState) {
-  if (!content.user_media_is_setup) {
-    setupWebSocket()
-  } else if (content.recording) {
+
+  if (content.recording) {
     mediaRecorder?.stop()
+    webSocket?.close();
+    webSocket = null;
+  } else {
+    setupWebSocket()
   }
 }
 
@@ -41,11 +44,6 @@ async function setupWebSocket() {
     // console.log(event.data);
     inputTextStreamIntoActiveElement(event.data)
   };
-
-  webSocket.onclose = (event) => {
-    console.log('websocket connection closed');
-    webSocket = null;
-  };
 }
 
 async function startRecording() {
@@ -59,7 +57,11 @@ async function startRecording() {
       // send data to the server
       mediaRecorder.addEventListener(
         'dataavailable', 
-        event => webSocket?.send(new Blob([event.data], { type: "audio/webm;codecs=opus"}))
+        event => {
+          if (webSocket?.readyState != 2 && webSocket?.readyState != 3) { 
+            webSocket?.send(new Blob([event.data], { type: "audio/webm;codecs=opus"}))
+          }
+        }
       );
 
       mediaRecorder.start(2000);

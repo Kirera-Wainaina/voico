@@ -48,11 +48,13 @@ function handleMessagesOnStreaming(message) {
 function handleStreaming(content) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            if (!content.user_media_is_setup) {
-                setupWebSocket();
-            }
-            else if (content.recording) {
+            if (content.recording) {
                 mediaRecorder === null || mediaRecorder === void 0 ? void 0 : mediaRecorder.stop();
+                webSocket === null || webSocket === void 0 ? void 0 : webSocket.close();
+                webSocket = null;
+            }
+            else {
+                setupWebSocket();
             }
             return [2 /*return*/];
         });
@@ -90,10 +92,6 @@ function setupWebSocket() {
                         // console.log(event.data);
                         inputTextStreamIntoActiveElement(event.data);
                     };
-                    webSocket.onclose = function (event) {
-                        console.log('websocket connection closed');
-                        webSocket = null;
-                    };
                     return [2 /*return*/];
             }
         });
@@ -113,7 +111,11 @@ function startRecording() {
                         chrome.runtime.sendMessage({ name: "permission_granted" });
                         mediaRecorder = new MediaRecorder(stream);
                         // send data to the server
-                        mediaRecorder.addEventListener('dataavailable', function (event) { return webSocket === null || webSocket === void 0 ? void 0 : webSocket.send(new Blob([event.data], { type: "audio/webm;codecs=opus" })); });
+                        mediaRecorder.addEventListener('dataavailable', function (event) {
+                            if ((webSocket === null || webSocket === void 0 ? void 0 : webSocket.readyState) != 2 && (webSocket === null || webSocket === void 0 ? void 0 : webSocket.readyState) != 3) {
+                                webSocket === null || webSocket === void 0 ? void 0 : webSocket.send(new Blob([event.data], { type: "audio/webm;codecs=opus" }));
+                            }
+                        });
                         mediaRecorder.start(2000);
                     }
                     return [3 /*break*/, 3];
