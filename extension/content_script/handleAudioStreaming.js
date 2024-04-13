@@ -138,7 +138,7 @@ function inputTextStreamIntoActiveElement(text) {
             activeElement.value = text;
         }
         else {
-            activeElement.value += text;
+            activeElement.value += " ".concat(text);
         }
     }
     else if (activeElement instanceof HTMLDivElement &&
@@ -147,7 +147,7 @@ function inputTextStreamIntoActiveElement(text) {
             activeElement.innerText = text;
         }
         else {
-            activeElement.innerText += text;
+            activeElement.innerText += " ".concat(text);
         }
     }
 }

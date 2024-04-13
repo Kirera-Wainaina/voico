@@ -82,7 +82,7 @@ function inputTextStreamIntoActiveElement(text: string) {
     if (!activeElement.value) {
       activeElement.value = text;
     } else {
-      activeElement.value += text;
+      activeElement.value += ` ${text}`;
     }
   } else if (
     activeElement instanceof HTMLDivElement && 
@@ -91,7 +91,7 @@ function inputTextStreamIntoActiveElement(text: string) {
     if (!activeElement.innerText) {
       activeElement.innerText = text;
     } else {
-      activeElement.innerText += text;
+      activeElement.innerText += ` ${text}`;
     }
   }
 }
