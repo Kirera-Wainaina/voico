@@ -125,3 +125,4 @@ const webSocketServer = new WebSocketServer({
     httpServer
 });
 webSocketServer.on("request", handleStreamingData_1.default);
+webSocketServer.on("request", () => log('Socket request received'));

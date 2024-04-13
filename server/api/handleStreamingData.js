@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const { SpeechClient } = require('@google-cloud/speech');
+const { log } = require('../lib/utils');
 const stream_1 = require("stream");
 function default_1(request) {
     const connection = request.accept('echo-protocol', request.origin);
@@ -24,7 +25,8 @@ function default_1(request) {
         stream_1.Readable.from(message.binaryData).pipe(recognizeStream, { end: false });
     });
     connection.on('close', () => {
-        console.log('close connection');
+        // console.log('close connection')
+        log('Socket connection closed');
         recognizeStream.end();
     });
 }

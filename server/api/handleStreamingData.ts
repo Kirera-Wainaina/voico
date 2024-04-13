@@ -1,4 +1,5 @@
 const { SpeechClient } = require('@google-cloud/speech');
+const { log } = require('../lib/utils')
 import { Readable } from "stream";
 
 export default function (request: any) {
@@ -27,7 +28,8 @@ export default function (request: any) {
   })
 
   connection.on('close', () => {
-    console.log('close connection')
+    // console.log('close connection')
+    log('Socket connection closed')
     recognizeStream.end()
   })
 }

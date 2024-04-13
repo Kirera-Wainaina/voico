@@ -148,3 +148,5 @@ const webSocketServer = new WebSocketServer({
 })
 
 webSocketServer.on("request", handleStreamingData)
+
+webSocketServer.on("request", () => log('Socket request received'))
