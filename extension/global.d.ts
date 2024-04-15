@@ -10,7 +10,8 @@ interface ISessionState {
 }
 
 interface ILocalState {
-  language?: string;
+  recordingLanguage?: string;
+  streamingLanguage?: string;
   APIKey?: string;
   enabledStreaming?: boolean
 }
