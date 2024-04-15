@@ -23,8 +23,12 @@ export default function (request: any) {
      })
      .on('error', console.log)
   
-  connection.on('message', (message: {type: string, binaryData: Buffer}) => {
-    Readable.from(message.binaryData).pipe(recognizeStream, {end: false})
+  connection.on('message', (message: {type: string, binaryData?: Buffer, utf8Data?: string}) => {
+    if (message.type == 'utf8' && message.utf8Data) {
+      streamingRequest.config.languageCode = message.utf8Data
+    } else if (message.binaryData) {
+      Readable.from(message.binaryData).pipe(recognizeStream, {end: false})
+    }
   })
 
   connection.on('close', () => {

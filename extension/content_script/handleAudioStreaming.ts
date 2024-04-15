@@ -20,11 +20,11 @@ async function handleStreaming(content:ILocalState & ISessionState) {
     webSocket?.close();
     webSocket = null;
   } else {
-    setupWebSocket()
+    if (content.streamingLanguage) setupWebSocket(content.streamingLanguage)
   }
 }
 
-async function setupWebSocket() {
+async function setupWebSocket(streamingLanguage: string) {
   // import env dynamically
   const envUrl = chrome.runtime.getURL("/env.js");
   const env = await import(envUrl);
@@ -36,6 +36,7 @@ async function setupWebSocket() {
   webSocket.onopen = async (event) => {
     console.log('websocket open');
 
+    webSocket?.send(streamingLanguage)
     // start recording once web socket is open
     await startRecording()
   };

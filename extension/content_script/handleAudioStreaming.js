@@ -54,13 +54,14 @@ function handleStreaming(content) {
                 webSocket = null;
             }
             else {
-                setupWebSocket();
+                if (content.streamingLanguage)
+                    setupWebSocket(content.streamingLanguage);
             }
             return [2 /*return*/];
         });
     });
 }
-function setupWebSocket() {
+function setupWebSocket(streamingLanguage) {
     return __awaiter(this, void 0, void 0, function () {
         var envUrl, env;
         var _this = this;
@@ -79,6 +80,7 @@ function setupWebSocket() {
                             switch (_a.label) {
                                 case 0:
                                     console.log('websocket open');
+                                    webSocket === null || webSocket === void 0 ? void 0 : webSocket.send(streamingLanguage);
                                     // start recording once web socket is open
                                     return [4 /*yield*/, startRecording()];
                                 case 1:
