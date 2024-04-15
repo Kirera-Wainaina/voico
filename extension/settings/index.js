@@ -37,14 +37,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var _this = this;
 // retrieve current API Key and language
 (function () { return __awaiter(_this, void 0, void 0, function () {
-    var _a, language, APIKey, enabledStreaming, chosenOption, APIKeyInput, enableStreamingInput, streamingLanguageCodes, recordingLanguageCodes;
+    var _a, streamingLanguage, recordingLanguage, APIKey, enabledStreaming, chosenOption, chosenOption, APIKeyInput, enableStreamingInput, streamingLanguageCodes, recordingLanguageCodes;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, chrome.storage.local.get(null)];
             case 1:
-                _a = _b.sent(), language = _a.language, APIKey = _a.APIKey, enabledStreaming = _a.enabledStreaming;
-                if (language) {
-                    chosenOption = document.querySelector("option[value=".concat(language, "]"));
+                _a = _b.sent(), streamingLanguage = _a.streamingLanguage, recordingLanguage = _a.recordingLanguage, APIKey = _a.APIKey, enabledStreaming = _a.enabledStreaming;
+                if (streamingLanguage) {
+                    chosenOption = document.querySelector("select[id='streaming-language-codes'] option[value=".concat(streamingLanguage, "]"));
+                    if (chosenOption)
+                        chosenOption.setAttribute("selected", "");
+                }
+                if (recordingLanguage) {
+                    chosenOption = document.querySelector("select[id='recording-language-codes'] option[value=".concat(recordingLanguage, "]"));
                     if (chosenOption)
                         chosenOption.setAttribute("selected", "");
                 }
@@ -56,8 +61,8 @@ var _this = this;
                 }
                 enableStreamingInput = document.querySelector("input[type='range']");
                 if (enableStreamingInput) {
-                    streamingLanguageCodes = document.getElementById('google-language-codes');
-                    recordingLanguageCodes = document.getElementById('openai-language-codes');
+                    streamingLanguageCodes = document.getElementById('streaming-language-codes');
+                    recordingLanguageCodes = document.getElementById('recording-language-codes');
                     if (enabledStreaming) {
                         enableStreamingInput.value = "1";
                         streamingLanguageCodes === null || streamingLanguageCodes === void 0 ? void 0 : streamingLanguageCodes.classList.remove('hide');
@@ -100,12 +105,14 @@ function saveSettings(event) {
     });
 }
 function retrieveFormValues() {
-    var languageSelect = document.querySelector("select");
+    var recordingLanguageSelect = document.querySelector("select[id='recording-language-codes']");
+    var streamingLanguageSelect = document.querySelector("select[id='streaming-language-codes']");
     var APIKeyInput = document.querySelector("input[type='password']");
     var enableStreamingInput = document.querySelector("input[type='range']");
-    if (languageSelect && APIKeyInput && enableStreamingInput) {
+    if (recordingLanguageSelect && streamingLanguageSelect && APIKeyInput && enableStreamingInput) {
         return {
-            language: languageSelect.value,
+            recordingLanguage: recordingLanguageSelect.value,
+            streamingLanguage: streamingLanguageSelect.value,
             APIKey: APIKeyInput.value,
             enabledStreaming: Boolean(Number(enableStreamingInput.value))
         };
@@ -127,8 +134,8 @@ function showSavedAnimation() {
 var enableStreamingInput = document.querySelector("input[type='range']");
 enableStreamingInput === null || enableStreamingInput === void 0 ? void 0 : enableStreamingInput.addEventListener("change", function () {
     var APIKeyInput = document.querySelector("input[name='APIKey']");
-    var streamingLanguageCodes = document.getElementById('google-language-codes');
-    var recordingLanguageCodes = document.getElementById('openai-language-codes');
+    var streamingLanguageCodes = document.getElementById('streaming-language-codes');
+    var recordingLanguageCodes = document.getElementById('recording-language-codes');
     if (enableStreamingInput.value == "1") {
         APIKeyInput === null || APIKeyInput === void 0 ? void 0 : APIKeyInput.setAttribute("disabled", "");
         streamingLanguageCodes === null || streamingLanguageCodes === void 0 ? void 0 : streamingLanguageCodes.classList.remove('hide');

@@ -1,9 +1,14 @@
 // retrieve current API Key and language
 (async () => {
-  const {language, APIKey, enabledStreaming}: ILocalState = await chrome.storage.local.get(null);
+  const {streamingLanguage, recordingLanguage, APIKey, enabledStreaming}: ILocalState = await chrome.storage.local.get(null);
 
-  if (language) {
-    const chosenOption = document.querySelector(`option[value=${language}]`);
+  if (streamingLanguage) {
+    const chosenOption = document.querySelector(`select[id='streaming-language-codes'] option[value=${streamingLanguage}]`);
+    if (chosenOption) chosenOption.setAttribute("selected", "");
+  }
+
+  if (recordingLanguage) {
+    const chosenOption = document.querySelector(`select[id='recording-language-codes'] option[value=${recordingLanguage}]`);
     if (chosenOption) chosenOption.setAttribute("selected", "");
   }
 
@@ -15,8 +20,8 @@
 
   const enableStreamingInput: HTMLInputElement | null = document.querySelector("input[type='range']");
   if (enableStreamingInput) {
-    const streamingLanguageCodes = document.getElementById('google-language-codes');
-    const recordingLanguageCodes = document.getElementById('openai-language-codes');
+    const streamingLanguageCodes = document.getElementById('streaming-language-codes');
+    const recordingLanguageCodes = document.getElementById('recording-language-codes');
     if (enabledStreaming) {
       enableStreamingInput.value = "1";
       streamingLanguageCodes?.classList.remove('hide');
@@ -48,13 +53,15 @@ async function saveSettings(event: Event) {
 }
 
 function retrieveFormValues(): ILocalState | undefined  {
-  const languageSelect: HTMLSelectElement | null = document.querySelector("select");
+  const recordingLanguageSelect: HTMLSelectElement | null = document.querySelector("select[id='recording-language-codes']");
+  const streamingLanguageSelect: HTMLSelectElement | null = document.querySelector("select[id='streaming-language-codes']");
   const APIKeyInput: HTMLInputElement | null = document.querySelector("input[type='password']");
   const enableStreamingInput: HTMLInputElement | null = document.querySelector("input[type='range']");
 
-  if (languageSelect && APIKeyInput && enableStreamingInput) {
+  if (recordingLanguageSelect && streamingLanguageSelect && APIKeyInput && enableStreamingInput) {
     return {
-      language: languageSelect.value,
+      recordingLanguage: recordingLanguageSelect.value,
+      streamingLanguage: streamingLanguageSelect.value,
       APIKey: APIKeyInput.value,
       enabledStreaming: Boolean(Number(enableStreamingInput.value))
     }  
@@ -82,8 +89,8 @@ function showSavedAnimation() {
 const enableStreamingInput: HTMLInputElement | null = document.querySelector("input[type='range']");
 enableStreamingInput?.addEventListener("change", () => {
   const APIKeyInput = document.querySelector("input[name='APIKey']");
-  const streamingLanguageCodes = document.getElementById('google-language-codes');
-  const recordingLanguageCodes = document.getElementById('openai-language-codes');
+  const streamingLanguageCodes = document.getElementById('streaming-language-codes');
+  const recordingLanguageCodes = document.getElementById('recording-language-codes');
   if (enableStreamingInput.value == "1" ) {
     APIKeyInput?.setAttribute("disabled", "");
     streamingLanguageCodes?.classList.remove('hide');
