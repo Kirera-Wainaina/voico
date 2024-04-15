@@ -127,7 +127,16 @@ function showSavedAnimation() {
 var enableStreamingInput = document.querySelector("input[type='range']");
 enableStreamingInput === null || enableStreamingInput === void 0 ? void 0 : enableStreamingInput.addEventListener("change", function () {
     var APIKeyInput = document.querySelector("input[name='APIKey']");
-    enableStreamingInput.value == "1"
-        ? APIKeyInput === null || APIKeyInput === void 0 ? void 0 : APIKeyInput.setAttribute("disabled", "")
-        : APIKeyInput === null || APIKeyInput === void 0 ? void 0 : APIKeyInput.removeAttribute("disabled");
+    var googleLanguageCodes = document.getElementById('google-language-codes');
+    var openAILanguageCodes = document.getElementById('openai-language-codes');
+    if (enableStreamingInput.value == "1") {
+        APIKeyInput === null || APIKeyInput === void 0 ? void 0 : APIKeyInput.setAttribute("disabled", "");
+        googleLanguageCodes === null || googleLanguageCodes === void 0 ? void 0 : googleLanguageCodes.classList.remove('hide');
+        openAILanguageCodes === null || openAILanguageCodes === void 0 ? void 0 : openAILanguageCodes.classList.add('hide');
+    }
+    else {
+        APIKeyInput === null || APIKeyInput === void 0 ? void 0 : APIKeyInput.removeAttribute("disabled");
+        googleLanguageCodes === null || googleLanguageCodes === void 0 ? void 0 : googleLanguageCodes.classList.add('hide');
+        openAILanguageCodes === null || openAILanguageCodes === void 0 ? void 0 : openAILanguageCodes.classList.remove('hide');
+    }
 });

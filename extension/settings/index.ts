@@ -82,7 +82,15 @@ function showSavedAnimation() {
 const enableStreamingInput: HTMLInputElement | null = document.querySelector("input[type='range']");
 enableStreamingInput?.addEventListener("change", () => {
   const APIKeyInput = document.querySelector("input[name='APIKey']");
-  enableStreamingInput.value == "1" 
-    ? APIKeyInput?.setAttribute("disabled", "") 
-    : APIKeyInput?.removeAttribute("disabled")
+  const googleLanguageCodes = document.getElementById('google-language-codes');
+  const openAILanguageCodes = document.getElementById('openai-language-codes');
+  if (enableStreamingInput.value == "1" ) {
+    APIKeyInput?.setAttribute("disabled", "");
+    googleLanguageCodes?.classList.remove('hide');
+    openAILanguageCodes?.classList.add('hide');
+  } else {
+    APIKeyInput?.removeAttribute("disabled");
+    googleLanguageCodes?.classList.add('hide');
+    openAILanguageCodes?.classList.remove('hide');
+  }
 })
