@@ -62,7 +62,7 @@ export default function () {
                     return [4 /*yield*/, chrome.storage.session.get(null)];
                 case 2:
                     sessionState = _a.sent();
-                    return [4 /*yield*/, chrome.storage.local.get(["APIKey", "language", "enabledStreaming"])];
+                    return [4 /*yield*/, chrome.storage.local.get(["APIKey", "streamingLanguage", "recordingLanguage", "enabledStreaming"])];
                 case 3:
                     localState = _a.sent();
                     if (!localState.enabledStreaming) return [3 /*break*/, 5];

@@ -63,8 +63,8 @@ function handleRecording(content) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    if (!(!content.user_media_is_setup && content.language && content.APIKey)) return [3 /*break*/, 2];
-                    return [4 /*yield*/, setupRecording(content.language, content.APIKey)];
+                    if (!(!content.user_media_is_setup && content.recordingLanguage && content.APIKey)) return [3 /*break*/, 2];
+                    return [4 /*yield*/, setupRecording(content.recordingLanguage, content.APIKey)];
                 case 1:
                     result = _a.sent();
                     if (result) {
@@ -85,7 +85,7 @@ function handleRecording(content) {
         });
     });
 }
-function setupRecording(language, APIKey) {
+function setupRecording(recordingLanguage, APIKey) {
     return __awaiter(this, void 0, void 0, function () {
         var stream, audioData_1, mediaRecorder_1, error_1;
         return __generator(this, function (_a) {
@@ -99,7 +99,7 @@ function setupRecording(language, APIKey) {
                         chrome.runtime.sendMessage({ name: "permission_granted" });
                         audioData_1 = [];
                         mediaRecorder_1 = new MediaRecorder(stream);
-                        mediaRecorder_1.addEventListener("stop", function () { return transmitAudio(audioData_1, language, APIKey); });
+                        mediaRecorder_1.addEventListener("stop", function () { return transmitAudio(audioData_1, recordingLanguage, APIKey); });
                         mediaRecorder_1.addEventListener("dataavailable", function (event) { return combineAudioData(event, audioData_1); });
                         return [2 /*return*/, mediaRecorder_1];
                     }
@@ -120,7 +120,7 @@ function combineAudioData(event, audioDataArray) {
     // enter the new blob. Only one blob will be in the array
     audioDataArray.push(event.data);
 }
-function transmitAudio(audioData, language, APIKey) {
+function transmitAudio(audioData, recordingLanguage, APIKey) {
     return __awaiter(this, void 0, void 0, function () {
         var blob, formdata, envUrl, env;
         return __generator(this, function (_a) {
@@ -130,7 +130,7 @@ function transmitAudio(audioData, language, APIKey) {
                     formdata = new FormData();
                     formdata.append("audio", blob);
                     formdata.append("fileNumber", "1");
-                    formdata.append("language", language);
+                    formdata.append("language", recordingLanguage);
                     formdata.append("APIKey", APIKey);
                     envUrl = chrome.runtime.getURL("/env.js");
                     return [4 /*yield*/, import(envUrl)];

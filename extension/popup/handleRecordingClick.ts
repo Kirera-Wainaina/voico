@@ -8,7 +8,7 @@ export default async function () {
   if (!tabId) return // no tab id, no action
   
   const sessionState: ISessionState = await chrome.storage.session.get(null);
-  const localState: ILocalState = await chrome.storage.local.get(["APIKey", "language", "enabledStreaming"]);
+  const localState: ILocalState = await chrome.storage.local.get(["APIKey", "streamingLanguage", "recordingLanguage", "enabledStreaming"]);
 
   if (localState.enabledStreaming) {
     // check if the user is signed in

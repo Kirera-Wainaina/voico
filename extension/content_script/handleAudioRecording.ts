@@ -20,8 +20,8 @@ async function handleRecording(content: ISessionState & ILocalState) {
   
   // set up user media if it doesn't exist
   // this is the case for every first click on extension
-  if (!content.user_media_is_setup && content.language && content.APIKey) {
-    const result = await setupRecording(content.language, content.APIKey);
+  if (!content.user_media_is_setup && content.recordingLanguage && content.APIKey) {
+    const result = await setupRecording(content.recordingLanguage, content.APIKey);
     if (result) {
       mediaRecorder = result;
       mediaRecorder.start()
@@ -34,7 +34,7 @@ async function handleRecording(content: ISessionState & ILocalState) {
 
 }
 
-async function setupRecording(language: string, APIKey: string) {
+async function setupRecording(recordingLanguage: string, APIKey: string) {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     if (stream) {
@@ -42,7 +42,7 @@ async function setupRecording(language: string, APIKey: string) {
       const audioData: Array<Blob> = [];
       const mediaRecorder = new MediaRecorder(stream);
       
-      mediaRecorder.addEventListener("stop", () => transmitAudio(audioData, language, APIKey));
+      mediaRecorder.addEventListener("stop", () => transmitAudio(audioData, recordingLanguage, APIKey));
       mediaRecorder.addEventListener("dataavailable", event => combineAudioData(event, audioData));
       return mediaRecorder
     }      
@@ -60,12 +60,12 @@ function combineAudioData(event:BlobEvent, audioDataArray:Array<Blob>) {
   audioDataArray.push(event.data);
 }
 
-async function transmitAudio(audioData:Blob[], language: string, APIKey: string) {
+async function transmitAudio(audioData:Blob[], recordingLanguage: string, APIKey: string) {
   const blob = new Blob(audioData, { type: "audio/webm;codecs=opus"});
   const formdata = new FormData();
   formdata.append("audio", blob);
   formdata.append("fileNumber", "1");
-  formdata.append("language", language);
+  formdata.append("language", recordingLanguage);
   formdata.append("APIKey", APIKey);
 
   // import env dynamically
