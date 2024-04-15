@@ -15,16 +15,16 @@
 
   const enableStreamingInput: HTMLInputElement | null = document.querySelector("input[type='range']");
   if (enableStreamingInput) {
-    const googleLanguageCodes = document.getElementById('google-language-codes');
-    const openAILanguageCodes = document.getElementById('openai-language-codes');
+    const streamingLanguageCodes = document.getElementById('google-language-codes');
+    const recordingLanguageCodes = document.getElementById('openai-language-codes');
     if (enabledStreaming) {
       enableStreamingInput.value = "1";
-      googleLanguageCodes?.classList.remove('hide');
-      openAILanguageCodes?.classList.add('hide');
+      streamingLanguageCodes?.classList.remove('hide');
+      recordingLanguageCodes?.classList.add('hide');
     } else {
       enableStreamingInput.value = "0";
-      googleLanguageCodes?.classList.add('hide');
-      openAILanguageCodes?.classList.remove('hide');
+      streamingLanguageCodes?.classList.add('hide');
+      recordingLanguageCodes?.classList.remove('hide');
     }
   }
 })();
@@ -82,15 +82,15 @@ function showSavedAnimation() {
 const enableStreamingInput: HTMLInputElement | null = document.querySelector("input[type='range']");
 enableStreamingInput?.addEventListener("change", () => {
   const APIKeyInput = document.querySelector("input[name='APIKey']");
-  const googleLanguageCodes = document.getElementById('google-language-codes');
-  const openAILanguageCodes = document.getElementById('openai-language-codes');
+  const streamingLanguageCodes = document.getElementById('google-language-codes');
+  const recordingLanguageCodes = document.getElementById('openai-language-codes');
   if (enableStreamingInput.value == "1" ) {
     APIKeyInput?.setAttribute("disabled", "");
-    googleLanguageCodes?.classList.remove('hide');
-    openAILanguageCodes?.classList.add('hide');
+    streamingLanguageCodes?.classList.remove('hide');
+    recordingLanguageCodes?.classList.add('hide');
   } else {
     APIKeyInput?.removeAttribute("disabled");
-    googleLanguageCodes?.classList.add('hide');
-    openAILanguageCodes?.classList.remove('hide');
+    streamingLanguageCodes?.classList.add('hide');
+    recordingLanguageCodes?.classList.remove('hide');
   }
 })

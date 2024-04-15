@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var _this = this;
 // retrieve current API Key and language
 (function () { return __awaiter(_this, void 0, void 0, function () {
-    var _a, language, APIKey, enabledStreaming, chosenOption, APIKeyInput, enableStreamingInput, googleLanguageCodes, openAILanguageCodes;
+    var _a, language, APIKey, enabledStreaming, chosenOption, APIKeyInput, enableStreamingInput, streamingLanguageCodes, recordingLanguageCodes;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, chrome.storage.local.get(null)];
@@ -56,17 +56,17 @@ var _this = this;
                 }
                 enableStreamingInput = document.querySelector("input[type='range']");
                 if (enableStreamingInput) {
-                    googleLanguageCodes = document.getElementById('google-language-codes');
-                    openAILanguageCodes = document.getElementById('openai-language-codes');
+                    streamingLanguageCodes = document.getElementById('google-language-codes');
+                    recordingLanguageCodes = document.getElementById('openai-language-codes');
                     if (enabledStreaming) {
                         enableStreamingInput.value = "1";
-                        googleLanguageCodes === null || googleLanguageCodes === void 0 ? void 0 : googleLanguageCodes.classList.remove('hide');
-                        openAILanguageCodes === null || openAILanguageCodes === void 0 ? void 0 : openAILanguageCodes.classList.add('hide');
+                        streamingLanguageCodes === null || streamingLanguageCodes === void 0 ? void 0 : streamingLanguageCodes.classList.remove('hide');
+                        recordingLanguageCodes === null || recordingLanguageCodes === void 0 ? void 0 : recordingLanguageCodes.classList.add('hide');
                     }
                     else {
                         enableStreamingInput.value = "0";
-                        googleLanguageCodes === null || googleLanguageCodes === void 0 ? void 0 : googleLanguageCodes.classList.add('hide');
-                        openAILanguageCodes === null || openAILanguageCodes === void 0 ? void 0 : openAILanguageCodes.classList.remove('hide');
+                        streamingLanguageCodes === null || streamingLanguageCodes === void 0 ? void 0 : streamingLanguageCodes.classList.add('hide');
+                        recordingLanguageCodes === null || recordingLanguageCodes === void 0 ? void 0 : recordingLanguageCodes.classList.remove('hide');
                     }
                 }
                 return [2 /*return*/];
@@ -127,16 +127,16 @@ function showSavedAnimation() {
 var enableStreamingInput = document.querySelector("input[type='range']");
 enableStreamingInput === null || enableStreamingInput === void 0 ? void 0 : enableStreamingInput.addEventListener("change", function () {
     var APIKeyInput = document.querySelector("input[name='APIKey']");
-    var googleLanguageCodes = document.getElementById('google-language-codes');
-    var openAILanguageCodes = document.getElementById('openai-language-codes');
+    var streamingLanguageCodes = document.getElementById('google-language-codes');
+    var recordingLanguageCodes = document.getElementById('openai-language-codes');
     if (enableStreamingInput.value == "1") {
         APIKeyInput === null || APIKeyInput === void 0 ? void 0 : APIKeyInput.setAttribute("disabled", "");
-        googleLanguageCodes === null || googleLanguageCodes === void 0 ? void 0 : googleLanguageCodes.classList.remove('hide');
-        openAILanguageCodes === null || openAILanguageCodes === void 0 ? void 0 : openAILanguageCodes.classList.add('hide');
+        streamingLanguageCodes === null || streamingLanguageCodes === void 0 ? void 0 : streamingLanguageCodes.classList.remove('hide');
+        recordingLanguageCodes === null || recordingLanguageCodes === void 0 ? void 0 : recordingLanguageCodes.classList.add('hide');
     }
     else {
         APIKeyInput === null || APIKeyInput === void 0 ? void 0 : APIKeyInput.removeAttribute("disabled");
-        googleLanguageCodes === null || googleLanguageCodes === void 0 ? void 0 : googleLanguageCodes.classList.add('hide');
-        openAILanguageCodes === null || openAILanguageCodes === void 0 ? void 0 : openAILanguageCodes.classList.remove('hide');
+        streamingLanguageCodes === null || streamingLanguageCodes === void 0 ? void 0 : streamingLanguageCodes.classList.add('hide');
+        recordingLanguageCodes === null || recordingLanguageCodes === void 0 ? void 0 : recordingLanguageCodes.classList.remove('hide');
     }
 });
