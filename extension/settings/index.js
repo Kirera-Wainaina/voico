@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var _this = this;
 // retrieve current API Key and language
 (function () { return __awaiter(_this, void 0, void 0, function () {
-    var _a, language, APIKey, enabledStreaming, chosenOption, APIKeyInput, enableStreamingInput;
+    var _a, language, APIKey, enabledStreaming, chosenOption, APIKeyInput, enableStreamingInput, googleLanguageCodes, openAILanguageCodes;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, chrome.storage.local.get(null)];
@@ -56,7 +56,18 @@ var _this = this;
                 }
                 enableStreamingInput = document.querySelector("input[type='range']");
                 if (enableStreamingInput) {
-                    enabledStreaming ? enableStreamingInput.value = "1" : enableStreamingInput.value = "0";
+                    googleLanguageCodes = document.getElementById('google-language-codes');
+                    openAILanguageCodes = document.getElementById('openai-language-codes');
+                    if (enabledStreaming) {
+                        enableStreamingInput.value = "1";
+                        googleLanguageCodes === null || googleLanguageCodes === void 0 ? void 0 : googleLanguageCodes.classList.remove('hide');
+                        openAILanguageCodes === null || openAILanguageCodes === void 0 ? void 0 : openAILanguageCodes.classList.add('hide');
+                    }
+                    else {
+                        enableStreamingInput.value = "0";
+                        googleLanguageCodes === null || googleLanguageCodes === void 0 ? void 0 : googleLanguageCodes.classList.add('hide');
+                        openAILanguageCodes === null || openAILanguageCodes === void 0 ? void 0 : openAILanguageCodes.classList.remove('hide');
+                    }
                 }
                 return [2 /*return*/];
         }

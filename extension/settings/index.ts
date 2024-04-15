@@ -15,7 +15,17 @@
 
   const enableStreamingInput: HTMLInputElement | null = document.querySelector("input[type='range']");
   if (enableStreamingInput) {
-    enabledStreaming ? enableStreamingInput.value = "1" : enableStreamingInput.value = "0";
+    const googleLanguageCodes = document.getElementById('google-language-codes');
+    const openAILanguageCodes = document.getElementById('openai-language-codes');
+    if (enabledStreaming) {
+      enableStreamingInput.value = "1";
+      googleLanguageCodes?.classList.remove('hide');
+      openAILanguageCodes?.classList.add('hide');
+    } else {
+      enableStreamingInput.value = "0";
+      googleLanguageCodes?.classList.add('hide');
+      openAILanguageCodes?.classList.remove('hide');
+    }
   }
 })();
 
