@@ -1,2 +1,6 @@
 # compressed files
 *.zip
+
+
+# vscode settings
+.vscode/
