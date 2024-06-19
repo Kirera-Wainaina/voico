@@ -20,6 +20,22 @@
   animation-duration: 2s;
 }
 
+#pulser-2 {
+  border-radius: 50%;
+  position: absolute;
+  top: calc(50% - 11vw);
+  right: 39vw;
+  width: 22vw;
+  height: 22vw;
+
+  background-color: var(--pulser-bg-color);
+
+  animation-name: pulse;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+  animation-duration: 2s;
+}
+
 @keyframes pulse {
   0% {
     transform: scale(1);
